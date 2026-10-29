@@ -14,6 +14,17 @@
   if (window.matchMedia('(max-width: 860px)').matches) {
     var rail = document.querySelector('.rail[data-sc-pan]');
     if (rail) rail.setAttribute('data-sc-pan', '0');
+    // Drikke & snacks på telefonen er en sekvens i stedet for side om side:
+    // loungeteksten → produkterne samles stort midt på skærmen → de glider op,
+    // og prislisten kommer ind under dem (CSS i site.css, styret af --sc-p).
+    // Længere akt, så de 68 frames får ~700 px scroll i stedet for ~400.
+    var lounge = document.getElementById('loungen');
+    if (lounge) {
+      lounge.setAttribute('data-sc-span', '4.4');
+      lounge.querySelector('.lounge__copy').setAttribute('data-sc-cue', '0.2 0.52 0.1 0.15');
+      lounge.querySelector('.menu').setAttribute('data-sc-cue', '0.84 1.01 0.25 0');
+      lounge.querySelector('.snacks__canvas').setAttribute('data-window', '0.58 0.82');
+    }
   }
 
   ScrollCraft.mount(document.body);
@@ -385,6 +396,11 @@
 
     size();
     window.addEventListener('resize', size);
+    // Hent frames i god tid (3 skærme før), så de er klar når akten nås, også
+    // på mobilnet. Tegn kun mens akten er tæt på.
+    new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) load();
+    }, { rootMargin: '300% 0px' }).observe(act);
     new IntersectionObserver(function (es) {
       live = es[0].isIntersecting;
       if (live) { load(); if (!raf) tick(); }

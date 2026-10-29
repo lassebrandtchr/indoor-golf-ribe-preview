@@ -397,19 +397,21 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
   opacity: clamp(0, calc((var(--sc-p, 0) - 0.46) * 25), 1);
 }
 .snacks__canvas { position: absolute; inset: 17%; width: 66%; height: 66%; }
-/* Telefon: listen ankres i bunden, og produkterne flyver ind i rummet over
-   den. Er skærmen for lav til begge dele, vises kun listen. */
+/* Telefon: en sekvens. Produkterne samles stort midt på skærmen (p 0.58–0.82),
+   glider så op og bliver mindre (--k 0→1 over p 0.82–0.92), mens prislisten
+   kommer ind i bunden. På lave skærme ender de bag listen; animationen er set. */
 @media (max-width: 860px) {
   .menu { top: auto; bottom: max(2.5vh, 1rem); translate: none; }
   .snacks {
-    right: auto; left: 50%; top: 3.5rem; translate: -50% 0;
-    width: min(108vw, calc(100svh - 29rem));
+    --k: clamp(0, calc((var(--sc-p, 0) - 0.82) * 10), 1);
+    right: auto; left: 50%;
+    top: calc(50% - var(--k) * (50% - 3.5rem));
+    translate: -50% calc(-50% + var(--k) * 50%);
+    width: calc(min(104vw, 64svh) * (1 - var(--k)) + max(9rem, min(108vw, 100svh - 29rem)) * var(--k));
+    opacity: clamp(0, calc((var(--sc-p, 0) - 0.54) * 25), 1);
     --snacks-fade: radial-gradient(closest-side, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent 100%);
   }
   .snacks__canvas { inset: 8%; width: 84%; height: 84%; }
-}
-@media (max-width: 860px) and (max-height: 700px) {
-  .snacks { display: none; }
 }
 /* Telefon på langs: prislisten i to kolonner, så den kan stå under bjælken. */
 @media (max-width: 860px) and (max-height: 500px) and (orientation: landscape) {
