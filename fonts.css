@@ -1,0 +1,4 @@
+/* Selvhostede skrifter (latin-subset fra Google Fonts). Outfit er én variabel fil til 400-700. */
+@font-face { font-family: "Anton"; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/anton-latin.woff2) format("woff2"); }
+@font-face { font-family: "Caveat"; font-style: normal; font-weight: 600; font-display: swap; src: url(assets/fonts/caveat-600-latin.woff2) format("woff2"); }
+@font-face { font-family: "Outfit"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(assets/fonts/outfit-latin.woff2) format("woff2"); }

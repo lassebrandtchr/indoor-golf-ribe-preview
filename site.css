@@ -1,0 +1,811 @@
+/* Indoor Golf Ribe. Tokens fra designsystemet "Indoor Golf Ribe":
+   natgolf under spots, ét lime-lys, varmt træ. */
+:root {
+  --sc-canvas:     #030b06;  /* ground */
+  --sc-surface:    #0a1a10;  /* surface */
+  --sc-ink:        #f7f9f5;  /* ink */
+  --sc-ink-soft:   #a9b8ad;  /* ink-muted */
+  --sc-accent:     #8ad937;  /* lime */
+  --sc-accent-ink: #0f0f0f;  /* on-lime */
+  --sc-font-display: "Anton", "Bebas Neue", Impact, sans-serif;
+  --sc-font-text:    "Outfit", "Helvetica Neue", Arial, sans-serif;
+
+  --raised: #10261a;
+  --line: #1f3a28;
+  --fairway: #00994e;
+  --hairline: #f7f9f566;
+  --glow-lime: 0 0 0 1px #8ad937, 0 0 28px rgba(138, 217, 55, 0.22);
+  --lift: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --r-md: 12px;
+  --r-lg: 24px;
+}
+
+/* Anton er kondenseret og står i versaler: luft, ikke negativ tracking. */
+.sc-display {
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.04;
+}
+/* Danske versaler: ringen over Å og stregen i Ø rager over linjeboksen.
+   Kinetic-masken skal give plads opad, ellers læses BÅSE som BASE. */
+.sc-split--line { padding-top: 0.2em; margin-top: -0.2em; }
+.sc-display--md { letter-spacing: 0.02em; line-height: 1.06; }
+.acc { color: var(--sc-accent); }
+body { line-height: 1.64; letter-spacing: 0.005em; }
+.sc-body { font-size: var(--sc-t-base); }
+:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 2px; }
+
+.skip {
+  position: fixed; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--sc-accent); color: var(--sc-accent-ink);
+  padding: 0.6rem 1rem; border-radius: var(--r-md); font-weight: 700;
+}
+.skip:focus { top: 1rem; }
+
+/* ------------------------------------------------------------- knapper -- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 3rem; padding: 0 1.5rem;
+  background: var(--sc-accent); color: var(--sc-accent-ink);
+  border: 0; border-radius: var(--r-md);
+  font: 700 0.82rem/1 var(--sc-font-text); letter-spacing: 0.08em; text-transform: uppercase;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 140ms var(--sc-ease-out), background-color 160ms var(--sc-ease-out);
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.55; cursor: progress; }
+@media (hover: hover) and (pointer: fine) { .btn:hover { background: #9be64a; } }
+.btn--small { min-height: 2.5rem; padding: 0 1.1rem; font-size: 0.74rem; }
+.link {
+  color: var(--sc-accent); font-weight: 600; text-decoration: underline;
+  text-decoration-thickness: 2px; text-underline-offset: 0.3em;
+}
+
+/* --------------------------------------------------------------- bjælke -- */
+.bar {
+  position: fixed; inset: 0 0 auto 0; z-index: var(--sc-z-chrome);
+  display: flex; align-items: center; gap: 2rem;
+  padding: 0.9rem var(--sc-gutter);
+  background: linear-gradient(to bottom, rgba(3, 11, 6, 0.82), rgba(3, 11, 6, 0));
+}
+.bar__mark img { width: auto; height: 46px; }
+.bar__nav { display: flex; gap: 1.6rem; margin-left: auto; }
+.bar__nav a {
+  color: var(--sc-ink); text-decoration: none; font-weight: 500; font-size: 0.95rem;
+  opacity: 0.82; transition: opacity 160ms var(--sc-ease-out);
+}
+.bar__nav a:hover { opacity: 1; }
+@media (max-width: 860px) {
+  /* Tættere og længere toning, så tekst der scroller under logoet ikke kolliderer med det.
+     Bjælken lader tryk falde igennem undtagen på logo og knap. */
+  .bar {
+    gap: 1rem; padding-block: 0.7rem 1.5rem; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(3, 11, 6, 0.95) 0%, rgba(3, 11, 6, 0.82) 58%, rgba(3, 11, 6, 0));
+  }
+  .bar > * { pointer-events: auto; }
+  .bar__nav { display: none; }
+  .bar .btn { margin-left: auto; min-height: 2.75rem; }
+  .bar__mark { display: block; padding-block: 3px; }
+  .bar__mark img { height: 38px; }
+}
+
+/* ------------------------------------------------------------ mobilmenu -- */
+.bar__menu, .mnav { display: none; }
+.bar__menu {
+  place-content: center; gap: 6px; flex: none; width: 2.75rem; height: 2.75rem;
+  border: 1px solid rgba(244, 247, 240, 0.22); border-radius: 0.8rem;
+  background: rgba(3, 11, 6, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  cursor: pointer; transition: border-color 250ms var(--sc-ease-out), background-color 250ms var(--sc-ease-out);
+}
+.bar__menu span {
+  display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--sc-ink);
+  transition: transform 420ms var(--sc-ease-out), background-color 250ms;
+}
+.bar__menu[aria-expanded="true"] { border-color: var(--sc-accent); }
+.bar__menu[aria-expanded="true"] span { background: var(--sc-accent); }
+.bar__menu[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
+.bar__menu[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
+.bar__menu:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 2px; }
+@media (max-width: 860px) {
+  .bar__menu { display: grid; }
+  /* Ligger under bjælken, så logo, Book-knap og luk-knap bliver stående øverst. */
+  .mnav {
+    position: fixed; inset: 0; z-index: calc(var(--sc-z-chrome) - 1);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 6.5rem var(--sc-gutter) calc(1.75rem + env(safe-area-inset-bottom));
+    background: radial-gradient(120% 70% at 100% 0%, rgba(138, 217, 55, 0.12), transparent 60%), rgba(3, 11, 6, 0.97);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    opacity: 0; visibility: hidden; transition: opacity 380ms var(--sc-ease-out), visibility 0s linear 380ms;
+  }
+  .mnav.is-open { opacity: 1; visibility: visible; transition: opacity 380ms var(--sc-ease-out); }
+  .mnav__nav { display: flex; flex-direction: column; }
+  .mnav__nav a {
+    display: flex; align-items: baseline; gap: 1rem; padding: 0.55rem 0;
+    border-bottom: 1px solid var(--line); color: var(--sc-ink); text-decoration: none;
+    font: 400 clamp(2.2rem, 11vw, 3.2rem)/1.15 var(--sc-font-display); text-transform: uppercase; letter-spacing: 0.01em;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 450ms var(--sc-ease-out), transform 550ms var(--sc-ease-out), color 200ms;
+  }
+  .mnav.is-open .mnav__nav a { opacity: 1; transform: none; }
+  .mnav.is-open .mnav__nav a:nth-child(2) { transition-delay: 40ms; }
+  .mnav.is-open .mnav__nav a:nth-child(3) { transition-delay: 80ms; }
+  .mnav.is-open .mnav__nav a:nth-child(4) { transition-delay: 120ms; }
+  .mnav.is-open .mnav__nav a:nth-child(5) { transition-delay: 160ms; }
+  .mnav.is-open .mnav__nav a:nth-child(6) { transition-delay: 200ms; }
+  .mnav__nav a:active, .mnav__nav a:hover { color: var(--sc-accent); }
+  .mnav__no { font: 600 0.75rem/1 var(--sc-font-text); letter-spacing: 0.1em; color: var(--sc-accent); }
+  .mnav__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; }
+  .mnav__foot p { margin: 0; text-align: right; font-size: 0.85rem; line-height: 1.45; color: var(--sc-ink-soft); }
+  @media (max-height: 640px) {
+    .mnav { padding-top: 5.25rem; }
+    .mnav__nav a { font-size: clamp(1.8rem, 9vw, 2.4rem); padding: 0.35rem 0; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mnav, .mnav__nav a, .bar__menu span { transition: none; }
+}
+
+/* ----------------------------------------------------------------- hero -- */
+.hero__photo { position: absolute; inset: -12vh 0 -12vh; }
+.hero__photo img, .hero__photo picture {
+  width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%;
+  transform: scale(calc(1.08 - var(--sc-p, 0) * 0.06));
+}
+.hero__scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(to top right, rgba(3, 11, 6, 0.96) 0%, rgba(3, 11, 6, 0.78) 30%, rgba(3, 11, 6, 0.2) 58%, transparent 74%),
+    linear-gradient(to bottom, rgba(3, 11, 6, 0.55), transparent 22%);
+}
+.hero__copy { max-width: min(48rem, 80vw); }
+.hero__copy h1 { font-size: clamp(3.6rem, 1.6rem + 7.4vw, 8.6rem); line-height: 1.24; }
+.hero__kicker {
+  display: block; margin-bottom: 0.9rem;
+  font: 700 clamp(0.8rem, 0.7rem + 0.3vw, 0.95rem)/1.2 var(--sc-font-text);
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-accent);
+}
+.hero__sub { font-size: var(--sc-t-lg); line-height: 1.45; max-width: 30ch; margin: 1.25rem 0 1.75rem; color: var(--sc-ink); }
+@media (max-width: 860px) {
+  .hero__copy h1 { font-size: clamp(3.4rem, 15vw, 4.6rem); }
+  /* Mobil har sit eget portrætfoto (hero-hall-m): gangen, lampen og båsene i toppen, teksten på gulvet. */
+  .hero__photo img { object-position: 40% 50%; }
+  .hero__scrim {
+    background: linear-gradient(to top, rgba(3, 11, 6, 0.97) 0%, rgba(3, 11, 6, 0.86) 34%, rgba(3, 11, 6, 0.3) 58%, transparent 72%),
+      linear-gradient(to bottom, rgba(3, 11, 6, 0.55), transparent 22%);
+  }
+  .peak video[data-sc-scrub], .peak .sc-stage__poster, .peak__end { object-position: 70% 50%; }
+}
+
+/* ---------------------------------------------------------------- fakta -- */
+.facts__stage { display: grid; align-items: center; }
+.facts__four {
+  position: absolute; right: -2vw; bottom: -14vh;
+  font: 400 min(110vh, 62vw)/0.8 var(--sc-font-display);
+  color: var(--raised); user-select: none;
+  transform: translateY(calc(var(--sc-p, 0) * -8vh));
+}
+.facts__inner {
+  position: relative; z-index: 2;
+  width: 100%; max-width: var(--sc-maxw); margin-inline: auto; padding-inline: var(--sc-gutter);
+}
+.facts__title { max-width: 13ch; }
+.facts__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; margin: 3.5rem 0 0; max-width: 62rem; }
+.facts__list div { border-top: 1px solid var(--line); padding-top: 1.1rem; }
+.facts__list dt { font-weight: 700; font-size: var(--sc-t-lg); color: var(--sc-accent); }
+/* Fine stregikoner i blødt hvid med én lime detalje; tegnes af scroll (factIcons i site.js) */
+.facts__icon {
+  display: block; width: 2.9rem; height: 2.9rem; margin-bottom: 1.1rem; overflow: visible;
+  color: var(--sc-ink-soft);
+}
+.facts__icon * { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.facts__icon .ic-acc { stroke: var(--sc-accent); }
+.facts__icon .ic-dot { fill: var(--sc-accent); stroke: none; }
+.facts__icon .ic-fade { opacity: var(--o, 1); }
+/* js-draw sættes af site.js; uden JS står ikonerne bare færdigtegnede */
+/* Startværdier før første scroll-frame; site.js skriver derefter offset/opacity inline */
+.js-draw .facts__icon .ic-draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.js-draw .facts__icon .ic-fade { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .js-draw .facts__icon .ic-draw { stroke-dashoffset: 0 !important; }
+  .js-draw .facts__icon .ic-fade { opacity: var(--o, 1) !important; }
+}
+.facts__list dd { margin: 0.4rem 0 0; color: var(--sc-ink-soft); }
+@media (max-width: 860px) {
+  /* Hele akten skal kunne stå på én telefonskærm under bjælken: ikonet ved siden af punktets navn. */
+  .facts__stage { padding-top: 4.5rem; }
+  .facts__list { grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem; }
+  .facts__list div { padding-top: 0.9rem; }
+  .facts__list dt { display: flex; align-items: center; gap: 0.8rem; }
+  .facts__icon { width: 2.3rem; height: 2.3rem; margin: 0; flex: none; }
+  .facts__four { font-size: 90vw; bottom: -6vh; }
+}
+/* Telefon på langs: tre punkter side om side og mindre titel, så akten stadig kan stå på én skærm. */
+@media (max-width: 860px) and (max-height: 500px) and (orientation: landscape) {
+  .facts__stage { padding-top: 3.6rem; }
+  .facts__title { font-size: 2.1rem; max-width: none; }
+  .facts__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; margin-top: 0.9rem; }
+  .facts__list div { padding-top: 0.6rem; }
+  .facts__list dt { font-size: 1rem; }
+  .facts__icon { width: 1.8rem; height: 1.8rem; }
+  .facts__list dd { font-size: 0.85rem; line-height: 1.4; }
+}
+
+/* ----------------------------------------------------------------- pan -- */
+.bays .sc-stage, .bays [data-sc-stage] { display: flex; align-items: center; }
+.rail { gap: clamp(1.5rem, 3vw, 3rem); padding-inline: var(--sc-gutter); align-items: flex-end; }
+.rail > * { flex: none; }
+.rail__lead { width: clamp(17rem, 26vw, 26rem); align-self: center; }
+.rail__lead p { margin-top: 1rem; }
+.item { width: clamp(17rem, 30vw, 30rem); }
+.item--wide { width: clamp(19rem, 44vw, 44rem); }
+.item__media { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--lift); aspect-ratio: 4 / 3; background: var(--sc-surface); }
+.item--wide .item__media { aspect-ratio: 16 / 10; }
+.item__media--dark { background: #000; }
+.item__media img { width: 100%; height: 100%; object-fit: cover; }
+/* <picture> giver kun mobilen et mindre billede; layoutet styres stadig af <img>. */
+.item__media picture, .events__photo picture { display: contents; }
+.item h3 { font: 700 var(--sc-t-xl)/1.15 var(--sc-font-text); margin: 1.25rem 0 0.35rem; }
+.item p { margin: 0; color: var(--sc-ink-soft); max-width: 40ch; }
+.item small { display: block; margin-top: 0.4rem; color: var(--sc-ink-soft); opacity: 0.8; font-size: 0.75rem; }
+.rail__note { width: clamp(16rem, 24vw, 24rem); align-self: center; padding-right: 2vw; }
+.rail__note .link { display: inline-block; margin-top: 0.6rem; padding-block: 0.65rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .rail > .item { opacity: calc(0.55 + var(--sc-p, 0) * 2); }
+}
+@media (max-width: 860px) {
+  .rail__lead, .item, .item--wide, .rail__note { width: 80vw; }
+}
+
+/* -------------------------------------------------------------- stilhed -- */
+/* Neonskilt. site.js skriver --lit (0-1) pr. bogstav, --glow (samlet lysstyrke)
+   og --tube (stregen under) ud fra aktens fremdrift. Uden JS står skiltet tændt. */
+.hush__stage { display: grid; place-items: center; align-content: center; row-gap: clamp(0.5rem, 2vh, 1.5rem); padding-inline: var(--sc-gutter); overflow: hidden; }
+.hush__glow {
+  position: absolute; left: 50%; top: 50%; width: min(110vw, 80rem); aspect-ratio: 2.4;
+  translate: -50% -50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(138, 217, 55, 0.34), rgba(138, 217, 55, 0.1) 45%, transparent 75%);
+  filter: blur(30px); opacity: var(--glow, 1);
+  transform: scale(calc(0.7 + var(--glow, 1) * 0.3));
+}
+.hush__sign, .tm {
+  position: relative; text-align: center;
+  transform: scale(calc(1 + max(0, var(--sc-p, 0) - 0.86) * 0.9));
+}
+.hush__sign { z-index: 2; }
+
+/* Trackman iO som neon-stregtegning "i loftet". Billedsekvensen har scenens egen
+   grundfarve, og en radial maske lader kanten forsvinde i mørket. */
+.tm { margin: 0; z-index: 1; width: min(38vw, 50vh * 1.5); aspect-ratio: 3 / 2; transform-origin: 50% 160%; }
+.tm__canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+}
+/* Radarstrålen: en lyskegle fra linsen ned mod skiltet. --beam-y skyder den ned, --beam styrer lyset. */
+.tm__beam {
+  position: absolute; left: 47.9%; top: 47%; width: 150%; height: 120%;
+  translate: -50% 0; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(to bottom, rgba(138, 217, 55, 0.5), rgba(138, 217, 55, 0.14) 55%, rgba(138, 217, 55, 0) 100%);
+  clip-path: polygon(48.6% 0, 51.4% 0, 100% 100%, 0 100%);
+  filter: blur(10px);
+  opacity: var(--beam, 1);
+  transform: scaleY(var(--beam-y, 1)); transform-origin: 50% 0;
+}
+.hush__line {
+  --lime: 138, 217, 55;
+  margin: 0; font: 400 min(clamp(3rem, 1rem + 6.4vw, 8.5rem), 11.5vh)/0.98 var(--sc-font-display);
+  text-transform: uppercase; letter-spacing: 0.02em; color: rgb(var(--lime));
+  text-shadow: 0 0 0.04em rgba(var(--lime), 0.9), 0 0 0.18em rgba(var(--lime), 0.55), 0 0 0.6em rgba(var(--lime), 0.35);
+}
+.hush__w { display: inline-block; white-space: nowrap; }
+/* hvert bogstav: slukket rør (tynd kontur) der fyldes med lys */
+.hush__c {
+  display: inline-block;
+  color: rgba(var(--lime), calc(0.04 + var(--lit, 1) * 0.96));
+  -webkit-text-stroke: 1px rgba(var(--lime), calc(0.32 - var(--lit, 1) * 0.32));
+  text-shadow:
+    0 0 0.04em rgba(var(--lime), calc(var(--lit, 1) * 0.95)),
+    0 0 0.18em rgba(var(--lime), calc(var(--lit, 1) * 0.6)),
+    0 0 0.6em rgba(var(--lime), calc(var(--lit, 1) * 0.4));
+}
+.hush__tube {
+  display: block; height: 3px; width: 62%; margin: 0.9em auto 0; border-radius: 3px;
+  font-size: clamp(1rem, 0.5rem + 1vw, 1.4rem);
+  background: rgb(138, 217, 55);
+  box-shadow: 0 0 6px rgba(138, 217, 55, 0.9), 0 0 22px rgba(138, 217, 55, 0.5);
+  transform: scaleX(var(--tube, 1)); opacity: calc(var(--tube, 1) * 1.5);
+}
+@media (max-width: 860px) {
+  .hush__line { font-size: 13vw; line-height: 1; }
+  .tm { width: min(86vw, 40svh * 1.5); }
+}
+
+/* ----------------------------------------------------------------- peak -- */
+.peak .sc-stage__poster, .peak picture { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.peak__scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; transition: none; }
+.peak__scrim--start {
+  background: linear-gradient(to top right, rgba(3, 11, 6, 0.95) 0%, rgba(3, 11, 6, 0.75) 26%, rgba(3, 11, 6, 0.3) 44%, transparent 60%);
+  opacity: clamp(0, calc((0.3 - var(--sc-p, 0)) * 12), 1);
+}
+.peak__scrim--sky {
+  background:
+    linear-gradient(90deg, rgba(3, 11, 6, 0.9) 0%, rgba(3, 11, 6, 0.86) 46%, rgba(3, 11, 6, 0.6) 58%, transparent 74%),
+    linear-gradient(to bottom, rgba(3, 11, 6, 0.4) 0%, transparent 70%);
+  opacity: clamp(0, min(calc((var(--sc-p, 0) - 0.48) * 25), calc((1 - var(--sc-p, 0)) * 25)), 1);
+}
+.peak__end { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.peak__copy { left: var(--sc-gutter); top: clamp(5.5rem, 15vh, 9rem); max-width: min(52rem, 80vw); }
+.peak__copy { text-shadow: 0 2px 18px rgba(3, 11, 6, 0.55); }
+.peak__copy h2 { font-size: clamp(3.2rem, 1.4rem + 6.4vw, 7.6rem); }
+.peak__sub { font-size: var(--sc-t-lg); line-height: 1.45; max-width: 34ch; margin: 1.1rem 0 0; }
+.peak__cue { font-size: var(--sc-t-xl); }
+@media (max-width: 860px) {
+  .peak__copy h2 { font-size: clamp(2.8rem, 13vw, 4rem); }
+  .peak__scrim--sky { background: linear-gradient(to bottom, rgba(3, 11, 6, 0.88) 0%, rgba(3, 11, 6, 0.6) 38%, transparent 66%); }
+}
+
+/* --------------------------------------------------------------- lounge -- */
+.lounge__photo { z-index: 2; }
+.lounge__under, .lounge__under img, .lounge__photo, .lounge__photo img, .lounge__photo picture {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; margin: 0;
+}
+.lounge__scrim {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(90deg, rgba(3, 11, 6, 0.92) 0%, rgba(3, 11, 6, 0.7) 34%, rgba(3, 11, 6, 0.15) 60%, transparent 76%);
+  opacity: clamp(0, calc((var(--sc-p, 0) - 0.18) * 5), 1);
+}
+.lounge__copy { left: var(--sc-gutter); top: 50%; translate: 0 -50%; max-width: min(34rem, 80vw); }
+.lounge__copy .sc-body { color: var(--sc-ink); margin-top: 1.25rem; }
+.menu {
+  position: absolute; z-index: var(--sc-z-copy);
+  left: var(--sc-gutter); top: 50%; translate: 0 -50%;
+  width: min(30rem, calc(100vw - 2 * var(--sc-gutter)));
+  padding: 1.75rem 2rem 1.5rem;
+  background: rgba(10, 26, 16, 0.94);
+  border-radius: var(--r-md); box-shadow: var(--glow-lime), var(--lift);
+}
+.menu__title { font: 400 var(--sc-t-2xl)/1 var(--sc-font-display); text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 1rem; }
+.menu__list { margin: 0; }
+.menu__list div {
+  display: flex; align-items: baseline; gap: 0.75rem; padding: 0.32rem 0;
+  border-bottom: 1px dotted var(--line);
+}
+.menu__list div:last-child { border-bottom: 0; }
+.menu__list .menu__gap { margin-top: 0.6rem; }
+.menu__list dt { font-weight: 700; flex: 1; }
+.menu__list small { font-weight: 400; color: var(--sc-ink-soft); font-size: 0.8rem; margin-left: 0.35rem; }
+.menu__list dd { margin: 0; font: 400 1.15rem/1 var(--sc-font-display); letter-spacing: 0.03em; font-variant-numeric: tabular-nums; }
+@media (max-width: 860px) {
+  .menu { padding: 1.25rem 1.25rem 1rem; }
+  .menu__list small { display: none; }
+  .lounge__scrim { background: linear-gradient(to top, rgba(3, 11, 6, 0.95) 0%, rgba(3, 11, 6, 0.75) 45%, rgba(3, 11, 6, 0.3) 75%); }
+  .lounge__copy { top: auto; bottom: 10vh; translate: none; }
+}
+
+/* Produkterne flyver ind til højre for prislisten. Billedsekvensen har sidens
+   egen grundfarve, og en radial maske lader kanten tone ud i loungen. */
+.snacks {
+  position: absolute; z-index: 4; margin: 0; pointer-events: none;
+  right: -2vw; top: 52%; translate: 0 -50%;
+  width: min(62vw, 116vh); aspect-ratio: 1;
+  background: rgb(1, 9, 4);
+  --snacks-fade: radial-gradient(closest-side, #000 46%, rgba(0, 0, 0, 0.55) 70%, transparent 100%);
+  -webkit-mask-image: var(--snacks-fade);
+  mask-image: var(--snacks-fade);
+  opacity: clamp(0, calc((var(--sc-p, 0) - 0.46) * 25), 1);
+}
+.snacks__canvas { position: absolute; inset: 17%; width: 66%; height: 66%; }
+/* Telefon: listen ankres i bunden, og produkterne flyver ind i rummet over
+   den. Er skærmen for lav til begge dele, vises kun listen. */
+@media (max-width: 860px) {
+  .menu { top: auto; bottom: max(2.5vh, 1rem); translate: none; }
+  .snacks {
+    right: auto; left: 50%; top: 3.5rem; translate: -50% 0;
+    width: min(108vw, calc(100svh - 29rem));
+    --snacks-fade: radial-gradient(closest-side, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent 100%);
+  }
+  .snacks__canvas { inset: 8%; width: 84%; height: 84%; }
+}
+@media (max-width: 860px) and (max-height: 700px) {
+  .snacks { display: none; }
+}
+/* Telefon på langs: prislisten i to kolonner, så den kan stå under bjælken. */
+@media (max-width: 860px) and (max-height: 500px) and (orientation: landscape) {
+  .menu { width: min(46rem, calc(100vw - 2 * var(--sc-gutter))); padding: 0.9rem 1.25rem 0.7rem; bottom: 0.75rem; }
+  .menu__title { font-size: 1.6rem; margin-bottom: 0.4rem; }
+  .menu__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+  .menu__list div { padding: 0.2rem 0; }
+  .menu__list .menu__gap { margin-top: 0; }
+  .hero__copy h1 { font-size: 3.2rem; }
+  .hush__stage { padding-top: 3rem; row-gap: 0.25rem; }
+  .hush__line { font-size: 13vh; }
+  .hush__tube { margin-top: 0.5em; }
+  .tm { width: calc(36svh * 1.5); }
+  .hero__sub { font-size: 1rem; margin: 0.6rem 0 1rem; max-width: 40ch; }
+}
+
+/* --------------------------------------------------------------- priser -- */
+.prices { padding-bottom: clamp(4rem, 8vw, 8rem); }
+.prices__grid {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2rem, 4vw, 3.5rem); align-items: start;
+}
+.plan {
+  background: var(--sc-surface); border-radius: var(--r-md);
+  padding: clamp(1.75rem, 3vw, 2.75rem);
+  box-shadow: var(--glow-lime), var(--lift);
+}
+.plan__kicker { margin: 0; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sc-accent); }
+.plan__title { font: 700 var(--sc-t-xl)/1.2 var(--sc-font-text); margin: 0.6rem 0 0.8rem; max-width: 20ch; }
+.plan__price { font: 400 var(--sc-t-2xl)/1 var(--sc-font-display); margin: 1.75rem 0 1.5rem; letter-spacing: 0.02em; }
+.todo {
+  color: var(--sc-accent); background: rgba(138, 217, 55, 0.1);
+  border: 1px dashed rgba(138, 217, 55, 0.6); border-radius: 6px; padding: 0 0.3em;
+}
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows li {
+  display: grid; grid-template-columns: 1fr auto; grid-template-areas: "name price" "note price";
+  gap: 0.15rem 1rem; padding: 1.4rem 0; border-bottom: 1px solid var(--line);
+}
+.rows li:first-child { border-top: 1px solid var(--line); }
+.rows__name { grid-area: name; font-weight: 700; font-size: var(--sc-t-lg); }
+.rows__note { grid-area: note; color: var(--sc-ink-soft); }
+.rows__price { grid-area: price; align-self: center; font: 400 var(--sc-t-xl)/1 var(--sc-font-display); letter-spacing: 0.02em; }
+
+.events {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 5vw, 5rem); align-items: center; margin-top: clamp(4.5rem, 9vw, 9rem);
+}
+.events__photo { margin: 0; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4 / 5; box-shadow: var(--lift); }
+.events__photo > div { height: 120%; margin-top: -10%; }
+.events__photo img { width: 100%; height: 100%; object-fit: cover; }
+.events__list { list-style: none; margin: 2rem 0 0; padding: 0; }
+.events__list li { padding: 1.1rem 0; border-top: 1px solid var(--line); }
+.events__list h3 { margin: 0; font: 700 var(--sc-t-lg)/1.25 var(--sc-font-text); }
+.events__list p { margin: 0.3rem 0 0; color: var(--sc-ink-soft); max-width: 48ch; }
+.faq { max-width: 52rem; margin-top: clamp(4rem, 8vw, 7rem); }
+.faq__list { margin-top: 1.5rem; isolation: isolate; }
+.faq details { position: relative; border-top: 1px solid var(--line); }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+/* Åbent kort: en blød lime-glød fra ikonet og en accentstreg i venstre kant. */
+.faq details::before {
+  content: ""; position: absolute; inset: 0 -1.25rem; z-index: -1; pointer-events: none;
+  border-radius: var(--r-lg, 1rem);
+  background: radial-gradient(120% 140% at 0% 0%, rgba(138, 217, 55, 0.10), transparent 60%);
+  opacity: 0; transition: opacity 650ms var(--sc-ease-out);
+}
+.faq details::after {
+  content: ""; position: absolute; left: -1.25rem; top: 1rem; bottom: 1rem; width: 2px;
+  border-radius: 2px; background: var(--sc-accent);
+  transform: scaleY(0); transform-origin: top; transition: transform 650ms var(--sc-ease-out);
+}
+.faq details.is-open::before { opacity: 1; }
+.faq details.is-open::after { transform: scaleY(1); }
+.faq summary {
+  display: flex; align-items: center; gap: 1.1rem;
+  padding: 1.1rem 0; cursor: pointer; list-style: none;
+  font: 700 var(--sc-t-lg)/1.3 var(--sc-font-text);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq__q { flex: 1; transition: color 300ms var(--sc-ease-out); }
+.faq__ico {
+  flex: none; display: grid; place-items: center; width: 2.9rem; height: 2.9rem;
+  border-radius: 0.85rem; border: 1px solid var(--line);
+  background: rgba(138, 217, 55, 0.06); color: var(--sc-accent);
+  transition: background-color 450ms var(--sc-ease-out), color 450ms var(--sc-ease-out),
+              border-color 450ms var(--sc-ease-out), box-shadow 450ms var(--sc-ease-out),
+              transform 650ms var(--sc-ease-out);
+}
+.faq__ico svg { width: 1.45rem; height: 1.45rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.faq__ico svg * { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.faq__pm { flex: none; position: relative; width: 1.9rem; height: 1.9rem; border-radius: 50%; border: 1px solid transparent; transition: border-color 300ms, transform 650ms var(--sc-ease-out); }
+.faq__pm::before, .faq__pm::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 0.85rem; height: 2px; margin: -1px 0 0 -0.425rem;
+  border-radius: 2px; background: var(--sc-accent); transition: transform 650ms var(--sc-ease-out);
+}
+.faq__pm::after { transform: rotate(90deg); }
+.faq summary:hover .faq__q { color: var(--sc-accent); }
+.faq summary:hover .faq__ico { border-color: var(--sc-accent); transform: translateY(-2px); }
+.faq summary:hover .faq__pm { border-color: var(--line); }
+.faq summary:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 2px; border-radius: 0.5rem; }
+.faq details.is-open .faq__q { color: var(--sc-accent); }
+.faq details.is-open .faq__ico {
+  background: var(--sc-accent); border-color: var(--sc-accent); color: #07130b;
+  box-shadow: 0 0 0 6px rgba(138, 217, 55, 0.12), 0 10px 28px -8px rgba(138, 217, 55, 0.65);
+  transform: scale(1.06) rotate(-4deg);
+}
+.faq details.is-open .faq__ico svg * { animation: faq-draw 650ms var(--sc-ease-out) both; }
+.faq details.is-open .faq__pm { transform: rotate(180deg); }
+.faq details.is-open .faq__pm::after { transform: rotate(0deg); }
+@keyframes faq-draw { from { stroke-dashoffset: 1; } }
+/* Højden animeres i site.js; teksten glider op og skærpes, når kortet åbner. */
+.faq__a { overflow: hidden; }
+.faq__a p {
+  margin: 0; padding: 0 0 1.4rem calc(2.9rem + 1.1rem); color: var(--sc-ink-soft); max-width: 60ch;
+  opacity: 0; transform: translateY(10px); filter: blur(6px);
+  transition: opacity 280ms var(--sc-ease-out), transform 280ms var(--sc-ease-out), filter 280ms var(--sc-ease-out);
+}
+/* Åbning: teksten starter 80 ms efter højden og lander samtidig med den (650 ms). */
+.faq details.is-open .faq__a p {
+  opacity: 1; transform: none; filter: none;
+  transition: opacity 570ms var(--sc-ease-out) 80ms, transform 570ms var(--sc-ease-out) 80ms, filter 570ms var(--sc-ease-out) 80ms;
+}
+@media (max-width: 600px) {
+  .faq summary { gap: 0.85rem; }
+  .faq__ico { width: 2.4rem; height: 2.4rem; border-radius: 0.7rem; }
+  .faq__ico svg { width: 1.2rem; height: 1.2rem; }
+  .faq__a p { padding-left: calc(2.4rem + 0.85rem); }
+  .faq details::before { inset: 0 -0.75rem; }
+  .faq details::after { left: -0.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq details::before, .faq details::after, .faq__ico, .faq__pm, .faq__pm::before, .faq__pm::after, .faq__a p { transition: none; }
+  .faq details.is-open .faq__ico svg * { animation: none; }
+  .faq details.is-open .faq__ico { transform: none; }
+}
+@media (max-width: 860px) {
+  .prices__grid, .events { grid-template-columns: 1fr; }
+  .events__photo { aspect-ratio: 4 / 3; }
+}
+
+/* --------------------------------------------------------------- kontakt -- */
+.close__stage {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(5rem, 11vh, 7rem) var(--sc-gutter) 1.25rem;
+  background: radial-gradient(80% 60% at 80% 0%, rgba(16, 38, 26, 0.9), transparent 70%);
+}
+.close__grid {
+  width: 100%; max-width: var(--sc-maxw); margin: auto auto 0;
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 5vw, 5rem); align-items: start;
+}
+.close__landed {
+  display: inline-flex; gap: 0.4em; align-items: center; margin: 0 0 1.25rem;
+  font-weight: 500; color: var(--sc-ink-soft);
+}
+.close__landed::before {
+  content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%;
+  background: var(--sc-ink); box-shadow: 0 0 0 3px rgba(138, 217, 55, 0.4);
+}
+.close__landed strong { color: var(--sc-accent); }
+.close__info .sc-body { margin-top: 1rem; }
+.close__facts { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0; }
+.close__facts a { display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: none; font-weight: 600; }
+.close__facts a:hover { color: var(--sc-accent); }
+.close__map { margin-top: 1.5rem; border-radius: var(--r-md); overflow: hidden; height: clamp(9rem, 22vh, 13rem); box-shadow: 0 0 0 1px var(--line); }
+.close__map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.4) contrast(1.05); }
+
+.form {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem 1rem;
+  background: var(--sc-surface); border-radius: var(--r-md);
+  padding: clamp(1.25rem, 2.5vw, 2rem); box-shadow: var(--lift), inset 0 1px 0 rgba(247, 249, 245, 0.06);
+}
+.field { grid-column: span 4; display: grid; gap: 0.35rem; min-width: 0; }
+.field--half { grid-column: span 2; }
+.field--quarter { grid-column: span 1; }
+.field label { font-weight: 600; font-size: 0.85rem; letter-spacing: 0.02em; }
+.opt { font-weight: 400; color: var(--sc-ink-soft); }
+.field input, .field select, .field textarea {
+  width: 100%; min-height: 2.9rem; padding: 0.6rem 0.8rem;
+  background: var(--raised); border: 1px solid var(--line); border-radius: 8px;
+  color: var(--sc-ink); transition: border-color 160ms var(--sc-ease-out);
+  color-scheme: dark;
+}
+.field textarea { resize: vertical; min-height: 5.5rem; }
+/* Dato-feltet har en indbygget minimumsbredde i Chrome/Safari, der ellers stikker ud af formularen på smalle skærme. */
+.field input[type="date"] { min-width: 0; max-width: 100%; -webkit-appearance: none; appearance: none; }
+.field input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 1px; border-color: var(--sc-accent); }
+.field [aria-invalid="true"] { border-color: #f40c0b; }
+.field__err { margin: 0; font-size: 0.82rem; color: #ff6b6a; min-height: 0; }
+.field__err:empty { display: none; }
+.form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+.form__foot { grid-column: span 4; display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; margin-top: 0.3rem; }
+.form__status { margin: 0; font-size: 0.92rem; color: var(--sc-ink-soft); }
+.form__status.is-ok { color: var(--sc-accent); }
+.form__status.is-err { color: #ff6b6a; }
+
+.foot {
+  width: 100%; max-width: var(--sc-maxw); margin: 1.5rem auto 0;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.signoff {
+  margin: 0; font: 600 clamp(1.6rem, 1.2rem + 1.2vw, 2.25rem)/1.1 "Caveat", cursive;
+  padding-bottom: 0.2rem; border-bottom: 3px solid var(--sc-accent);
+}
+.foot__small { margin: 0; font-size: 0.8rem; color: var(--sc-ink-soft); }
+
+/* Kontakt bliver en almindelig sektion, hvor skærmen er for lille til at pinne en formular. */
+.close--flow .close__stage { position: static; height: auto; min-height: 100svh; overflow: visible; }
+@media (max-width: 860px) {
+  .close__grid { grid-template-columns: 1fr; }
+  .field--half { grid-column: span 4; }
+  .field--quarter { grid-column: span 1; }
+  .field--quarter:has(input[type="date"]) { grid-column: span 3; }
+}
+
+/* ------------------------------------------------------------ signaturen -- */
+.hud {
+  position: fixed; right: var(--sc-gutter); bottom: 1.25rem; z-index: 40;
+  width: 15rem; padding: 0.8rem 0.9rem 0.7rem;
+  background: rgba(3, 11, 6, 0.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  font-size: 0.75rem; color: var(--sc-ink-soft);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), border-color 320ms var(--sc-ease-out);
+  pointer-events: none;
+}
+.hud.is-on { opacity: 1; transform: none; }
+.hud.is-landed { border-color: var(--sc-accent); }
+.hud__head { display: flex; align-items: center; gap: 0.45rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.66rem; }
+.hud__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sc-accent); }
+.hud__arc { width: 100%; height: 3.4rem; margin: 0.4rem 0 0.2rem; overflow: visible; }
+.hud__ground { stroke: var(--line); stroke-width: 1; }
+.hud__trace { fill: none; stroke: var(--sc-accent); stroke-width: 1.6; stroke-linecap: round; }
+.hud__flag line { stroke: var(--sc-ink-soft); stroke-width: 1; }
+.hud__flag path { fill: var(--sc-accent); }
+.hud__ball { fill: var(--sc-ink); }
+.hud__data { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; gap: 0.4rem; }
+.hud__data dt { font-size: 0.62rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.hud__data dd { margin: 0; color: var(--sc-ink); font: 400 1.05rem/1.1 var(--sc-font-display); letter-spacing: 0.03em; font-variant-numeric: tabular-nums; }
+@media (max-width: 860px), (max-height: 620px) { .hud { display: none; } }
+@media (prefers-reduced-motion: reduce) { .hud { transition: opacity 200ms linear; transform: none; } }
+
+/* Uden bevægelse: ingen video, så banen og loungen toner ind som stills. */
+@media (prefers-reduced-motion: reduce) {
+  .peak__end { opacity: clamp(0, calc((var(--sc-p, 0) - 0.4) * 12), 1); }
+}
+
+/* --------------------------------------------------------- destinationer --
+   Lægges oven på peak'ens udgang (negativ margin), så banen står stille, mens
+   den næste scene tager over. Bunden er peak-videoens sidste frame. */
+.dest, .lounge { margin-top: -100vh; margin-top: -100svh; }
+/* Usynlig mens den nærmer sig, så den forrige scene spiller færdig. Når den
+   låser fast i toppen, tager den over på præcis samme billede. */
+.dest > [data-sc-stage], .lounge > [data-sc-stage] { visibility: hidden; }
+.dest.is-on > [data-sc-stage], .lounge.is-on > [data-sc-stage] { visibility: visible; }
+.dest__base, .dest__base img, .dest__layers, .dest__layer {
+  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0;
+}
+.dest__base img { object-fit: cover; }
+.dest__layers { z-index: 1; }  /* egen stak: lag 1-6 må aldrig ligge over skyggen */
+.dest__layer { visibility: hidden; transform-origin: 50% 60%; }
+.dest__layer.is-live { visibility: visible; }
+.slat {
+  position: absolute; top: 0; height: 100%; overflow: hidden;
+  backface-visibility: hidden; transform-origin: 50% 50%;
+}
+.slat img {
+  position: absolute; top: 0; height: 100%; max-width: none; object-fit: cover;
+}
+/* Skyggen i lamellens kant, der hvor den drejer. */
+.slat::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(3, 11, 6, 0.55), transparent 40%, transparent 70%, rgba(3, 11, 6, 0.35));
+  opacity: var(--shade, 0);
+}
+.dest__scrim {
+  position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  background:
+    linear-gradient(to top right, rgba(3, 11, 6, 0.95) 0%, rgba(3, 11, 6, 0.82) 28%, rgba(3, 11, 6, 0.35) 50%, transparent 68%),
+    linear-gradient(to left, rgba(3, 11, 6, 0.7) 0%, rgba(3, 11, 6, 0.35) 16%, transparent 30%);
+  opacity: clamp(0, min(calc(var(--sc-p, 0) * 20), calc((1 - var(--sc-p, 0)) * 16)), 1);
+}
+.dest__board {
+  position: absolute; z-index: 6; left: var(--sc-gutter); bottom: clamp(3rem, 11vh, 8rem);
+  max-width: min(46rem, 80vw);
+  opacity: clamp(0, min(calc((var(--sc-p, 0) - 0.02) * 16), calc((1 - var(--sc-p, 0)) * 16)), 1);
+}
+.dest__label {
+  margin: 0 0 0.9rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--sc-accent); display: flex; align-items: center; gap: 0.6rem;
+}
+.dest__label::before { content: ""; width: 1.6rem; height: 2px; background: var(--sc-accent); }
+.dest__name {
+  margin: 0; font: 400 clamp(2.8rem, 1.2rem + 5vw, 6.4rem)/1.08 var(--sc-font-display);
+  text-transform: uppercase; letter-spacing: 0.02em; min-height: 1.08em;
+}
+/* Navnene deler én grid-celle og bundjusteres, så de crossfader på samme linje */
+.swap { display: grid; align-items: end; }
+.swap__n {
+  grid-area: 1 / 1;
+  transition: opacity 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+              filter 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.swap__n.is-entering {
+  opacity: 0; filter: blur(14px); transform: translateY(0.14em) scale(1.015);
+  transition: none;
+}
+.swap__n.is-leaving {
+  opacity: 0; filter: blur(10px); transform: translateY(-0.08em);
+  pointer-events: none;
+  transition: opacity 700ms cubic-bezier(0.4, 0, 1, 1), filter 700ms cubic-bezier(0.4, 0, 1, 1),
+              transform 800ms cubic-bezier(0.4, 0, 1, 1);
+}
+.dest__meta, .dest__line {
+  transition: opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) 120ms, transform 1000ms cubic-bezier(0.16, 1, 0.3, 1) 120ms;
+}
+.dest__board.is-swapping .dest__meta, .dest__board.is-swapping .dest__line {
+  opacity: 0; transform: translateY(0.3rem);
+  transition: opacity 260ms ease-in, transform 260ms ease-in;
+}
+@media (prefers-reduced-motion: reduce) {
+  .swap__n, .swap__n.is-entering, .swap__n.is-leaving { transition: none; filter: none; transform: none; }
+  .dest__meta, .dest__line { transition: none; }
+}
+.dest__meta {
+  display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+  margin: 1rem 0 0; font-weight: 600; font-size: var(--sc-t-lg);
+}
+.dest__dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sc-accent); }
+.dest__line { margin: 0.6rem 0 0; color: var(--sc-ink); max-width: 44ch; font-size: var(--sc-t-base); }
+.dest__index {
+  position: absolute; z-index: 6; right: var(--sc-gutter); top: 50%; translate: 0 -50%;
+  opacity: clamp(0, min(calc((var(--sc-p, 0) - 0.02) * 16), calc((1 - var(--sc-p, 0)) * 16)), 1);
+}
+.dest__index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; justify-items: end; }
+/* Stregen har sin egen faste kolonne (2.8rem). Den vokser kun inden for den,
+   så den kan aldrig nå teksten, og teksten flytter sig ikke, når banen skifter. */
+.dest__index button {
+  all: unset; cursor: pointer; display: grid; grid-template-columns: auto 2.8rem;
+  align-items: center; column-gap: 0.9rem;
+  padding: 0.4rem 0; font-size: 0.86rem; font-weight: 500; color: rgba(247, 249, 245, 0.62);
+  transition: color 160ms var(--sc-ease-out);
+}
+/* Klip tekstboksen til versalhøjde og grundlinje, så stregen centreres på bogstaverne, ikke på linjehøjden */
+.dest__index button span { display: block; text-align: right; text-box: trim-both cap alphabetic; }
+.dest__index button::after {
+  content: ""; justify-self: end; width: 1.4rem; height: 2px; background: currentColor; opacity: 0.5;
+  transform-origin: right center;
+  transition: transform 240ms var(--sc-ease-out), opacity 240ms var(--sc-ease-out), background-color 240ms var(--sc-ease-out);
+}
+.dest__index button:hover, .dest__index button:focus-visible { color: var(--sc-ink); }
+.dest__index button[aria-current="true"] { color: var(--sc-ink); font-weight: 700; }
+.dest__index button[aria-current="true"]::after { background: var(--sc-accent); opacity: 1; transform: scaleX(2); }
+.dest__credit {
+  position: absolute; z-index: 6; left: var(--sc-gutter); bottom: 1.1rem; margin: 0;
+  font-size: 0.72rem; color: rgba(247, 249, 245, 0.6);
+}
+@media (max-width: 860px) {
+  .dest__index { top: auto; bottom: auto; top: 5.2rem; translate: none; right: var(--sc-gutter); }
+  .dest__index ol { gap: 0; }
+  .dest__index button { font-size: 0.74rem; padding: 0.55rem 0 0.55rem 1rem; }
+  .dest__board { bottom: 3rem; }
+  .dest__scrim { background: linear-gradient(to top, rgba(3, 11, 6, 0.96) 0%, rgba(3, 11, 6, 0.85) 38%, rgba(3, 11, 6, 0.3) 58%, transparent 70%), linear-gradient(to left, rgba(3, 11, 6, 0.5), transparent 40%); }
+}
+
+/* ------------------------------------------------------------- logobolden --
+   Ligger på tee i højre side af forsiden og bliver slået ud af billedet, når
+   man begynder at scrolle. Positionen skrives af site.js. */
+.ball { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.ball__trace { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ball__trace path { fill: none; stroke: url(#traceGrad); stroke-width: 3; stroke-linecap: round; }
+.ball__body {
+  position: absolute; left: 0; top: 0;
+  width: var(--ball-size, 380px); height: var(--ball-size, 380px);
+  will-change: transform;
+}
+.ball__float { position: absolute; inset: 0; }
+.ball.is-idle .ball__float { animation: ball-float 5.5s var(--sc-ease-in-out) infinite; }
+@keyframes ball-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+.ball__img {
+  width: 100%; height: 100%; object-fit: contain;
+  opacity: 0; transform: scale(0.92) translateY(14px);
+  transition: opacity 900ms var(--sc-ease-out), transform 1100ms var(--sc-ease-out);
+}
+.ball.is-in .ball__img { opacity: 1; transform: none; }
+.ball__shadow {
+  position: absolute; left: 14%; right: 14%; bottom: -6%; height: 12%;
+  border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), transparent);
+  filter: blur(6px); opacity: var(--ball-shadow, 0.7);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ball.is-idle .ball__float { animation: none; }
+  .ball__img { transition: opacity 400ms linear; transform: none; }
+}
