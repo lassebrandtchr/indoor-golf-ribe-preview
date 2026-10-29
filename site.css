@@ -238,6 +238,8 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
 .rail > * { flex: none; }
 .rail__lead { width: clamp(17rem, 26vw, 26rem); align-self: center; }
 .rail__lead p { margin-top: 1rem; }
+/* "Simulatorerne" er ét langt ord (~6 em i Anton): skaler det, så det bliver i kolonnen og ikke rammer første kort. */
+.rail__lead h2 { font-size: min(var(--sc-t-3xl), calc(clamp(17rem, 26vw, 26rem) / 6.2)); }
 .item { width: clamp(17rem, 30vw, 30rem); }
 .item--wide { width: clamp(19rem, 44vw, 44rem); }
 .item__media { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--lift); aspect-ratio: 4 / 3; background: var(--sc-surface); }
@@ -256,6 +258,7 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
 }
 @media (max-width: 860px) {
   .rail__lead, .item, .item--wide, .rail__note { width: 80vw; }
+  .rail__lead h2 { font-size: min(var(--sc-t-3xl), calc(80vw / 6.2)); }
 }
 
 /* -------------------------------------------------------------- stilhed -- */

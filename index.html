@@ -19,9 +19,9 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=20261029s">
-<link rel="stylesheet" href="scrollcraft.css?v=20261029s">
-<link rel="stylesheet" href="site.css?v=20261029s">
+<link rel="stylesheet" href="fonts.css?v=20261029u">
+<link rel="stylesheet" href="scrollcraft.css?v=20261029u">
+<link rel="stylesheet" href="site.css?v=20261029u">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -62,10 +62,10 @@
       "mainEntity": [
         {"@type": "Question", "name": "Skal vi selv have golfsæt med?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, tag jeres eget golfsæt med. Tees kan købes i loungen for 1 kr. stykket."}},
         {"@type": "Question", "name": "Kan begyndere spille indendørs golf?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Alle niveauer kan være med. Trackman viser jeres slag med tal og banekurve, så I kan se præcis, hvad der sker, og spille træning, spil eller hele baner i jeres eget tempo."}},
-        {"@type": "Question", "name": "Hvor mange kan spille i en bås?", "acceptedAnswer": {"@type": "Answer", "text": "Fra én til seks spillere pr. bås. I skiftes til at slå, og Trackman holder styr på pointene. Til større grupper kan I booke flere båse eller hele hallen."}},
+        {"@type": "Question", "name": "Hvor mange kan spille på en simulator?", "acceptedAnswer": {"@type": "Answer", "text": "Fra én til seks spillere pr. simulator. I skiftes til at slå, og Trackman holder styr på pointene. Til større grupper kan I booke flere simulatorer eller hele hallen."}},
         {"@type": "Question", "name": "Hvordan virker døgnadgangen for medlemmer?", "acceptedAnswer": {"@type": "Answer", "text": "Som medlem får I jeres egen kode til døren, så I kan spille hele døgnet, hver dag. Medlemmer er også med i månedsturneringen."}},
         {"@type": "Question", "name": "Hvilke golfbaner kan man spille?", "acceptedAnswer": {"@type": "Answer", "text": "Hele Trackman Virtual Golf-biblioteket, blandt andet St Andrews Old Course, Pebble Beach, Royal County Down og Lofoten Links."}},
-        {"@type": "Question", "name": "Kan vi holde firmaarrangement eller polterabend?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Book flere båse eller hele hallen til teambuilding, polterabend eller fødselsdag. Vi sætter gerne en konkurrence op, og loungen er klar bagefter. Pris efter aftale."}},
+        {"@type": "Question", "name": "Kan vi holde firmaarrangement eller polterabend?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Book flere simulatorer eller hele hallen til teambuilding, polterabend eller fødselsdag. Vi sætter gerne en konkurrence op, og loungen er klar bagefter. Pris efter aftale."}},
         {"@type": "Question", "name": "Hvor ligger Indoor Golf Ribe?", "acceptedAnswer": {"@type": "Answer", "text": "På Haderslevvej 65, 6760 Ribe. Omkring en halv times kørsel fra Esbjerg."}}
       ]
     }
@@ -84,7 +84,7 @@
     <img src="assets/logo-reversed.webp" width="480" height="377" alt="Indoor Golf Ribe">
   </a>
   <nav class="bar__nav" aria-label="Sektioner">
-    <a href="#baasene">Båsene</a>
+    <a href="#simulatorerne">Simulatorerne</a>
     <a href="#baner">Baner</a>
     <a href="#loungen">Loungen</a>
     <a href="#priser">Priser</a>
@@ -99,7 +99,7 @@
 <!-- Mobilmenu: kun ≤860px. Samme sektioner som bjælken på computer. -->
 <div id="mnav" class="mnav" hidden>
   <nav class="mnav__nav" aria-label="Sektioner">
-    <a href="#baasene"><span class="mnav__no">01</span>Båsene</a>
+    <a href="#simulatorerne"><span class="mnav__no">01</span>Simulatorerne</a>
     <a href="#baner"><span class="mnav__no">02</span>Baner</a>
     <a href="#loungen"><span class="mnav__no">03</span>Loungen</a>
     <a href="#priser"><span class="mnav__no">04</span>Priser</a>
@@ -116,7 +116,7 @@
 <aside class="hud" aria-hidden="true">
   <div class="hud__head">
     <span class="hud__dot"></span>
-    <span>Jeres slag · bås 2</span>
+    <span>Jeres slag · simulator 2</span>
   </div>
   <svg class="hud__arc" viewBox="0 0 220 72" preserveAspectRatio="none">
     <line x1="4" y1="66" x2="216" y2="66" class="hud__ground"/>
@@ -138,8 +138,8 @@
     <div data-sc-stage>
       <div class="hero__photo" data-sc-parallax="-1.3">
         <picture>
-          <source media="(max-width: 860px)" srcset="assets/hero-hall-m.webp?v=20261029s">
-          <img src="assets/hero-hall.webp?v=20261029s" width="2880" height="2160" alt="Gangen ind til simulatorbåsene hos Indoor Golf Ribe med træpaneler, bænke og grønt kunstgræs" fetchpriority="high">
+          <source media="(max-width: 860px)" srcset="assets/hero-hall-m.webp?v=20261029u">
+          <img src="assets/hero-hall.webp?v=20261029u" width="2880" height="2160" alt="Gangen ind til simulatorerne hos Indoor Golf Ribe med træpaneler, bænke og grønt kunstgræs" fetchpriority="high">
         </picture>
       </div>
       <div class="hero__scrim" aria-hidden="true"></div>
@@ -174,7 +174,7 @@
     <div data-sc-stage class="facts__stage">
       <span class="facts__four" aria-hidden="true">4</span>
       <div class="facts__inner">
-        <h2 class="sc-display sc-display--lg facts__title" data-sc-cue="0 0.96 0 0.06" data-sc-kinetic="lines">Fire båse. Én lounge. <span class="acc">Altid godt vejr.</span></h2>
+        <h2 class="sc-display sc-display--lg facts__title" data-sc-cue="0 0.96 0 0.06" data-sc-kinetic="lines">Fire simulatorer. Én lounge. <span class="acc">Altid godt vejr.</span></h2>
         <dl class="facts__list">
           <!-- data-draw: det udsnit af aktens scroll (0-1), hvor ikonet tegnes. Elementerne tegnes i DOM-rækkefølge. -->
           <div data-sc-cue="0.08 0.97 0.08 0.04" data-draw="0.08 0.28"><dt><svg class="facts__icon" viewBox="0 0 48 48" aria-hidden="true">
@@ -213,18 +213,18 @@
     </div>
   </section>
 
-  <!-- 3 · BÅSENE: pan. Bredde læses som valgmuligheder. -->
-  <section id="baasene" class="bays" data-sc-act="pan" data-sc-span="2.4" data-sc-drift="#030b06">
+  <!-- 3 · SIMULATORERNE: pan. Bredde læses som valgmuligheder. -->
+  <section id="simulatorerne" class="bays" data-sc-act="pan" data-sc-span="2.4" data-sc-drift="#030b06">
     <div data-sc-stage>
       <div class="rail" data-sc-pan="0.04">
         <div class="rail__lead">
-          <h2 class="sc-display sc-display--lg">Båsene</h2>
+          <h2 class="sc-display sc-display--lg">Simulatorerne</h2>
           <p class="sc-body">Kunstgræs, slagmåtte og en skærm fra væg til væg. Fire gange.</p>
         </div>
         <article class="item item--wide">
-          <div class="item__media"><picture><source media="(max-width: 860px)" srcset="assets/bays-empty-m.webp"><img src="assets/bays-empty.webp" width="2048" height="1536" loading="lazy" alt="Simulatorbåsene hos Indoor Golf Ribe med grønt kunstgræs og mørke skillevægge"></picture></div>
-          <h3>Fire båse</h3>
-          <p>Plads til en hel flight i hver bås, og bænke langs væggen til tasker og venner.</p>
+          <div class="item__media"><picture><source media="(max-width: 860px)" srcset="assets/bays-empty-m.webp"><img src="assets/bays-empty.webp" width="2048" height="1536" loading="lazy" alt="Simulatorerne hos Indoor Golf Ribe med grønt kunstgræs og mørke skillevægge"></picture></div>
+          <h3>Fire simulatorer</h3>
+          <p>Plads til en hel flight ved hver simulator, og bænke langs væggen til tasker og venner.</p>
         </article>
         <article class="item">
           <div class="item__media item__media--dark" data-sc-tilt="6"><img src="assets/tm-trackman_io_hero3.webp" width="2000" height="1125" loading="lazy" alt="Trackman iO-enheden monteret i loftet"></div>
@@ -239,7 +239,7 @@
           <small>Foto: Trackman</small>
         </article>
         <article class="item item--wide">
-          <div class="item__media"><picture><source media="(max-width: 860px)" srcset="assets/lounge-night-m.webp"><img src="assets/lounge-night.webp" width="2048" height="1536" loading="lazy" alt="Spillere i båsene set fra loungen med storskærm og køleskab"></picture></div>
+          <div class="item__media"><picture><source media="(max-width: 860px)" srcset="assets/lounge-night-m.webp"><img src="assets/lounge-night.webp" width="2048" height="1536" loading="lazy" alt="Spillere ved simulatorerne set fra loungen med storskærm og køleskab"></picture></div>
           <h3>Med venner</h3>
           <p>Én spiller eller seks. Skift tur, hold point og hyg imellem slagene.</p>
         </article>
@@ -384,9 +384,9 @@
           <a class="btn" href="#kontakt">Book en bane</a>
         </article>
         <ul class="rows" data-sc-in data-sc-stagger="60">
-          <li><span class="rows__name">Banetid</span><span class="rows__note">Pr. bås pr. time</span><span class="rows__price"><span class="todo">[PRIS]</span> kr.</span></li>
+          <li><span class="rows__name">Banetid</span><span class="rows__note">Pr. simulator pr. time</span><span class="rows__price"><span class="todo">[PRIS]</span> kr.</span></li>
           <li><span class="rows__name">Klippekort</span><span class="rows__note"><span class="todo">[ANTAL]</span> timer</span><span class="rows__price"><span class="todo">[PRIS]</span> kr.</span></li>
-          <li><span class="rows__name">Firma og grupper</span><span class="rows__note">Hele hallen eller flere båse</span><span class="rows__price">Efter aftale</span></li>
+          <li><span class="rows__name">Firma og grupper</span><span class="rows__note">Hele hallen eller flere simulatorer</span><span class="rows__price">Efter aftale</span></li>
         </ul>
       </div>
 
@@ -400,7 +400,7 @@
             <li><h3>Månedsturnering</h3><p>Én gang om måneden spiller medlemmerne om æren. Alle niveauer kan være med.</p></li>
             <li><h3>Closest to the pin</h3><p>Hvem lægger bolden tættest på flaget? Vores klassiker, også til åbent hus.</p></li>
             <li><h3>Firmaarrangementer</h3><p>Teambuilding med konkurrence, lounge og noget koldt bagefter.</p></li>
-            <li><h3>Polterabend og fødselsdage</h3><p>Book en eller flere båse, og gør dagen til en turnering.</p></li>
+            <li><h3>Polterabend og fødselsdage</h3><p>Book en eller flere simulatorer, og gør dagen til en turnering.</p></li>
           </ul>
         </div>
       </div>
@@ -411,10 +411,10 @@
         <div class="faq__list" data-sc-in data-sc-stagger="40">
           <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M7 10h10l-1 10.5a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 8 20.5z"/><path pathLength="1" d="M9.5 10 8 3.5H6.5"/><path pathLength="1" d="M12 10V2.5h1.5"/><path pathLength="1" d="M14.5 10 16 4h1.5"/><path pathLength="1" d="M7.5 14h9"/></svg></span><span class="faq__q">Skal vi selv have golfsæt med?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>Ja, tag jeres eget golfsæt med. Tees kan købes i loungen for 1 kr. stykket.</p></div></details>
           <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M12 21v-8"/><path pathLength="1" d="M12 13c0-4-3-6-7-6 0 4 3 6 7 6z"/><path pathLength="1" d="M12 11c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/><path pathLength="1" d="M8 21h8"/></svg></span><span class="faq__q">Kan begyndere spille indendørs golf?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>Ja. Alle niveauer kan være med. Trackman viser jeres slag med tal og banekurve, så I kan se præcis, hvad der sker, og spille træning, spil eller hele baner i jeres eget tempo.</p></div></details>
-          <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9" cy="8" r="3"/><path pathLength="1" d="M3.5 20a5.5 5.5 0 0 1 11 0"/><circle pathLength="1" cx="16.5" cy="9" r="2.5"/><path pathLength="1" d="M15.5 13.6a4.6 4.6 0 0 1 5.5 4.4V20"/></svg></span><span class="faq__q">Hvor mange kan spille i en bås?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>Fra én til seks spillere pr. bås. I skiftes til at slå, og Trackman holder styr på pointene. Til større grupper kan I booke flere båse eller hele hallen.</p></div></details>
+          <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9" cy="8" r="3"/><path pathLength="1" d="M3.5 20a5.5 5.5 0 0 1 11 0"/><circle pathLength="1" cx="16.5" cy="9" r="2.5"/><path pathLength="1" d="M15.5 13.6a4.6 4.6 0 0 1 5.5 4.4V20"/></svg></span><span class="faq__q">Hvor mange kan spille på en simulator?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>Fra én til seks spillere pr. simulator. I skiftes til at slå, og Trackman holder styr på pointene. Til større grupper kan I booke flere simulatorer eller hele hallen.</p></div></details>
           <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path pathLength="1" d="M21 3v5h-5"/><path pathLength="1" d="M12 7.5V12l3 2"/></svg></span><span class="faq__q">Hvordan virker døgnadgangen for medlemmer?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>Som medlem får I jeres egen kode til døren, så I kan spille hele døgnet, hver dag. Medlemmer er også med i månedsturneringen.</p></div></details>
           <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M8 19.5V3"/><path pathLength="1" d="m8 3.5 8.5 3.2L8 10"/><ellipse pathLength="1" cx="11" cy="19.5" rx="7.5" ry="1.8"/></svg></span><span class="faq__q">Hvilke golfbaner kan man spille?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>Hele Trackman Virtual Golf-biblioteket, blandt andet St Andrews Old Course, Pebble Beach, Royal County Down og Lofoten Links.</p></div></details>
-          <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M8 4h8v5a4 4 0 0 1-8 0z"/><path pathLength="1" d="M8 5.5H5.5v1a3 3 0 0 0 2.8 3"/><path pathLength="1" d="M16 5.5h2.5v1a3 3 0 0 1-2.8 3"/><path pathLength="1" d="M12 13v4"/><path pathLength="1" d="M9 17h6v3H9z"/></svg></span><span class="faq__q">Kan vi holde firmaarrangement eller polterabend?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>Ja. Book flere båse eller hele hallen til teambuilding, polterabend eller fødselsdag. Vi sætter gerne en konkurrence op, og loungen er klar bagefter. Pris efter aftale.</p></div></details>
+          <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M8 4h8v5a4 4 0 0 1-8 0z"/><path pathLength="1" d="M8 5.5H5.5v1a3 3 0 0 0 2.8 3"/><path pathLength="1" d="M16 5.5h2.5v1a3 3 0 0 1-2.8 3"/><path pathLength="1" d="M12 13v4"/><path pathLength="1" d="M9 17h6v3H9z"/></svg></span><span class="faq__q">Kan vi holde firmaarrangement eller polterabend?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>Ja. Book flere simulatorer eller hele hallen til teambuilding, polterabend eller fødselsdag. Vi sætter gerne en konkurrence op, og loungen er klar bagefter. Pris efter aftale.</p></div></details>
           <details><summary><span class="faq__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle pathLength="1" cx="12" cy="10" r="2.3"/></svg></span><span class="faq__q">Hvor ligger Indoor Golf Ribe?</span><span class="faq__pm" aria-hidden="true"></span></summary><div class="faq__a"><p>På Haderslevvej 65, 6760 Ribe. Omkring en halv times kørsel fra Esbjerg.</p></div></details>
         </div>
       </div>
@@ -495,7 +495,7 @@
 
 </main>
 
-<script src="scrollcraft.js?v=20261029s"></script>
-<script src="site.js?v=20261029s"></script>
+<script src="scrollcraft.js?v=20261029u"></script>
+<script src="site.js?v=20261029u"></script>
 </body>
 </html>
