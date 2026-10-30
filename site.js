@@ -18,9 +18,21 @@
     // loungeteksten → produkterne samles stort midt på skærmen → de glider op,
     // og prislisten kommer ind under dem (CSS i site.css, styret af --sc-p).
     // Længere akt, så de 68 frames får ~700 px scroll i stedet for ~400.
+    // Kortere tur på telefonen: de låste akter får mindre scroll (cues er relative, så alt
+    // sker i samme rækkefølge, bare hurtigere). Fra ~27 til ~20 skærmhøjder. Desktop uændret.
+    var shorter = { facts: '2.3', simulatorerne: '2', hush: '2.2', peak: '2.6', baner: '3.4' };
+    Object.keys(shorter).forEach(function (k) {
+      var s = document.getElementById(k) || document.querySelector('section.' + k);
+      if (s) s.setAttribute('data-sc-span', shorter[k]);
+    });
+    // Peak-videoen findes i 9:16 til telefonen (Higgsfield reframe); slutbilledet er dens sidste frame.
+    var peakEnd = document.querySelector('.peak__end');
+    if (peakEnd) peakEnd.src = 'assets/peak-end-p.webp';
+    var hero = document.querySelector('section.hero');
+    if (hero) hero.setAttribute('data-sc-span', '1.2');
     var lounge = document.getElementById('loungen');
     if (lounge) {
-      lounge.setAttribute('data-sc-span', '4.4');
+      lounge.setAttribute('data-sc-span', '3.4');
       lounge.querySelector('.lounge__copy').setAttribute('data-sc-cue', '0.2 0.52 0.1 0.15');
       lounge.querySelector('.menu').setAttribute('data-sc-cue', '0.84 1.01 0.25 0');
       lounge.querySelector('.snacks__canvas').setAttribute('data-window', '0.58 0.82');
