@@ -445,6 +445,7 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
 
 /* --------------------------------------------------------------- priser -- */
 .prices { padding-bottom: clamp(4rem, 8vw, 8rem); }
+.prices__lede { margin-top: clamp(1rem, 2vw, 1.5rem); font-size: var(--fs-lead, 1.125rem); }
 .prices__grid {
   display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2rem, 4vw, 3.5rem); align-items: start;
