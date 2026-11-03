@@ -79,7 +79,10 @@
     var landed = s >= 0.995 || landedLine();
     if (landed) s = 1;
 
-    hud.classList.toggle('is-on', window.scrollY > window.innerHeight * 0.35);
+    // Når "Bliv medlem" glider op mod toppen, toner HUD'en ud, så formularen kan læses;
+    // scroller man op igen, kommer den tilbage og flyver baglæns.
+    var past = close.getBoundingClientRect().top < window.innerHeight * 0.2;
+    hud.classList.toggle('is-on', window.scrollY > window.innerHeight * 0.35 && !past);
     hud.classList.toggle('is-landed', landed);
 
     var t = 1 - Math.pow(1 - s, 1.6);          // hurtig start, blød landing
