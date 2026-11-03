@@ -709,7 +709,8 @@
 
   /* Scroll-fade: alt fra prissektionen og ned toner stille frem, jo længere man scroller.
      Hvert element går fra usynligt (top i bunden af skærmen) til fuldt synligt (top ved 55 %).
-     Søskende i samme række forskydes lidt, og værdien glider mod målet, så det føles roligt. */
+     Søskende i samme række forskydes lidt, og værdien glider mod målet, så det føles roligt.
+     Værdien går kun op: er noget tonet ind, bliver det stående indtil siden genindlæses. */
   (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var root = document.getElementById('priser');
@@ -735,6 +736,7 @@
       items.forEach(function (it) {
         var goal = target(it, vh);
         if (it.cur < 0) it.cur = goal;
+        goal = Math.max(goal, it.cur); // tonet ind = bliver stående, også når man scroller op
         var next = it.cur + (goal - it.cur) * 0.14;
         if (Math.abs(goal - next) < 0.002) next = goal; else moving = true;
         if (next !== it.cur || !it.set) { it.el.style.setProperty('--rv', next.toFixed(3)); it.cur = next; it.set = true; }
