@@ -1013,3 +1013,92 @@ sup { font-size: 0.7em; line-height: 0; }
 }
 .consent__no:hover { border-color: var(--sc-ink); }
 @media (prefers-reduced-motion: reduce) { .consent { transform: none; transition: opacity 120ms linear; } }
+
+/* ------------------------------------------------------ telefonliste -- */
+.phones { max-width: 52rem; margin-top: clamp(4rem, 8vw, 7rem); }
+.phones__lede { margin: 1rem 0 1.6rem; max-width: 52ch; color: var(--sc-ink-soft); }
+.phones__btn {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  min-height: 3.25rem; padding: 0 0.7rem 0 1.2rem; cursor: pointer; list-style: none;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--raised); color: var(--sc-ink);
+  font: 700 0.82rem/1 var(--sc-font-text); letter-spacing: 0.08em; text-transform: uppercase;
+  transition: border-color 300ms var(--sc-ease-out), background-color 300ms var(--sc-ease-out), color 300ms var(--sc-ease-out);
+}
+.phones__btn::-webkit-details-marker { display: none; }
+.phones__btn > svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: var(--sc-accent); stroke-width: 1.7; stroke-linejoin: round; transition: stroke 300ms; }
+.phones__hide { display: none; }
+.phones__pm { position: relative; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: rgba(138, 217, 55, 0.12); transition: transform 650ms var(--sc-ease-out), background-color 300ms; }
+.phones__pm::before, .phones__pm::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 0.8rem; height: 2px; margin: -1px 0 0 -0.4rem;
+  border-radius: 2px; background: var(--sc-accent); transition: transform 650ms var(--sc-ease-out), background-color 300ms;
+}
+.phones__pm::after { transform: rotate(90deg); }
+@media (hover: hover) and (pointer: fine) { .phones__btn:hover { border-color: var(--sc-accent); } }
+.phones__btn:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 3px; }
+.phones__fold.is-open .phones__btn { background: var(--sc-accent); border-color: var(--sc-accent); color: var(--sc-accent-ink); }
+.phones__fold.is-open .phones__btn > svg { stroke: var(--sc-accent-ink); }
+.phones__fold.is-open .phones__show { display: none; }
+.phones__fold.is-open .phones__hide { display: inline; }
+.phones__fold.is-open .phones__pm { transform: rotate(180deg); background: rgba(0, 0, 0, 0.12); }
+.phones__fold.is-open .phones__pm::before, .phones__fold.is-open .phones__pm::after { background: var(--sc-accent-ink); }
+.phones__fold.is-open .phones__pm::after { transform: rotate(0deg); }
+
+.phones__panel { overflow: hidden; }
+.phones__inner { padding-top: 1.4rem; }
+.hotline {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap;
+  padding: 1.3rem 1.6rem; border-radius: var(--r-lg); text-decoration: none; color: var(--sc-ink);
+  background: #07130b; border: 1px solid var(--sc-accent);
+  box-shadow: 0 0 0 4px rgba(138, 217, 55, 0.08), 0 14px 36px -12px rgba(138, 217, 55, 0.4);
+  transition: transform 300ms var(--sc-ease-out), box-shadow 300ms var(--sc-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hotline:hover { transform: translateY(-2px); box-shadow: 0 0 0 4px rgba(138, 217, 55, 0.14), 0 18px 40px -12px rgba(138, 217, 55, 0.55); }
+}
+.hotline__meta { display: grid; gap: 0.2rem; }
+.hotline__kicker { font: 700 0.72rem/1.2 var(--sc-font-text); letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-accent); }
+.hotline__hours { font-weight: 700; }
+.hotline__note { font-size: 0.82rem; color: var(--sc-ink-soft); }
+.hotline__num { font: 400 clamp(2.4rem, 6vw, 3.6rem)/1 var(--sc-font-display); letter-spacing: 0.02em; color: var(--sc-accent); white-space: nowrap; }
+
+.plist { list-style: none; margin: 1.2rem 0 0; padding: 0; }
+.plist li {
+  display: grid; grid-template-columns: minmax(10rem, 1.1fr) minmax(8rem, 0.8fr) 1.6fr; align-items: center; gap: 0.5rem 1.2rem;
+  padding: 0.95rem 0; border-bottom: 1px solid var(--line);
+}
+.plist__name { font-weight: 700; }
+.plist__tel {
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px;
+  font: 700 1.1rem/1 var(--sc-font-text); letter-spacing: 0.02em; color: var(--sc-accent); text-decoration: none; white-space: nowrap;
+}
+.plist__tel:hover { text-decoration: underline; text-underline-offset: 0.25em; }
+.plist__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.plist__tags span {
+  padding: 0.38rem 0.6rem; border-radius: 0.45rem; background: rgba(247, 249, 245, 0.07); color: var(--sc-ink-soft);
+  font: 700 0.66rem/1 var(--sc-font-text); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.phones__mail { margin: 1.2rem 0 0.4rem; color: var(--sc-ink-soft); font-size: 0.92rem; }
+.phones__mail a { color: var(--sc-accent); font-weight: 600; }
+
+/* Åbning: hotline og rækker glider op én ad gangen, mens højden folder ud. */
+.phones__inner > *, .plist li { opacity: 0; transform: translateY(10px); transition: opacity 250ms var(--sc-ease-out), transform 250ms var(--sc-ease-out); }
+.phones__fold.is-open .phones__inner > *, .phones__fold.is-open .plist li { opacity: 1; transform: none; transition: opacity 500ms var(--sc-ease-out), transform 500ms var(--sc-ease-out); }
+.phones__fold.is-open .hotline { transition-delay: 60ms; }
+.phones__fold.is-open .plist li:nth-child(1) { transition-delay: 120ms; }
+.phones__fold.is-open .plist li:nth-child(2) { transition-delay: 150ms; }
+.phones__fold.is-open .plist li:nth-child(3) { transition-delay: 180ms; }
+.phones__fold.is-open .plist li:nth-child(4) { transition-delay: 210ms; }
+.phones__fold.is-open .plist li:nth-child(5) { transition-delay: 240ms; }
+.phones__fold.is-open .plist li:nth-child(6) { transition-delay: 270ms; }
+.phones__fold.is-open .plist li:nth-child(7) { transition-delay: 300ms; }
+.phones__fold.is-open .plist li:nth-child(8) { transition-delay: 330ms; }
+.phones__fold.is-open .phones__mail { transition-delay: 360ms; }
+
+@media (max-width: 640px) {
+  .hotline { padding: 1.1rem 1.2rem; }
+  .plist li { grid-template-columns: 1fr auto; gap: 0.15rem 1rem; padding: 0.8rem 0; }
+  .plist__tags { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .phones__btn, .phones__pm, .phones__pm::before, .phones__pm::after, .hotline, .phones__inner > *, .plist li { transition: none !important; }
+}

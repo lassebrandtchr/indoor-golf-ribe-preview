@@ -649,8 +649,8 @@
     if (window.ScrollCraft) window.ScrollCraft.instances.forEach(function (sc) { sc.layout(); });
     window.dispatchEvent(new Event('resize'));
   }
-  document.querySelectorAll('.faq details').forEach(function (d) {
-    var body = d.querySelector('.faq__a'), anim = null;
+  document.querySelectorAll('.faq details, .phones__fold').forEach(function (d) {
+    var body = d.querySelector('.faq__a, .phones__panel'), anim = null;
     d.querySelector('summary').addEventListener('click', function (e) {
       if (faqCalm.matches || !body.animate) return;
       e.preventDefault();

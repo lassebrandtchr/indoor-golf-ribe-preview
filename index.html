@@ -18,9 +18,9 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=20261103i">
-<link rel="stylesheet" href="scrollcraft.css?v=20261103i">
-<link rel="stylesheet" href="site.css?v=20261103i">
+<link rel="stylesheet" href="fonts.css?v=20261103j">
+<link rel="stylesheet" href="scrollcraft.css?v=20261103j">
+<link rel="stylesheet" href="site.css?v=20261103j">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -47,6 +47,12 @@
       },
       "areaServed": ["Ribe", "Esbjerg", "Bramming", "Sydvestjylland"],
       "email": "indoorgolfribe@gmail.com",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
       "hasMap": "https://maps.app.goo.gl/iHxRm3nvuuhHEBUXA",
       "sameAs": ["https://www.facebook.com/IndoorGolfRibe"],
       "amenityFeature": [
@@ -137,8 +143,8 @@
     <div data-sc-stage>
       <div class="hero__photo" data-sc-parallax="-1.3">
         <picture>
-          <source media="(max-width: 860px)" srcset="assets/hero-hall-m.webp?v=20261103i">
-          <img src="assets/hero-hall.webp?v=20261103i" width="2880" height="2160" alt="Gangen ind til simulatorerne hos Indoor Golf Ribe med træpaneler, bænke og grønt kunstgræs" fetchpriority="high">
+          <source media="(max-width: 860px)" srcset="assets/hero-hall-m.webp?v=20261103j">
+          <img src="assets/hero-hall.webp?v=20261103j" width="2880" height="2160" alt="Gangen ind til simulatorerne hos Indoor Golf Ribe med træpaneler, bænke og grønt kunstgræs" fetchpriority="high">
         </picture>
       </div>
       <div class="hero__scrim" aria-hidden="true"></div>
@@ -439,6 +445,38 @@
         </div>
       </div>
 
+      <!-- TELEFONLISTE: foldes ud som FAQ-kortene (højden animeres i site.js). Kilde: Lasses telefonliste 2026-11-03. -->
+      <div id="telefon" class="phones">
+        <h2 class="sc-display sc-display--md" data-sc-in>Ring til <span class="acc">os</span></h2>
+        <p class="sc-body phones__lede" data-sc-in>Centeret har åbent døgnet rundt. Har I spørgsmål til Trackman, alarmen, sponsorater eller betaling, så find den rette person på listen.</p>
+        <details class="phones__fold" data-sc-in>
+          <summary class="phones__btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4.2-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2 4.2 1.5v2.6a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 4.6 5.6a2 2 0 0 1 2-2.1z"/></svg>
+            <span class="phones__show">Vis telefonliste</span><span class="phones__hide">Skjul telefonliste</span>
+            <span class="phones__pm" aria-hidden="true"></span>
+          </summary>
+          <div class="phones__panel">
+            <div class="phones__inner">
+              <a class="hotline" href="tel:+4545744742">
+                <span class="hotline__meta"><span class="hotline__kicker">Trackman hotline</span><span class="hotline__hours">Dansk kl. 07–15</span><span class="hotline__note">Derefter på engelsk</span></span>
+                <span class="hotline__num">45 74 47 42</span>
+              </a>
+              <ul class="plist">
+                <li><span class="plist__name">Brian Andersen</span><a class="plist__tel" href="tel:+4521482993">21 48 29 93</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+                <li><span class="plist__name">Peter Bertelsen</span><a class="plist__tel" href="tel:+4525519100">25 51 91 00</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+                <li><span class="plist__name">Frank Holm</span><a class="plist__tel" href="tel:+4530386424">30 38 64 24</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+                <li><span class="plist__name">Torben Madsen</span><a class="plist__tel" href="tel:+4551252420">51 25 24 20</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+                <li><span class="plist__name">Jens Enevoldsen</span><a class="plist__tel" href="tel:+4529939595">29 93 95 95</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+                <li><span class="plist__name">Allan Hansen</span><a class="plist__tel" href="tel:+4529656295">29 65 62 95</a><span class="plist__tags"><span>Regninger &amp; betalinger</span></span></li>
+                <li><span class="plist__name">Jørn Sørensen</span><a class="plist__tel" href="tel:+4560603230">60 60 32 30</a><span class="plist__tags"><span>Trackman</span><span>Alarm</span></span></li>
+                <li><span class="plist__name">Michael Thomsen</span><a class="plist__tel" href="tel:+4591540425">91 54 04 25</a><span class="plist__tags"><span>Månedsturnering</span><span>Trackman</span><span>Alarm</span></span></li>
+              </ul>
+              <p class="phones__mail">Mail: <a href="mailto:indoorgolfribe@gmail.com">indoorgolfribe@gmail.com</a></p>
+            </div>
+          </div>
+        </details>
+      </div>
+
       <!-- FACEBOOK: forhåndsvisning af siden + golfbold-knap der triller til kanten. -->
       <div id="facebook" class="fb">
         <div class="fb__copy">
@@ -561,8 +599,8 @@
   </div>
 </aside>
 
-<script src="scrollcraft.js?v=20261103i"></script>
-<script src="site.js?v=20261103i"></script>
-<script src="consent.js?v=20261103i"></script>
+<script src="scrollcraft.js?v=20261103j"></script>
+<script src="site.js?v=20261103j"></script>
+<script src="consent.js?v=20261103j"></script>
 </body>
 </html>
