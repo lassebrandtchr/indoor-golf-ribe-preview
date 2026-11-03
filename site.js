@@ -115,6 +115,7 @@
     var path = document.getElementById('ballTrace');
     var grad = document.getElementById('traceGrad');
     var img = ball.querySelector('.ball__img');
+    var cue = hero.querySelector('.scrollcue');
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var W, H, size, x0, y0, rise, queued = false;
 
@@ -137,6 +138,25 @@
       }
       rise = narrow ? 0.16 : 0.34;   // hvor højt den stiger, før den forsvinder ind i båsene
       ball.style.setProperty('--ball-size', size + 'px');
+      if (cue) {
+        // Under bolden; er der ikke plads (lave telefoner), så nederst i billedet.
+        var cy = y0 + size / 2 + (narrow ? 12 : 26);
+        var cueH = cue.offsetHeight || 80;
+        if (narrow) {
+          var copy = hero.querySelector('.hero__copy').getBoundingClientRect();
+          var stageTop = hero.querySelector('[data-sc-stage]').getBoundingClientRect().top;
+          if (cy + cueH > copy.top - stageTop - 8) cy = -1;
+        }
+        if (cy < 0) {
+          // Nederst, men aldrig oven i knappen; er der slet ikke plads, skjules hinten.
+          var copyBottom = hero.querySelector('.hero__copy').getBoundingClientRect().bottom - hero.querySelector('[data-sc-stage]').getBoundingClientRect().top;
+          var low = Math.max(H - cueH - 18, copyBottom + 14);
+          cue.style.left = (W / 2) + 'px'; cue.style.top = low + 'px';
+          cue.style.display = low + cueH > H - 4 ? 'none' : '';
+          cue.classList.add('scrollcue--low');
+        }
+        else { cue.style.left = x0 + 'px'; cue.style.top = cy + 'px'; cue.style.display = ''; cue.classList.remove('scrollcue--low'); }
+      }
       svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     }
 
@@ -154,6 +174,8 @@
       queued = false;
       var travel = Math.max(hero.offsetHeight - H, 1);
       var p = clamp(window.scrollY / travel);
+      if (cue && window.scrollY > 12) cue.classList.add('is-gone', 'is-seen');
+      else if (cue) cue.classList.remove('is-gone');
       if (reduce) {
         var c = pos(0);
         body.style.transform = 'translate(' + (c.x - size / 2) + 'px,' + (c.y - size / 2) + 'px)';
@@ -191,7 +213,7 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', function () { layout(); onScroll(); });
     layout(); render();
-    function enter() { requestAnimationFrame(function () { ball.classList.add('is-in'); }); }
+    function enter() { requestAnimationFrame(function () { ball.classList.add('is-in'); if (cue) cue.classList.add('is-in'); }); }
     if (img.complete) enter(); else img.addEventListener('load', enter);
   })();
 
@@ -649,8 +671,8 @@
     if (window.ScrollCraft) window.ScrollCraft.instances.forEach(function (sc) { sc.layout(); });
     window.dispatchEvent(new Event('resize'));
   }
-  document.querySelectorAll('.faq details, .phones__fold').forEach(function (d) {
-    var body = d.querySelector('.faq__a, .phones__panel'), anim = null;
+  document.querySelectorAll('.faq details').forEach(function (d) {
+    var body = d.querySelector('.faq__a'), anim = null;
     d.querySelector('summary').addEventListener('click', function (e) {
       if (faqCalm.matches || !body.animate) return;
       e.preventDefault();
@@ -677,6 +699,47 @@
       faqRelayout();
     });
   });
+
+  /* Kontakt os: telefonlisten folder sig ud fra knappen i bjælken som en
+     cirkel med centrum i knappen. Lukker på knappen, krydset, Escape og klik udenfor. */
+  (function () {
+    var btn = document.querySelector('.callbtn'), panel = document.getElementById('telefon');
+    if (!btn || !panel) return;
+    var timer = 0;
+    function origin() {
+      var b = btn.getBoundingClientRect(), p = panel.getBoundingClientRect();
+      panel.style.setProperty('--ox', (b.left + b.width / 2 - p.left) + 'px');
+      panel.style.setProperty('--oy', (b.top + b.height / 2 - p.top) + 'px');
+    }
+    function set(open) {
+      clearTimeout(timer);
+      btn.setAttribute('aria-expanded', String(open));
+      if (open) {
+        var menuBtn = document.querySelector('.bar__menu[aria-expanded="true"]');
+        if (menuBtn) menuBtn.click();
+        panel.hidden = false;
+        panel.scrollTop = 0;
+        origin();
+        panel.offsetHeight; // start fra lukket cirkel, så overgangen kører
+        panel.classList.add('is-open');
+        panel.querySelector('.callpanel__close').focus({ preventScroll: true });
+      } else {
+        origin();
+        panel.classList.remove('is-open');
+        timer = setTimeout(function () { panel.hidden = true; }, 450);
+      }
+    }
+    function isOpen() { return btn.getAttribute('aria-expanded') === 'true'; }
+    btn.addEventListener('click', function () { set(!isOpen()); });
+    panel.querySelector('.callpanel__close').addEventListener('click', function () { set(false); btn.focus({ preventScroll: true }); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isOpen()) { set(false); btn.focus({ preventScroll: true }); }
+    });
+    document.addEventListener('click', function (e) {
+      if (isOpen() && !panel.contains(e.target) && !btn.contains(e.target)) set(false);
+    });
+    window.addEventListener('resize', function () { if (isOpen()) origin(); });
+  })();
 
   /* Mobilmenu: knappen ved siden af "Bliv medlem" åbner sektionslisten.
      Lukker på link, Escape og når skærmen bliver bred nok til bjælkens nav. */

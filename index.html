@@ -18,9 +18,9 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=20261103p">
-<link rel="stylesheet" href="scrollcraft.css?v=20261103p">
-<link rel="stylesheet" href="site.css?v=20261103p">
+<link rel="stylesheet" href="fonts.css?v=20261103q">
+<link rel="stylesheet" href="scrollcraft.css?v=20261103q">
+<link rel="stylesheet" href="site.css?v=20261103q">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -105,11 +105,42 @@
     <a href="#priser">Priser</a>
     <a href="#events">Events</a>
   </nav>
+  <button class="callbtn" type="button" aria-expanded="false" aria-controls="telefon">
+    <span class="callbtn__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4.2-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2 4.2 1.5v2.6a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 4.6 5.6a2 2 0 0 1 2-2.1z"/></svg></span><span class="callbtn__label">Kontakt os</span>
+  </button>
   <a class="btn btn--small" href="#kontakt">Bliv medlem</a>
   <button class="bar__menu" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Åbn menu">
     <span aria-hidden="true"></span><span aria-hidden="true"></span>
   </button>
 </header>
+
+<!-- TELEFONLISTE: folder sig ud fra "Kontakt os"-knappen i bjælken (site.js). Kilde: Lasses telefonliste 2026-11-03. -->
+<div id="telefon" class="callpanel" role="dialog" aria-modal="false" aria-labelledby="callpanelTitle" hidden>
+  <div class="callpanel__inner">
+    <div class="callpanel__head">
+      <div>
+        <h2 id="callpanelTitle" class="sc-display sc-display--md">Ring til <span class="acc">os</span></h2>
+        <p class="callpanel__lede">Centeret har åbent døgnet rundt. Har I spørgsmål til Trackman, alarmen, sponsorater eller betaling, så find den rette person på listen.</p>
+      </div>
+      <button class="callpanel__close" type="button" aria-label="Luk telefonlisten"><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+    </div>
+    <a class="hotline" href="tel:+4545744742">
+      <span class="hotline__meta"><span class="hotline__kicker">Trackman hotline</span><span class="hotline__hours">Dansk kl. 07–15</span><span class="hotline__note">Derefter på engelsk</span></span>
+      <span class="hotline__num">45 74 47 42</span>
+    </a>
+    <ul class="plist">
+      <li><span class="plist__name">Brian Andersen</span><a class="plist__tel" href="tel:+4521482993">21 48 29 93</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+      <li><span class="plist__name">Peter Bertelsen</span><a class="plist__tel" href="tel:+4525519100">25 51 91 00</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+      <li><span class="plist__name">Frank Holm</span><a class="plist__tel" href="tel:+4530386424">30 38 64 24</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+      <li><span class="plist__name">Torben Madsen</span><a class="plist__tel" href="tel:+4551252420">51 25 24 20</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+      <li><span class="plist__name">Jens Enevoldsen</span><a class="plist__tel" href="tel:+4529939595">29 93 95 95</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
+      <li><span class="plist__name">Allan Hansen</span><a class="plist__tel" href="tel:+4529656295">29 65 62 95</a><span class="plist__tags"><span>Regninger &amp; betalinger</span></span></li>
+      <li><span class="plist__name">Jørn Sørensen</span><a class="plist__tel" href="tel:+4560603230">60 60 32 30</a><span class="plist__tags"><span>Trackman</span><span>Alarm</span></span></li>
+      <li><span class="plist__name">Michael Thomsen</span><a class="plist__tel" href="tel:+4591540425">91 54 04 25</a><span class="plist__tags"><span>Månedsturnering</span><span>Trackman</span><span>Alarm</span></span></li>
+    </ul>
+    <p class="callpanel__mail">Mail: <a href="mailto:indoorgolfribe@gmail.com">indoorgolfribe@gmail.com</a></p>
+  </div>
+</div>
 
 <!-- Mobilmenu: kun ≤860px. Samme sektioner som bjælken på computer. -->
 <div id="mnav" class="mnav" hidden>
@@ -153,8 +184,8 @@
     <div data-sc-stage>
       <div class="hero__photo" data-sc-parallax="-1.3">
         <picture>
-          <source media="(max-width: 860px)" srcset="assets/hero-hall-m.webp?v=20261103p">
-          <img src="assets/hero-hall.webp?v=20261103p" width="2880" height="2160" alt="Gangen ind til simulatorerne hos Indoor Golf Ribe med træpaneler, bænke og grønt kunstgræs" fetchpriority="high">
+          <source media="(max-width: 860px)" srcset="assets/hero-hall-m.webp?v=20261103q">
+          <img src="assets/hero-hall.webp?v=20261103q" width="2880" height="2160" alt="Gangen ind til simulatorerne hos Indoor Golf Ribe med træpaneler, bænke og grønt kunstgræs" fetchpriority="high">
         </picture>
       </div>
       <div class="hero__scrim" aria-hidden="true"></div>
@@ -175,6 +206,11 @@
             <img class="ball__img" src="assets/golfball.webp" width="900" height="900" alt="" fetchpriority="high">
           </div>
         </div>
+      </div>
+      <!-- Scroll-hint under bolden: forsvinder, så snart man begynder at scrolle (site.js). -->
+      <div class="scrollcue" aria-hidden="true">
+        <span class="scrollcue__text">Scroll ned og oplev <b>Indoor Golf Ribe</b></span>
+        <span class="scrollcue__arrow"><svg viewBox="0 0 24 36"><path d="M5 6l7 7 7-7"/><path d="M5 16l7 7 7-7"/><path d="M5 26l7 7 7-7"/></svg></span>
       </div>
       <div class="hero__copy sc-copy sc-copy--lead" data-sc-cue="0 0.72 0">
         <h1 class="sc-display sc-display--xl"><span class="hero__kicker">Indendørs golf i Ribe</span> Golf hele <span class="acc">året.</span></h1>
@@ -311,12 +347,12 @@
         <img src="assets/peak-end.webp" width="1920" height="1080" alt="" loading="lazy" decoding="async">
       </picture>
       <div class="dest__layers">
-        <div class="dest__layer" data-img="assets/course-lofoten.webp" data-img-m="assets/course-lofoten-p.webp?v=20261103p" role="img" aria-label="Lofoten Links, Gimsøysand, Norge"></div>
-        <div class="dest__layer" data-img="assets/course-countydown.webp" data-img-m="assets/course-countydown-p.webp?v=20261103p" role="img" aria-label="Royal County Down, Newcastle, Nordirland"></div>
-        <div class="dest__layer" data-img="assets/course-standrews.webp" data-img-m="assets/course-standrews-p.webp?v=20261103p" role="img" aria-label="St Andrews Old Course, St Andrews, Skotland"></div>
-        <div class="dest__layer" data-img="assets/course-pebble.webp" data-img-m="assets/course-pebble-p.webp?v=20261103p" role="img" aria-label="Pebble Beach Golf Links, Californien, USA"></div>
-        <div class="dest__layer" data-img="assets/course-cabot.webp" data-img-m="assets/course-cabot-p.webp?v=20261103p" role="img" aria-label="Cabot Cliffs, Cape Breton, Canada"></div>
-        <div class="dest__layer" data-img="assets/course-casadecampo.webp" data-img-m="assets/course-casadecampo-p.webp?v=20261103p" role="img" aria-label="Casa de Campo “Teeth of the Dog”, La Romana, Den Dominikanske Republik"></div>
+        <div class="dest__layer" data-img="assets/course-lofoten.webp" data-img-m="assets/course-lofoten-p.webp?v=20261103q" role="img" aria-label="Lofoten Links, Gimsøysand, Norge"></div>
+        <div class="dest__layer" data-img="assets/course-countydown.webp" data-img-m="assets/course-countydown-p.webp?v=20261103q" role="img" aria-label="Royal County Down, Newcastle, Nordirland"></div>
+        <div class="dest__layer" data-img="assets/course-standrews.webp" data-img-m="assets/course-standrews-p.webp?v=20261103q" role="img" aria-label="St Andrews Old Course, St Andrews, Skotland"></div>
+        <div class="dest__layer" data-img="assets/course-pebble.webp" data-img-m="assets/course-pebble-p.webp?v=20261103q" role="img" aria-label="Pebble Beach Golf Links, Californien, USA"></div>
+        <div class="dest__layer" data-img="assets/course-cabot.webp" data-img-m="assets/course-cabot-p.webp?v=20261103q" role="img" aria-label="Cabot Cliffs, Cape Breton, Canada"></div>
+        <div class="dest__layer" data-img="assets/course-casadecampo.webp" data-img-m="assets/course-casadecampo-p.webp?v=20261103q" role="img" aria-label="Casa de Campo “Teeth of the Dog”, La Romana, Den Dominikanske Republik"></div>
       </div>
       <div class="dest__scrim" aria-hidden="true"></div>
       <div class="dest__board">
@@ -455,38 +491,6 @@
         </div>
       </div>
 
-      <!-- TELEFONLISTE: foldes ud som FAQ-kortene (højden animeres i site.js). Kilde: Lasses telefonliste 2026-11-03. -->
-      <div id="telefon" class="phones">
-        <h2 class="sc-display sc-display--md" data-sc-in>Ring til <span class="acc">os</span></h2>
-        <p class="sc-body phones__lede" data-sc-in>Centeret har åbent døgnet rundt. Har I spørgsmål til Trackman, alarmen, sponsorater eller betaling, så find den rette person på listen.</p>
-        <details class="phones__fold" data-sc-in>
-          <summary class="phones__btn">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4.2-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2 4.2 1.5v2.6a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 4.6 5.6a2 2 0 0 1 2-2.1z"/></svg>
-            <span class="phones__show">Vis telefonliste</span><span class="phones__hide">Skjul telefonliste</span>
-            <span class="phones__pm" aria-hidden="true"></span>
-          </summary>
-          <div class="phones__panel">
-            <div class="phones__inner">
-              <a class="hotline" href="tel:+4545744742">
-                <span class="hotline__meta"><span class="hotline__kicker">Trackman hotline</span><span class="hotline__hours">Dansk kl. 07–15</span><span class="hotline__note">Derefter på engelsk</span></span>
-                <span class="hotline__num">45 74 47 42</span>
-              </a>
-              <ul class="plist">
-                <li><span class="plist__name">Brian Andersen</span><a class="plist__tel" href="tel:+4521482993">21 48 29 93</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
-                <li><span class="plist__name">Peter Bertelsen</span><a class="plist__tel" href="tel:+4525519100">25 51 91 00</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
-                <li><span class="plist__name">Frank Holm</span><a class="plist__tel" href="tel:+4530386424">30 38 64 24</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
-                <li><span class="plist__name">Torben Madsen</span><a class="plist__tel" href="tel:+4551252420">51 25 24 20</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
-                <li><span class="plist__name">Jens Enevoldsen</span><a class="plist__tel" href="tel:+4529939595">29 93 95 95</a><span class="plist__tags"><span>Sponsorater</span><span>Trackman</span><span>Alarm</span></span></li>
-                <li><span class="plist__name">Allan Hansen</span><a class="plist__tel" href="tel:+4529656295">29 65 62 95</a><span class="plist__tags"><span>Regninger &amp; betalinger</span></span></li>
-                <li><span class="plist__name">Jørn Sørensen</span><a class="plist__tel" href="tel:+4560603230">60 60 32 30</a><span class="plist__tags"><span>Trackman</span><span>Alarm</span></span></li>
-                <li><span class="plist__name">Michael Thomsen</span><a class="plist__tel" href="tel:+4591540425">91 54 04 25</a><span class="plist__tags"><span>Månedsturnering</span><span>Trackman</span><span>Alarm</span></span></li>
-              </ul>
-              <p class="phones__mail">Mail: <a href="mailto:indoorgolfribe@gmail.com">indoorgolfribe@gmail.com</a></p>
-            </div>
-          </div>
-        </details>
-      </div>
-
       <!-- FACEBOOK: forhåndsvisning af siden + golfbold-knap der triller til kanten. -->
       <div id="facebook" class="fb">
         <div class="fb__copy">
@@ -507,7 +511,7 @@
               <p class="fbcard__handle">facebook.com/IndoorGolfRibe</p>
             </div>
             <ul class="fbcard__bio">
-              <li><span aria-hidden="true">⛳</span>Områdets moderne indendørs golfcenter.</li>
+              <li><span aria-hidden="true">⛳</span>Indoor Golf Ribe er områdets mest moderne indendørs golfcenter.</li>
               <li><span aria-hidden="true">🏌️</span>Fire topmoderne simulatorer, nye Trackman iO-enheder og en hyggelig WoodUpp-lounge.</li>
               <li><span aria-hidden="true">🥳</span>Spil, træn og hyg med venner, året rundt.</li>
             </ul>
@@ -609,8 +613,8 @@
   </div>
 </aside>
 
-<script src="scrollcraft.js?v=20261103p"></script>
-<script src="site.js?v=20261103p"></script>
-<script src="consent.js?v=20261103p"></script>
+<script src="scrollcraft.js?v=20261103q"></script>
+<script src="site.js?v=20261103q"></script>
+<script src="consent.js?v=20261103q"></script>
 </body>
 </html>
