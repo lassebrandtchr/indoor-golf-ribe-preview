@@ -445,7 +445,8 @@
     ['by', 'e-city', function (v) { return v ? '' : 'Skriv by.'; }],
     ['telefon', 'e-phone', function (v) { return !v ? 'Skriv et telefonnummer.' : (v.replace(/[\s+-]/g, '').length >= 8 ? '' : 'Tjek telefonnummeret.'); }],
     ['email', 'e-mail', function (v) { return !v ? 'Skriv en mail, vi kan svare på.' : (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Tjek mailadressen.'); }],
-    ['dgu', 'e-dgu', function (v) { return v ? '' : 'Skriv jeres DGU-nummer.'; }]
+    ['dgu', 'e-dgu', function (v) { return v ? '' : 'Skriv jeres DGU-nummer.'; }],
+    ['medlemskab', 'e-type', function (v) { return v ? '' : 'Vælg medlemskabstype.'; }]
   ];
 
   function validate() {
@@ -458,7 +459,7 @@
   }
 
   RULES.forEach(function (r) {
-    form.elements[r[0]].addEventListener('blur', function () {
+    form.elements[r[0]].addEventListener(r[0] === 'medlemskab' ? 'change' : 'blur', function () {
       if (this.getAttribute('aria-invalid') === 'true') validate();
     });
   });
@@ -470,7 +471,8 @@
       'Postnummer og by: ' + data.get('postnummer') + ' ' + data.get('by'),
       'Telefon: ' + data.get('telefon'),
       'Mail: ' + data.get('email'),
-      'DGU-nummer: ' + data.get('dgu')
+      'DGU-nummer: ' + data.get('dgu'),
+      'Medlemskab: ' + data.get('medlemskab')
     ];
     window.location.href = 'mailto:' + MAIL +
       '?subject=' + encodeURIComponent('Medlemstilmelding · ' + data.get('navn')) +

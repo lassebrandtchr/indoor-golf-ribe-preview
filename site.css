@@ -770,6 +770,8 @@ sup { font-size: 0.7em; line-height: 0; }
 /* Dato-feltet har en indbygget minimumsbredde i Chrome/Safari, der ellers stikker ud af formularen på smalle skærme. */
 .field input[type="date"] { min-width: 0; max-width: 100%; -webkit-appearance: none; appearance: none; }
 .field input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+.field select:invalid { color: var(--sc-ink-soft); }
+.field select option { color: var(--sc-ink); }
 .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 1px; border-color: var(--sc-accent); }
 .field [aria-invalid="true"] { border-color: #f40c0b; }
 .field__err { margin: 0; font-size: 0.82rem; color: #ff6b6a; min-height: 0; }
