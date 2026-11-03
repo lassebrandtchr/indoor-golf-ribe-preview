@@ -18,9 +18,9 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=20261103g">
-<link rel="stylesheet" href="scrollcraft.css?v=20261103g">
-<link rel="stylesheet" href="site.css?v=20261103g">
+<link rel="stylesheet" href="fonts.css?v=20261103h">
+<link rel="stylesheet" href="scrollcraft.css?v=20261103h">
+<link rel="stylesheet" href="site.css?v=20261103h">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -137,8 +137,8 @@
     <div data-sc-stage>
       <div class="hero__photo" data-sc-parallax="-1.3">
         <picture>
-          <source media="(max-width: 860px)" srcset="assets/hero-hall-m.webp?v=20261103g">
-          <img src="assets/hero-hall.webp?v=20261103g" width="2880" height="2160" alt="Gangen ind til simulatorerne hos Indoor Golf Ribe med træpaneler, bænke og grønt kunstgræs" fetchpriority="high">
+          <source media="(max-width: 860px)" srcset="assets/hero-hall-m.webp?v=20261103h">
+          <img src="assets/hero-hall.webp?v=20261103h" width="2880" height="2160" alt="Gangen ind til simulatorerne hos Indoor Golf Ribe med træpaneler, bænke og grønt kunstgræs" fetchpriority="high">
         </picture>
       </div>
       <div class="hero__scrim" aria-hidden="true"></div>
@@ -545,14 +545,24 @@
       </div>
       <footer class="foot">
         <p class="signoff">I ønskes en rigtig god runde!</p>
-        <p class="foot__small">Indendørs golf og golfsimulator i Ribe, en halv time fra Esbjerg.<br>© <span id="year">2026</span> Indoor Golf Ribe · Haderslevvej 65, 6760 Ribe</p>
+        <p class="foot__small">Indendørs golf og golfsimulator i Ribe, en halv time fra Esbjerg.<br>© <span id="year">2026</span> Indoor Golf Ribe · Haderslevvej 65, 6760 Ribe<br><a href="#" class="foot__link" id="consentOpen">Cookieindstillinger</a></p>
       </footer>
     </div>
   </section>
 
 </main>
 
-<script src="scrollcraft.js?v=20261103g"></script>
-<script src="site.js?v=20261103g"></script>
+<aside class="consent" id="consent" role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText" hidden>
+  <p class="consent__title" id="consentTitle">Må vi tælle besøg?</p>
+  <p class="consent__text" id="consentText">Vi bruger Google Analytics til anonym statistik over, hvor mange der besøger siden, og hvordan den bruges. Det sætter cookies, så vi spørger først. Ingen annoncer, intet videresalg.</p>
+  <div class="consent__actions">
+    <button class="btn btn--small" type="button" data-consent="ja">Ja, gerne</button>
+    <button class="consent__no" type="button" data-consent="nej">Nej tak</button>
+  </div>
+</aside>
+
+<script src="scrollcraft.js?v=20261103h"></script>
+<script src="site.js?v=20261103h"></script>
+<script src="consent.js?v=20261103h"></script>
 </body>
 </html>
