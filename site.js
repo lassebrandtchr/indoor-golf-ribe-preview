@@ -235,7 +235,7 @@
         slat.style.left = (i * 100 / N) + '%';
         slat.style.width = 'calc(' + (100 / N) + '% + 1px)';
         var img = document.createElement('img');
-        img.src = src; img.alt = ''; img.decoding = 'async';
+        img.loading = 'lazy'; img.src = src; img.alt = ''; img.decoding = 'async';
         img.style.width = (N * 100) + '%';
         img.style.left = (-i * 100) + '%';
         slat.appendChild(img);
