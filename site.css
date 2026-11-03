@@ -363,6 +363,13 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
 .peak__copy { text-shadow: 0 2px 18px rgba(3, 11, 6, 0.55); }
 .peak__copy h2 { font-size: clamp(3.2rem, 1.4rem + 6.4vw, 7.6rem); }
 .peak__sub { font-size: var(--sc-t-lg); line-height: 1.45; max-width: 34ch; margin: 1.1rem 0 0; }
+/* Highlight: lime tekst på en blød lime markeringsstreg, der følger linjeskift. */
+.peak__hl {
+  color: var(--sc-accent); font-weight: 700;
+  background: linear-gradient(transparent 62%, rgba(138, 217, 55, 0.28) 62%, rgba(138, 217, 55, 0.28) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  padding: 0 0.12em; text-shadow: 0 0 18px rgba(138, 217, 55, 0.35);
+}
 .peak__cue { font-size: var(--sc-t-xl); }
 @media (max-width: 860px) {
   .peak__copy h2 { font-size: clamp(2.8rem, 13vw, 4rem); }
