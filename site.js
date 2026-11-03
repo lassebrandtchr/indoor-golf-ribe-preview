@@ -153,7 +153,7 @@
         if (cy < 0) {
           // Nederst, men aldrig oven i knappen; er der slet ikke plads, skjules hinten.
           var copyBottom = hero.querySelector('.hero__copy').getBoundingClientRect().bottom - hero.querySelector('[data-sc-stage]').getBoundingClientRect().top;
-          var low = Math.max(H - cueH - 18, copyBottom + 14);
+          var low = Math.max(H - cueH - 30, copyBottom + 14);
           cue.style.left = (W / 2) + 'px'; cue.style.top = low + 'px';
           cue.style.display = low + cueH > H - 4 ? 'none' : '';
           cue.classList.add('scrollcue--low');

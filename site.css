@@ -186,6 +186,11 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
   /* Peak-videoen og dens billeder er 9:16 på telefonen, så de fylder skærmen uden at beskæres i siderne. */
   .peak video[data-sc-scrub], .peak .sc-stage__poster, .peak__end { object-position: 50% 50%; }
 }
+/* Høje telefoner: teksten og knappen løftes, så scroll-hinten har luft nederst. */
+@media (max-width: 860px) and (orientation: portrait) and (min-height: 700px) {
+  .hero .sc-copy--lead { bottom: calc(8.5rem + env(safe-area-inset-bottom, 0px)); }
+  .hero__sub { margin: 1rem 0 1.4rem; }
+}
 
 /* ---------------------------------------------------------------- fakta -- */
 .facts__stage { display: grid; align-items: center; }
