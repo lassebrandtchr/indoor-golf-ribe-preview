@@ -757,6 +757,7 @@ sup { font-size: 0.7em; line-height: 0; }
 .field { grid-column: span 4; display: grid; gap: 0.35rem; min-width: 0; }
 .field--half { grid-column: span 2; }
 .field--quarter { grid-column: span 1; }
+.field--three { grid-column: span 3; }
 .field label { font-weight: 600; font-size: 0.85rem; letter-spacing: 0.02em; }
 .opt { font-weight: 400; color: var(--sc-ink-soft); }
 .field input, .field select, .field textarea {
@@ -796,6 +797,8 @@ sup { font-size: 0.7em; line-height: 0; }
   .field--half { grid-column: span 4; }
   .field--quarter { grid-column: span 1; }
   .field--quarter:has(input[type="date"]) { grid-column: span 3; }
+  .field--quarter:has(#f-zip) { grid-column: span 2; }
+  .field--three { grid-column: span 2; }
 }
 
 /* ------------------------------------------------------------ signaturen -- */

@@ -437,18 +437,28 @@
     return !msg;
   }
 
+  // Felt → fejltekst. Alle felter i medlemsblanketten er påkrævet.
+  var RULES = [
+    ['navn', 'e-name', function (v) { return v ? '' : 'Skriv jeres navn.'; }],
+    ['adresse', 'e-adr', function (v) { return v ? '' : 'Skriv jeres adresse.'; }],
+    ['postnummer', 'e-zip', function (v) { return !v ? 'Skriv postnummer.' : (/^\d{4}$/.test(v) ? '' : 'Postnummer er 4 cifre.'); }],
+    ['by', 'e-city', function (v) { return v ? '' : 'Skriv by.'; }],
+    ['telefon', 'e-phone', function (v) { return !v ? 'Skriv et telefonnummer.' : (v.replace(/[\s+-]/g, '').length >= 8 ? '' : 'Tjek telefonnummeret.'); }],
+    ['email', 'e-mail', function (v) { return !v ? 'Skriv en mail, vi kan svare på.' : (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Tjek mailadressen.'); }],
+    ['dgu', 'e-dgu', function (v) { return v ? '' : 'Skriv jeres DGU-nummer.'; }]
+  ];
+
   function validate() {
     var ok = true;
-    var name = form.elements.navn, mail = form.elements.email, msg = form.elements.besked;
-    ok = setErr(name, 'e-name', name.value.trim() ? '' : 'Skriv jeres navn.') && ok;
-    var m = mail.value.trim();
-    ok = setErr(mail, 'e-mail', !m ? 'Skriv en mail, vi kan svare på.' : (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m) ? '' : 'Tjek mailadressen.')) && ok;
-    ok = setErr(msg, 'e-msg', msg.value.trim() ? '' : 'Skriv kort, hvad I gerne vil.') && ok;
+    RULES.forEach(function (r) {
+      var input = form.elements[r[0]];
+      ok = setErr(input, r[1], r[2](input.value.trim())) && ok;
+    });
     return ok;
   }
 
-  ['navn', 'email', 'besked'].forEach(function (n) {
-    form.elements[n].addEventListener('blur', function () {
+  RULES.forEach(function (r) {
+    form.elements[r[0]].addEventListener('blur', function () {
       if (this.getAttribute('aria-invalid') === 'true') validate();
     });
   });
@@ -456,19 +466,17 @@
   function mailtoFallback(data) {
     var lines = [
       'Navn: ' + data.get('navn'),
+      'Adresse: ' + data.get('adresse'),
+      'Postnummer og by: ' + data.get('postnummer') + ' ' + data.get('by'),
+      'Telefon: ' + data.get('telefon'),
       'Mail: ' + data.get('email'),
-      'Telefon: ' + (data.get('telefon') || '-'),
-      'Emne: ' + data.get('emne'),
-      'Antal: ' + (data.get('antal') || '-'),
-      'Dato: ' + (data.get('dato') || '-'),
-      '',
-      data.get('besked')
+      'DGU-nummer: ' + data.get('dgu')
     ];
     window.location.href = 'mailto:' + MAIL +
-      '?subject=' + encodeURIComponent(data.get('emne') + ' · ' + data.get('navn')) +
+      '?subject=' + encodeURIComponent('Medlemstilmelding · ' + data.get('navn')) +
       '&body=' + encodeURIComponent(lines.join('\n'));
     status.className = 'form__status is-ok';
-    status.textContent = 'Jeres mailprogram åbner nu med beskeden klar til at sende.';
+    status.textContent = 'Jeres mailprogram åbner nu med tilmeldingen klar til at sende.';
   }
 
   form.addEventListener('submit', function (ev) {
@@ -494,11 +502,11 @@
         if (!json.success) throw new Error(json.message || 'fejl');
         form.reset();
         status.className = 'form__status is-ok';
-        status.textContent = 'Tak! Vi har fået jeres besked og vender tilbage hurtigst muligt.';
+        status.textContent = 'Tak! Vi har fået jeres tilmelding og vender tilbage hurtigst muligt.';
       })
       .catch(function () {
         status.className = 'form__status is-err';
-        status.innerHTML = 'Beskeden kunne ikke sendes. Skriv i stedet til <a href="mailto:' + MAIL + '">' + MAIL + '</a>.';
+        status.innerHTML = 'Tilmeldingen kunne ikke sendes. Skriv i stedet til <a href="mailto:' + MAIL + '">' + MAIL + '</a>.';
       })
       .then(function () { btn.disabled = false; });
   });
