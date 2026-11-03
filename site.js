@@ -706,4 +706,44 @@
     });
     wide.addEventListener('change', function () { if (wide.matches) set(false); });
   })();
+
+  /* Scroll-fade: alt fra prissektionen og ned toner stille frem, jo længere man scroller.
+     Hvert element går fra usynligt (top i bunden af skærmen) til fuldt synligt (top ved 55 %).
+     Søskende i samme række forskydes lidt, og værdien glider mod målet, så det føles roligt. */
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var root = document.getElementById('priser');
+    if (!root) return;
+    var els = Array.prototype.slice.call(root.querySelectorAll('[data-sc-in]:not([data-sc-stagger]), [data-sc-stagger] > *, .prices__cta, .events__photo'));
+    var items = els.map(function (el) {
+      var parent = el.parentElement, idx = 0;
+      if (parent && parent.hasAttribute('data-sc-stagger')) idx = Array.prototype.indexOf.call(parent.children, el);
+      el.classList.add('rv', 'sc-in');
+      el.style.transitionDelay = '';
+      return { el: el, off: Math.min(idx, 4) * 0.04, cur: -1 };
+    });
+    var raf = 0;
+    function target(it, vh) {
+      var top = it.el.getBoundingClientRect().top;
+      var t = (vh * (1 - it.off) - top) / (vh * 0.45);
+      t = Math.max(0, Math.min(1, t));
+      return t * t * (3 - 2 * t);
+    }
+    function tick() {
+      raf = 0;
+      var vh = window.innerHeight, moving = false;
+      items.forEach(function (it) {
+        var goal = target(it, vh);
+        if (it.cur < 0) it.cur = goal;
+        var next = it.cur + (goal - it.cur) * 0.14;
+        if (Math.abs(goal - next) < 0.002) next = goal; else moving = true;
+        if (next !== it.cur || !it.set) { it.el.style.setProperty('--rv', next.toFixed(3)); it.cur = next; it.set = true; }
+      });
+      if (moving) raf = requestAnimationFrame(tick);
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', kick);
+    tick();
+  })();
 })();

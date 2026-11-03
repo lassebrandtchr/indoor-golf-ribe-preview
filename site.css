@@ -43,6 +43,14 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
 }
 .skip:focus { top: 1rem; }
 
+/* Scroll-fade fra "Priser og medlemskab" og ned (site.js sætter --rv 0→1 efter scroll).
+   :where() holder specificiteten lav, så kortenes egne hover-transitions (senere i filen) vinder. */
+:where([data-sc-in], [data-sc-stagger] > *).rv { transition: none; }
+.rv.rv.rv {
+  opacity: var(--rv, 1);
+  translate: 0 calc((1 - var(--rv, 1)) * 2.75rem);
+}
+
 /* ------------------------------------------------------------- knapper -- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
