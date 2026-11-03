@@ -226,7 +226,8 @@
       });
     } else {
       // lines: wrap every word, measure offsetTop, regroup words into line spans
-      var words = text.split(/\s+/).filter(Boolean);
+      // Del kun på almindelige mellemrum, så &nbsp; kan holde ord sammen på én linje.
+      var words = text.split(/[ \t\n\r]+/).filter(Boolean);
       el.textContent = '';
       var probes = words.map(function (w, i) {
         var s = document.createElement('span');

@@ -199,7 +199,7 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
   position: relative; z-index: 2;
   width: 100%; max-width: var(--sc-maxw); margin-inline: auto; padding-inline: var(--sc-gutter);
 }
-.facts__title { max-width: 13ch; }
+.facts__title { max-width: 17ch; font-size: min(4rem, 1.6rem + 3.2vw, 8.5svh); }
 .facts__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; margin: 3.5rem 0 0; max-width: 62rem; }
 .facts__list div { border-top: 1px solid var(--line); padding-top: 1.1rem; }
 .facts__list dt { font-weight: 700; font-size: var(--sc-t-lg); color: var(--sc-accent); }
