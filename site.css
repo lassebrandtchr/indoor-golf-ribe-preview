@@ -479,6 +479,36 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
   background: linear-gradient(150deg, #d9a937 0%, #f5d886 45%, #d2a23a 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 0 36px rgba(245, 200, 90, 0.28), var(--lift);
 }
+/* Metalglans: et blødt lysbånd glider roligt over pladen, forskudt pr. pakke. */
+.spons { isolation: isolate; transition: transform 300ms var(--sc-ease-out), box-shadow 300ms var(--sc-ease-out); }
+.spons > * { position: relative; z-index: 1; }
+.spons > .spons__badge { position: absolute; z-index: 2; }
+.spons::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(120% 70% at 20% 0%, rgba(255, 255, 255, 0.35), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+.spons::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.55) 48%, rgba(255, 255, 255, 0.15) 52%, transparent 62%)
+    no-repeat 0 0 / 300% 100%;
+  background-position: 120% 0; mix-blend-mode: overlay;
+  animation: spons-sheen 9s ease-in-out infinite;
+}
+.spons--silver::after { animation-delay: 1.4s; }
+.spons--gold::after { animation-delay: 2.8s; }
+@keyframes spons-sheen {
+  0%, 55% { background-position: 120% 0; }
+  85%, 100% { background-position: -20% 0; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .spons:hover { transform: translateY(-4px); }
+  .spons--gold:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 0 48px rgba(245, 200, 90, 0.38), var(--lift); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spons::after { animation: none; }
+  .spons { transition: none; }
+}
 .spons__badge {
   position: absolute; top: -0.85rem; right: 1.1rem;
   background: #0b0b0b; color: #f5d886; border: 1px solid #f5d886; border-radius: 999px;
