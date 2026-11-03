@@ -676,7 +676,7 @@
     });
   });
 
-  /* Mobilmenu: knappen ved siden af "Book en bane" åbner sektionslisten.
+  /* Mobilmenu: knappen ved siden af "Bliv medlem" åbner sektionslisten.
      Lukker på link, Escape og når skærmen bliver bred nok til bjælkens nav. */
   (function () {
     var btn = document.querySelector('.bar__menu'), menu = document.getElementById('mnav');
