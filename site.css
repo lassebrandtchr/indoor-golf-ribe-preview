@@ -1127,22 +1127,6 @@ sup { font-size: 0.7em; line-height: 0; }
 .callpanel__mail { margin: 1.2rem 0 0; color: var(--sc-ink-soft); font-size: 0.92rem; }
 .callpanel__mail a { color: var(--sc-accent); font-weight: 600; }
 
-.hotline {
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap;
-  padding: 1.3rem 1.6rem; border-radius: var(--r-lg); text-decoration: none; color: var(--sc-ink);
-  background: #07130b; border: 1px solid var(--sc-accent);
-  box-shadow: 0 0 0 4px rgba(138, 217, 55, 0.08), 0 14px 36px -12px rgba(138, 217, 55, 0.4);
-  transition: transform 300ms var(--sc-ease-out), box-shadow 300ms var(--sc-ease-out);
-}
-@media (hover: hover) and (pointer: fine) {
-  .hotline:hover { transform: translateY(-2px); box-shadow: 0 0 0 4px rgba(138, 217, 55, 0.14), 0 18px 40px -12px rgba(138, 217, 55, 0.55); }
-}
-.hotline__meta { display: grid; gap: 0.2rem; }
-.hotline__kicker { font: 700 0.72rem/1.2 var(--sc-font-text); letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-accent); }
-.hotline__hours { font-weight: 700; }
-.hotline__note { font-size: 0.82rem; color: var(--sc-ink-soft); }
-.hotline__num { font: 400 clamp(2.2rem, 5.4vw, 3.4rem)/1 var(--sc-font-display); letter-spacing: 0.02em; color: var(--sc-accent); white-space: nowrap; }
-
 .plist { list-style: none; margin: 1.2rem 0 0; padding: 0; }
 .plist li {
   display: grid; grid-template-columns: minmax(10rem, 1.1fr) minmax(8rem, 0.8fr) 1.6fr; align-items: center; gap: 0.5rem 1.2rem;
@@ -1164,7 +1148,6 @@ sup { font-size: 0.7em; line-height: 0; }
 .callpanel__inner > *, .plist li { opacity: 0; transform: translateY(12px); transition: opacity 200ms var(--sc-ease-out), transform 200ms var(--sc-ease-out); }
 .callpanel.is-open .callpanel__inner > *, .callpanel.is-open .plist li { opacity: 1; transform: none; transition: opacity 500ms var(--sc-ease-out), transform 500ms var(--sc-ease-out); }
 .callpanel.is-open .callpanel__head { transition-delay: 120ms; }
-.callpanel.is-open .hotline { transition-delay: 180ms; }
 .callpanel.is-open .plist li:nth-child(1) { transition-delay: 230ms; }
 .callpanel.is-open .plist li:nth-child(2) { transition-delay: 260ms; }
 .callpanel.is-open .plist li:nth-child(3) { transition-delay: 290ms; }
@@ -1195,13 +1178,12 @@ sup { font-size: 0.7em; line-height: 0; }
   .callpanel.is-open .callpanel__inner > *, .callpanel.is-open .plist li { transition-duration: 420ms; }
 }
 @media (max-width: 640px) {
-  .hotline { padding: 1.1rem 1.2rem; }
   .plist li { grid-template-columns: 1fr auto; gap: 0.15rem 1rem; padding: 0.75rem 0; }
   .plist__tags { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .callpanel, .callpanel.is-open { transition: opacity 150ms linear; }
-  .callpanel__inner > *, .plist li, .hotline { transition: none !important; }
+  .callpanel__inner > *, .plist li { transition: none !important; }
   .callbtn__ico::after, .callbtn svg { animation: none; }
 }
 
