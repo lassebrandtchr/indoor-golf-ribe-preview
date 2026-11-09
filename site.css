@@ -1228,3 +1228,54 @@ sup { font-size: 0.7em; line-height: 0; }
   .scrollcue__text, .scrollcue__arrow path { animation: none; opacity: 1; }
   .scrollcue__text { color: var(--sc-ink); background: none; }
 }
+
+/* ------------------------------------------------ turnering (forside-knap) -- */
+.events__cta { padding: 1.4rem 0 0.2rem; border-top: 1px solid var(--line); }
+.events__cta h3 { margin: 0; font: 700 var(--sc-t-lg)/1.25 var(--sc-font-text); }
+.events__cta p { margin: 0.3rem 0 1.1rem; color: var(--sc-ink-soft); max-width: 48ch; }
+.btn__arrow { width: 1.05em; height: 1.05em; margin-left: 0.55rem; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform 180ms var(--sc-ease-out); }
+@media (hover: hover) and (pointer: fine) { .btn:hover .btn__arrow { transform: translateX(3px); } }
+
+/* ------------------------------------------------- turnering.html (underside) -- */
+.bar__back {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 0.4rem;
+  color: var(--sc-ink); text-decoration: none; font-weight: 500; font-size: 0.95rem; opacity: 0.85;
+  min-height: 2.75rem;
+}
+.bar__back svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.bar__back:hover { opacity: 1; color: var(--sc-accent); }
+.tpage {
+  width: 100%; max-width: var(--sc-maxw); margin-inline: auto;
+  padding: clamp(7rem, 12vw, 9rem) var(--sc-gutter) 2rem;
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 5vw, 5rem); align-items: start;
+}
+.tpage__intro { position: sticky; top: 7rem; }
+.tpage__kicker { margin: 0 0 0.9rem; font: 700 0.82rem/1.2 var(--sc-font-text); letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-accent); }
+.tpage__title { margin: 0; font-size: var(--sc-t-3xl); }
+.tpage__lede { margin: 1.25rem 0 0; max-width: 46ch; }
+.tpage__steps { list-style: none; margin: 2rem 0 0; padding: 0; }
+.tpage__steps li { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--line); }
+.tpage__steps h2 { margin: 0; font: 700 1.05rem/1.3 var(--sc-font-text); }
+.tpage__steps p { margin: 0.2rem 0 0; color: var(--sc-ink-soft); font-size: 0.95rem; max-width: 44ch; }
+.tpage__no {
+  display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 50%;
+  border: 1px solid var(--sc-accent); color: var(--sc-accent); font: 700 0.9rem/1 var(--sc-font-text);
+}
+.tpage__note { margin: 1.25rem 0 0; padding-top: 1.1rem; border-top: 1px solid var(--line); color: var(--sc-ink-soft); font-size: 0.95rem; }
+.tform { gap: 1.5rem; }
+.tform__group { grid-column: span 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem 1rem; margin: 0; padding: 0; border: 0; min-width: 0; }
+.tform__group + .tform__group { padding-top: 1.4rem; border-top: 1px solid var(--line); }
+.tform__group legend { padding: 0; margin-bottom: 0.9rem; font: 400 var(--sc-t-lg)/1.1 var(--sc-font-display); text-transform: uppercase; letter-spacing: 0.02em; }
+.field__hint { margin: 0; font-size: 0.82rem; color: var(--sc-ink-soft); }
+.field__count { margin: 0; font-size: 0.82rem; font-weight: 600; color: var(--sc-accent); }
+.field__count:empty { display: none; }
+.check { display: flex; align-items: center; gap: 0.7rem; cursor: pointer; font-weight: 600; }
+.check input { width: 1.3rem; height: 1.3rem; min-height: 0; padding: 0; margin: 0; accent-color: var(--sc-accent); flex: none; }
+.check input[aria-invalid="true"] { outline: 2px solid #f40c0b; outline-offset: 2px; }
+.tpage__foot { padding: 0 var(--sc-gutter) 2.5rem; }
+@media (max-width: 860px) {
+  .tpage { grid-template-columns: 1fr; }
+  .tpage__intro { position: static; }
+  .tform__group .field--half { grid-column: span 4; }
+}

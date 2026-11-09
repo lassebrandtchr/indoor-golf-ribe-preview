@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Opsætning af turnering · Indoor Golf Ribe</title>
+<meta name="description" content="Medlemmer af Indoor Golf Ribe kan få deres egen Trackman-turnering sat op, fx en privatturnering med vennerne. Send en forespørgsel med runder, datoer og spillere.">
+<meta name="theme-color" content="#030b06">
+<link rel="canonical" href="https://indoorgolfribe.dk/turnering.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://indoorgolfribe.dk/turnering.html">
+<meta property="og:site_name" content="Indoor Golf Ribe">
+<meta property="og:title" content="Opsætning af turnering · Indoor Golf Ribe">
+<meta property="og:description" content="Få jeres egen Trackman-turnering sat op i Indoor Golf Ribe.">
+<meta property="og:image" content="https://indoorgolfribe.dk/assets/og.jpg">
+<meta property="og:locale" content="da_DK">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preload" href="assets/fonts/anton-latin.woff2?v=20261109a" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts.css?v=20261109a">
+<link rel="stylesheet" href="scrollcraft.css?v=20261109a">
+<link rel="stylesheet" href="site.css?v=20261109b">
+</head>
+<body class="tpage-body">
+
+<a class="skip" href="#turneringForm">Spring til formularen</a>
+
+<header class="bar">
+  <a class="bar__mark" href="./" aria-label="Indoor Golf Ribe, til forsiden">
+    <img src="assets/logo-reversed.webp" width="480" height="377" alt="Indoor Golf Ribe">
+  </a>
+  <a class="bar__back" href="./#events"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Tilbage til forsiden</a>
+</header>
+
+<main class="tpage">
+  <div class="tpage__intro">
+    <p class="tpage__kicker">Events og turneringer</p>
+    <h1 class="sc-display sc-display--md tpage__title">Opsætning af <span class="acc">turnering</span></h1>
+    <p class="sc-body tpage__lede">Vil I spille jeres egen turnering, fx med vennerne, familien eller kollegaerne? Som medlem kan I sende en forespørgsel her, så sætter vi turneringen op i Trackman for jer.</p>
+    <ol class="tpage__steps">
+      <li><span class="tpage__no">1</span><div><h2>Udfyld forespørgslen</h2><p>Navn på turneringen, antal runder, periode og hvem der skal spille.</p></div></li>
+      <li><span class="tpage__no">2</span><div><h2>Vi sætter den op</h2><p>Vi opretter turneringen i Trackman og vender tilbage, hvis vi mangler noget.</p></div></li>
+      <li><span class="tpage__no">3</span><div><h2>I spiller</h2><p>Spillerne får invitationen i deres Trackman-app og spiller runderne i perioden.</p></div></li>
+    </ol>
+    <p class="tpage__note">Kun for medlemmer af Indoor Golf Ribe. Ikke medlem endnu? <a class="link" href="./#kontakt">Bliv medlem her</a>.</p>
+  </div>
+
+  <form class="form tform" id="turneringForm" novalidate>
+    <input type="hidden" name="access_key" value="275f80af-0066-410f-8146-d2064bddc298">
+    <input type="hidden" name="subject" value="Ny turneringsforespørgsel fra indoorgolfribe.dk">
+    <input type="hidden" name="from_name" value="Indoor Golf Ribe · turneringer">
+    <input type="checkbox" name="botcheck" class="form__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <fieldset class="tform__group">
+      <legend>Turneringen</legend>
+      <div class="field">
+        <label for="t-navn">Turneringens navn</label>
+        <input id="t-navn" name="turnering" autocomplete="off" maxlength="80" required>
+        <p class="field__err" id="e-t-navn"></p>
+      </div>
+      <div class="field field--half">
+        <label for="t-runder">Antal runder</label>
+        <input id="t-runder" name="runder" type="number" inputmode="numeric" min="1" max="52" required>
+        <p class="field__err" id="e-t-runder"></p>
+      </div>
+      <div class="field field--half">
+        <label for="t-mellem">Antal dage mellem hver runde</label>
+        <input id="t-mellem" name="dage_mellem_runder" type="number" inputmode="numeric" min="0" max="365" required>
+        <p class="field__err" id="e-t-mellem"></p>
+      </div>
+      <div class="field field--half">
+        <label for="t-fra">Dato fra</label>
+        <input id="t-fra" name="dato_fra" type="date" required>
+        <p class="field__err" id="e-t-fra"></p>
+      </div>
+      <div class="field field--half">
+        <label for="t-til">Dato til</label>
+        <input id="t-til" name="dato_til" type="date" required>
+        <p class="field__err" id="e-t-til"></p>
+      </div>
+      <div class="field">
+        <label for="t-spillere">Spillere</label>
+        <p class="field__hint" id="h-t-spillere">Skriv mailadressen på hver spiller, én pr. linje. Brug den mail, spilleren bruger i Trackman.</p>
+        <textarea id="t-spillere" name="spillere" rows="6" aria-describedby="h-t-spillere" placeholder="anna@mail.dk&#10;bo@mail.dk" required></textarea>
+        <p class="field__count" id="c-t-spillere" aria-live="polite"></p>
+        <p class="field__err" id="e-t-spillere"></p>
+      </div>
+      <div class="field">
+        <label for="t-baner">Eventuelt ønskede baner <span class="opt">(valgfrit)</span></label>
+        <textarea id="t-baner" name="oenskede_baner" rows="3" placeholder="Fx St Andrews Old Course og Pebble Beach"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset class="tform__group">
+      <legend>Jeres kontaktoplysninger</legend>
+      <div class="field">
+        <label for="t-kname">Navn</label>
+        <input id="t-kname" name="navn" autocomplete="name" required>
+        <p class="field__err" id="e-t-kname"></p>
+      </div>
+      <div class="field field--half">
+        <label for="t-kmail">Mailadresse</label>
+        <input id="t-kmail" name="email" type="email" autocomplete="email" required>
+        <p class="field__err" id="e-t-kmail"></p>
+      </div>
+      <div class="field field--half">
+        <label for="t-ktel">Telefonnummer</label>
+        <input id="t-ktel" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required>
+        <p class="field__err" id="e-t-ktel"></p>
+      </div>
+      <div class="field">
+        <label for="t-note">Bemærkninger <span class="opt">(valgfrit)</span></label>
+        <textarea id="t-note" name="bemaerkninger" rows="3" placeholder="Fx format, handicap eller præmier"></textarea>
+      </div>
+      <div class="field">
+        <label class="check" for="t-medlem">
+          <input id="t-medlem" name="medlem" type="checkbox" value="Ja" required>
+          <span>Jeg er medlem af Indoor Golf Ribe</span>
+        </label>
+        <p class="field__err" id="e-t-medlem"></p>
+      </div>
+    </fieldset>
+
+    <div class="form__foot">
+      <button class="btn" type="submit">Send forespørgsel</button>
+      <p class="form__status" id="turneringStatus" role="status" aria-live="polite"></p>
+    </div>
+  </form>
+</main>
+
+<footer class="foot tpage__foot">
+  <p class="signoff">I ønskes en rigtig god runde!</p>
+  <p class="foot__small">© 2026 Indoor Golf Ribe · Haderslevvej 65, 6760 Ribe · <a class="foot__link" href="mailto:indoorgolfribe@gmail.com">indoorgolfribe@gmail.com</a></p>
+</footer>
+
+<script src="turnering.js?v=20261109b"></script>
+</body>
+</html>
