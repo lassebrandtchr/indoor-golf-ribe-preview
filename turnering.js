@@ -1,5 +1,5 @@
-/* Turneringsforespørgsel (turnering.html). Sendes via Web3Forms til samme
-   modtager som medlemsformularen (indoorgolfribe@gmail.com). */
+/* Turneringsforespørgsel (turnering.html). Sendes via Web3Forms-formularen
+   "Opsætning af turnering" (egen access key) til indoorgolfribe@gmail.com. */
 (function () {
   'use strict';
   var form = document.getElementById('turneringForm');
