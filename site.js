@@ -27,7 +27,7 @@
     });
     // Peak-videoen findes i 9:16 til telefonen (Higgsfield reframe); slutbilledet er dens sidste frame.
     var peakEnd = document.querySelector('.peak__end');
-    if (peakEnd) peakEnd.src = 'assets/peak-end-p.webp';
+    if (peakEnd) peakEnd.setAttribute(peakEnd.hasAttribute('data-src') ? 'data-src' : 'src', 'assets/peak-end-p.webp');
     var hero = document.querySelector('section.hero');
     if (hero) hero.setAttribute('data-sc-span', '1.2');
     var lounge = document.getElementById('loungen');
@@ -814,4 +814,44 @@
     window.addEventListener('resize', kick);
     tick();
   })();
+})();
+
+/* Udskudte billeder (hastighed). Billeder under folden står med data-src/data-srcset
+   i HTML'en og hentes først, når deres sektion er halvanden skærm fra at komme ind.
+   Native loading="lazy" virkede ikke her: scrollcraft sætter sektionernes højde i JS,
+   så ved første layout lå alt tæt sammen, og browseren hentede ~1 MB for tidligt på mobil.
+   Vi observerer sektionen (normal flow), ikke billedet, fordi billederne sidder i
+   sticky/absolutte scener. */
+(function () {
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('img[data-src]'));
+  if (!imgs.length) return;
+  function load(img) {
+    var pic = img.parentElement;
+    if (pic && pic.tagName === 'PICTURE') {
+      Array.prototype.forEach.call(pic.querySelectorAll('source[data-srcset]'), function (s) {
+        s.srcset = s.getAttribute('data-srcset'); s.removeAttribute('data-srcset');
+      });
+    }
+    // Timingen styres her, så native lazy slås fra: i sticky-scenerne udløser Chrome den ellers aldrig.
+    img.loading = 'eager';
+    if (img.hasAttribute('data-src')) { img.src = img.getAttribute('data-src'); img.removeAttribute('data-src'); }
+  }
+  if (!('IntersectionObserver' in window)) { imgs.forEach(load); return; }
+  var groups = new Map();
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      (groups.get(e.target) || []).forEach(load);
+      groups.delete(e.target);
+    });
+  }, { rootMargin: '150% 0px 150% 0px' });
+  // Vent én frame, så scrollcraft har sat sektionshøjderne, før vi måler.
+  requestAnimationFrame(function () {
+    imgs.forEach(function (img) {
+      var sec = img.closest('section, footer') || img.parentElement;
+      if (!groups.has(sec)) { groups.set(sec, []); io.observe(sec); }
+      groups.get(sec).push(img);
+    });
+  });
 })();
