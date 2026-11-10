@@ -1315,7 +1315,16 @@ sup { font-size: 0.7em; line-height: 0; }
 .tourbtn:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 2px; }
 @media (max-width: 1240px) { .bar__nav { gap: 1.2rem; } .bar { gap: 1.5rem; } }
 @media (max-width: 1100px) { .tourbtn { padding-right: 0.35rem; } .tourbtn__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
-@media (max-width: 860px) { .tourbtn { display: none; } }
+/* Mobil: turneringsknappen står som ikon i samme størrelse som "Kontakt os"-ikonet,
+   så alle tre knapper ses; "Bliv medlem" beholder fuld størrelse (vigtigst). */
+@media (max-width: 860px) {
+  .tourbtn { margin: 0; min-height: 2.75rem; padding: 0.36rem; border-radius: 14px; }
+  .tourbtn__ico { width: 2rem; height: 2rem; }
+}
+@media (max-width: 440px) {
+  .bar { gap: 0.55rem; }
+  .bar .btn--small { padding: 0 0.85rem; }
+}
 @media (max-width: 860px) { .mnav.is-open .mnav__nav a:nth-child(7) { transition-delay: 240ms; } }
 
 /* "Bliv medlem" i bjælken: nøglebrik med golfbold som hoved (medlemmer får
@@ -1414,3 +1423,52 @@ sup { font-size: 0.7em; line-height: 0; }
   .tier, .tier__price { transition: none !important; }
   .tier--wide:hover::before, .tier--wide:hover .tier__ball { animation: none; }
 }
+
+/* ---------------------------------------- priskort: figurer der popper op --
+   Barn (under 18), ung (18-25) og voksen (over 25) som piktogrammer i kortets
+   farve. De står i samme målestok, så højden fortæller alderen. Ved hover popper
+   figuren op fra bunden med fjedrende easing og dykker hurtigt ned igen, når man
+   går videre. Kun transform (ingen layout), så det koster intet. På touch popper
+   de op, når kortet er i midten af skærmen (site.js sætter .is-seen). */
+.tier:not(.tier--wide) { overflow: hidden; }
+.tier:not(.tier--wide) > :not(.tier__fig) { position: relative; z-index: 1; }
+.tier__fig {
+  position: absolute; right: clamp(0.7rem, 1.4vw, 1.2rem); bottom: -2px; z-index: 0;
+  height: 91%; width: auto; overflow: visible; pointer-events: none;
+  color: rgb(var(--tc)); fill: currentColor; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round;
+  transform: translateY(104%);
+  transition: transform 240ms cubic-bezier(.55, 0, .9, .4);
+}
+.tier__fig path { fill: none; }
+.tier__fig .f { fill: currentColor; stroke: none; }
+.tier__fig .c { stroke: #19422a; }
+.tier__fig .fig-wave { transform-box: view-box; transform-origin: 40px 132px; }
+.tier:is(:hover, .is-seen) .tier__fig {
+  transform: translateY(0);
+  transition: transform 640ms cubic-bezier(.3, 1.6, .55, 1) 40ms;
+  filter: drop-shadow(0 0 14px rgba(var(--tc), 0.28));
+}
+.tier:is(:hover, .is-seen) .fig-wave { animation: fig-wave 0.5s ease-in-out 0.55s 3 alternate; }
+@keyframes fig-wave { from { transform: rotate(0); } to { transform: rotate(16deg); } }
+/* Mus: kun hover. Touch: kun .is-seen. */
+@media (hover: hover) and (pointer: fine) { .tier.is-seen:not(:hover) .tier__fig { transform: translateY(104%); transition: transform 240ms cubic-bezier(.55, 0, .9, .4); filter: none; } .tier.is-seen:not(:hover) .fig-wave { animation: none; } }
+@media (hover: none), (pointer: coarse) { .tier:hover:not(.is-seen) .tier__fig { transform: translateY(104%); filter: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .tier__fig { transform: none; opacity: 0; transition: opacity 200ms linear; }
+  .tier:is(:hover, .is-seen) .tier__fig { transform: none; opacity: 1; transition: opacity 200ms linear; }
+  .tier:is(:hover, .is-seen) .fig-wave { animation: none; }
+}
+/* Bjælken på telefon: logoet må aldrig klemmes, og "Kontakt os" er kun ikon op til 600 px,
+   så logo + tre knapper + menu altid kan stå på én linje. */
+.bar__mark { flex: none; }
+@media (max-width: 600px) {
+  .callbtn { padding: 0.36rem; }
+  .callbtn__ico { width: 2rem; height: 2rem; }
+  .callbtn__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (max-width: 380px) {
+  .bar { padding-inline: 14px; gap: 0.45rem; }
+  .bar .btn--small { padding: 0 0.7rem; font-size: 0.7rem; }
+}
+/* Meget smalle telefoner: turneringsikonet ryger ud (står stadig i menuen). */
+@media (max-width: 340px) { .tourbtn { display: none; } }

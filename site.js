@@ -855,3 +855,15 @@
     });
   });
 })();
+
+/* Priskortenes figurer på touch: popper op, når kortet står midt på skærmen,
+   og dykker ned igen, når det forlader midten (ingen hover på telefoner). */
+(function () {
+  if (!('IntersectionObserver' in window) || matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  var cards = document.querySelectorAll('.tiers > .tier:not(.tier--wide)');
+  if (!cards.length) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { e.target.classList.toggle('is-seen', e.isIntersecting); });
+  }, { rootMargin: '-30% 0px -30% 0px' });
+  Array.prototype.forEach.call(cards, function (c) { io.observe(c); });
+})();
