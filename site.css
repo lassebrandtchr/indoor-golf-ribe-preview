@@ -1279,3 +1279,32 @@ sup { font-size: 0.7em; line-height: 0; }
   .tpage__intro { position: static; }
   .tform__group .field--half { grid-column: span 4; }
 }
+
+/* ------------------------------------------------ opsæt en turnering --
+   Mørkegrøn søsterknap til "Bliv medlem" i bjælken: samme form, lyst tekst,
+   lime pokal-ikon. Fører til turnering.html (knappen under Events bliver). */
+.tourbtn {
+  display: inline-flex; align-items: center; gap: 0.55rem; flex: none;
+  min-height: 2.5rem; padding: 0 1.05rem 0 0.35rem; margin-right: -1rem;
+  background: #0f3a22; color: var(--sc-ink);
+  border: 1px solid rgba(138, 217, 55, 0.38); border-radius: var(--r-md);
+  font: 700 0.74rem/1 var(--sc-font-text); letter-spacing: 0.08em; text-transform: uppercase;
+  text-decoration: none; white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: background-color 200ms var(--sc-ease-out), border-color 200ms var(--sc-ease-out), transform 140ms var(--sc-ease-out);
+}
+.tourbtn:active { transform: scale(0.97); }
+.tourbtn__ico {
+  display: grid; place-items: center; width: 1.95rem; height: 1.95rem; border-radius: 9px;
+  background: rgba(138, 217, 55, 0.14); color: var(--sc-accent);
+}
+.tourbtn svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 300ms var(--sc-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .tourbtn:hover { background: #14492b; border-color: var(--sc-accent); }
+  .tourbtn:hover svg { transform: translateY(-1px) rotate(-8deg); }
+}
+.tourbtn:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 2px; }
+@media (max-width: 1240px) { .bar__nav { gap: 1.2rem; } .bar { gap: 1.5rem; } }
+@media (max-width: 1100px) { .tourbtn { padding-right: 0.35rem; } .tourbtn__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+@media (max-width: 860px) { .tourbtn { display: none; } }
+@media (max-width: 860px) { .mnav.is-open .mnav__nav a:nth-child(7) { transition-delay: 240ms; } }
