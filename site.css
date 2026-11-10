@@ -20,6 +20,15 @@
   --r-lg: 24px;
 }
 
+/* Layout før JS (CLS). scrollcraft giver først de låste akter højde og sticky scene,
+   når scriptet har kørt. Malede browseren før det, havde hero højden 0, "4"-tallet fra
+   fakta stod øverst, og hele skærmen hoppede (CLS 1,0 målt på desktop 2026-11-10).
+   Her får scenerne samme form fra start; scrollcraft overskriver højden bagefter. */
+[data-sc-act="pin"], [data-sc-act="pan"], [data-sc-act="scrub"] { position: relative; min-height: 100vh; min-height: 100svh; }
+:is([data-sc-act="pin"], [data-sc-act="pan"], [data-sc-act="scrub"]) > [data-sc-stage] {
+  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: clip; z-index: var(--sc-z-stage);
+}
+
 /* Anton er kondenseret og står i versaler: luft, ikke negativ tracking. */
 .sc-display {
   font-weight: 400;
