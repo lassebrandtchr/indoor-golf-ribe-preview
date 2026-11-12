@@ -443,6 +443,14 @@
         var img = new Image();
         img.decoding = 'async';
         img.onload = function () { drawn = -1; };
+        // Sekvensen er 70-80 hurtige requests; svarer serveren med en forbigående fejl på en
+        // enkelt frame, prøves den én gang til (ellers ville den frame mangle resten af besøget).
+        img.onerror = function () {
+          var im = this;
+          if (im.__retried) return;
+          im.__retried = true;
+          setTimeout(function () { im.src = im.src + (im.src.indexOf('?') < 0 ? '?r=1' : '&r=1'); }, 1500);
+        };
         img.src = tpl.replace('{ii}', String(i).padStart(2, '0'));
         frames[i] = img;
       }
