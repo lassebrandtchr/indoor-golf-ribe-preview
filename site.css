@@ -186,6 +186,8 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
 .hero__sub { font-size: var(--sc-t-lg); line-height: 1.45; max-width: 30ch; margin: 1.25rem 0 1.75rem; color: var(--sc-ink); }
 @media (max-width: 860px) {
   .hero__copy h1 { font-size: clamp(3.4rem, 15vw, 4.6rem); }
+  /* Tablet på højkant: overskriften må fylde mere end på en telefon. */
+  @media (min-width: 600px) and (orientation: portrait) { .hero__copy h1 { font-size: clamp(4.6rem, 11vw, 6.2rem); } }
   /* Mobil har sit eget portrætfoto (hero-hall-m): gangen, lampen og båsene i toppen, teksten på gulvet. */
   .hero__photo img { object-position: 40% 50%; }
   .hero__scrim {
@@ -315,6 +317,11 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
 /* Trackman iO som neon-stregtegning "i loftet". Billedsekvensen har scenens egen
    grundfarve, og en radial maske lader kanten forsvinde i mørket. */
 .tm { margin: 0; z-index: 1; width: min(38vw, 50vh * 1.5); aspect-ratio: 3 / 2; transform-origin: 50% 160%; }
+/* Sekvensens baggrund er helt sort, scenens bund en anelse lysere, så lærredet stod som en mørk
+   plet, før tegningen begyndte. "screen" lader kun neonlyset slippe igennem; scenen har derfor
+   sin egen bund at blande imod (samme farve som siden). */
+.hush__stage { background: var(--sc-canvas); }
+.tm { mix-blend-mode: screen; }
 .tm__canvas {
   position: absolute; inset: 0; width: 100%; height: 100%;
   -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
@@ -426,6 +433,8 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
   .menu__list small { display: none; }
   .lounge__scrim { background: linear-gradient(to top, rgba(3, 11, 6, 0.95) 0%, rgba(3, 11, 6, 0.75) 45%, rgba(3, 11, 6, 0.3) 75%); }
   .lounge__copy { top: auto; bottom: 10vh; translate: none; }
+  /* Teksten kommer tidligere på telefonen (p 0.2), så skyggen under den skal også. */
+  .lounge__scrim { opacity: clamp(0, calc((var(--sc-p, 0) - 0.08) * 9), 1); }
 }
 
 /* Produkterne flyver ind til højre for prislisten. Billedsekvensen har sidens
@@ -1061,6 +1070,20 @@ sup { font-size: 0.7em; line-height: 0; }
   transition: border-color 160ms var(--sc-ease-out), color 160ms var(--sc-ease-out);
 }
 .consent__no:hover { border-color: var(--sc-ink); }
+.consent[hidden] { display: none; }
+/* Computer: en lav bjælke midt i bunden, så den ikke dækker forsidens tekst og "Bliv medlem"-knap. */
+@media (min-width: 900px) {
+  .consent {
+    left: 50%; translate: -50% 0; width: min(54rem, calc(100% - 2rem));
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 1.75rem;
+    padding: 0.85rem 1rem 0.85rem 1.25rem;
+    background: rgba(16, 38, 26, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  .consent__title { grid-column: 1; margin-bottom: 0.15rem; }
+  .consent__text { grid-column: 1; margin: 0; font-size: 0.8rem; line-height: 1.45; }
+  .consent__actions { grid-column: 2; grid-row: 1 / span 2; grid-template-columns: auto auto; }
+  .consent__actions > * { min-width: 7rem; }
+}
 @media (prefers-reduced-motion: reduce) { .consent { transform: none; transition: opacity 120ms linear; } }
 
 /* -------------------------------------------- kontakt os + telefonliste --
@@ -1217,6 +1240,8 @@ sup { font-size: 0.7em; line-height: 0; }
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
 }
 .scrollcue__text b { font-weight: 800; }
+/* Når hinten er tonet ud, står dens animationer stille (ellers gentegnes teksten hver frame, mens forsiden er på skærmen). */
+.scrollcue.is-gone .scrollcue__text, .scrollcue.is-gone .scrollcue__arrow path { animation-play-state: paused; }
 @keyframes cue-shine { from { background-position: 125% 0; } to { background-position: -125% 0; } }
 .scrollcue__arrow {
   display: grid; place-items: center; width: 2.6rem; height: 3.6rem; border-radius: 999px;

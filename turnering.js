@@ -72,10 +72,19 @@
     return ok;
   }
 
+  // Et felt med fejl tjekkes igen, mens man retter det (kun det ene felt), så layoutet
+  // ikke rykker i det øjeblik man klikker videre, og klikket rammer ved siden af.
   RULES.forEach(function (r) {
     var input = el[r[0]];
-    var evt = (input.type === 'checkbox' || input.type === 'date') ? 'change' : 'blur';
-    input.addEventListener(evt, function () { if (this.getAttribute('aria-invalid') === 'true') validate(); });
+    function recheck() {
+      if (input.getAttribute('aria-invalid') === 'true') setErr(input, r[1], r[2](input.value.trim()));
+    }
+    input.addEventListener('input', recheck);
+    input.addEventListener('change', recheck);
+  });
+  // Slutdatoen afhænger af startdatoen.
+  el.dato_fra.addEventListener('change', function () {
+    if (el.dato_til.getAttribute('aria-invalid') === 'true') setErr(el.dato_til, 'e-t-til', RULES[4][2](el.dato_til.value));
   });
 
   function fmt(iso) { var p = iso.split('-'); return p[2] + '.' + p[1] + '.' + p[0]; }

@@ -34,6 +34,8 @@
     if (lounge) {
       lounge.setAttribute('data-sc-span', '3.4');
       lounge.querySelector('.lounge__copy').setAttribute('data-sc-cue', '0.2 0.52 0.1 0.15');
+      // Fotoet skal være trukket helt for, før teksten toner ind (ellers står sidste ord oven på banebilledet).
+      lounge.querySelector('.lounge__photo').setAttribute('data-sc-reveal-at', '0.02 0.2');
       lounge.querySelector('.menu').setAttribute('data-sc-cue', '0.84 1.01 0.25 0');
       lounge.querySelector('.snacks__canvas').setAttribute('data-window', '0.58 0.82');
     }
@@ -131,7 +133,13 @@
       // Hvilepositionen: midten af bolden.
       x0 = narrow ? W * 0.7 : W * 0.71;
       y0 = narrow ? H * 0.3 : H * 0.55;
-      if (narrow) {
+      var wideLow = narrow && W > H * 1.2;   // telefon på langs
+      if (wideLow) {
+        // Ingen plads over teksten: bolden står til højre for den, fri af bjælken.
+        size = Math.max(90, Math.min(H * 0.42, 190));
+        x0 = W * 0.8;
+        y0 = Math.max(H * 0.58, 72 + 12 + size / 2);
+      } else if (narrow) {
         // På lave telefoner skal bolden stå mellem bjælken og teksten, ikke oven på kickeren.
         var stage = hero.querySelector('[data-sc-stage]');
         var copyTop = hero.querySelector('.hero__copy').getBoundingClientRect().top - stage.getBoundingClientRect().top;
@@ -218,6 +226,42 @@
     layout(); render();
     function enter() { requestAnimationFrame(function () { ball.classList.add('is-in'); if (cue) cue.classList.add('is-in'); }); }
     if (img.complete) enter(); else img.addEventListener('load', enter);
+  })();
+
+  /* Skifter skærmen mellem telefon- og computer-layout (fx en tablet der drejes), passer
+     akternes længde og billedkilder ikke længere. Indlæs siden igen, medmindre nogen er
+     i gang med at udfylde formularen. */
+  (function () {
+    var mq = window.matchMedia('(max-width: 860px)');
+    function swap() {
+      var f = document.getElementById('contactForm');
+      var dirty = f && Array.prototype.some.call(f.querySelectorAll('input:not([type=hidden]):not([type=checkbox]), select'), function (i) { return i.value; });
+      if (!dirty) window.location.reload();
+    }
+    if (mq.addEventListener) mq.addEventListener('change', swap); else if (mq.addListener) mq.addListener(swap);
+  })();
+
+  /* Menulinks til "Baner" og "Loungen": scenerne overlapper den forrige, så selve ankeret
+     lander på forrige scenes slutbillede uden tekst. Land i stedet et stykke inde i akten,
+     hvor første bane hhv. lounge-teksten står fremme. Gælder også links udefra (#baner). */
+  (function () {
+    var LAND = { baner: 0.115, loungen: window.matchMedia('(max-width: 860px)').matches ? 0.4 : 0.44 };
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function landY(id) {
+      var s = LAND.hasOwnProperty(id) && document.getElementById(id);
+      return s ? Math.round(s.offsetTop + LAND[id] * Math.max(s.offsetHeight - window.innerHeight, 1)) : null;
+    }
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || e.defaultPrevented) return;
+      var id = a.getAttribute('href').slice(1), y = landY(id);
+      if (y === null) return;
+      e.preventDefault();
+      window.scrollTo({ top: y, behavior: calm ? 'auto' : 'smooth' });
+      if (history.pushState) history.pushState(null, '', '#' + id);
+    });
+    var first = landY(window.location.hash.slice(1));
+    if (first !== null) requestAnimationFrame(function () { window.scrollTo({ top: first, behavior: 'instant' }); });
   })();
 
   /* Scener der overlapper den forrige: synlige først når de låser fast. */
@@ -483,10 +527,16 @@
     return ok;
   }
 
+  // Et felt med fejl tjekkes igen, mens man retter det (kun det ene felt). Før skete det
+  // på blur for hele formularen: fejlteksterne forsvandt, layoutet rykkede, og klikket på
+  // knappen eller næste felt ramte ved siden af.
   RULES.forEach(function (r) {
-    form.elements[r[0]].addEventListener(r[0] === 'medlemskab' ? 'change' : 'blur', function () {
-      if (this.getAttribute('aria-invalid') === 'true') validate();
-    });
+    var input = form.elements[r[0]];
+    function recheck() {
+      if (input.getAttribute('aria-invalid') === 'true') setErr(input, r[1], r[2](input.value.trim()));
+    }
+    input.addEventListener('input', recheck);
+    input.addEventListener('change', recheck);
   });
 
   function mailtoFallback(data) {
