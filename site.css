@@ -849,6 +849,11 @@ sup { font-size: 0.7em; line-height: 0; }
   padding-bottom: 0.2rem; border-bottom: 3px solid var(--sc-accent);
 }
 .foot__small { margin: 0; font-size: 0.8rem; color: var(--sc-ink-soft); }
+/* Computer: hilsenen centreres, rykkes tættere på kortet og bliver større. */
+@media (min-width: 861px) {
+  .foot { flex-direction: column; align-items: center; text-align: center; gap: 1.1rem; margin-top: 1.5rem; }
+  .signoff { font-size: clamp(2.4rem, 1.6rem + 1.8vw, 3.4rem); }
+}
 
 /* Kontakt bliver en almindelig sektion, hvor skærmen er for lille til at pinne en formular. */
 .close--flow .close__stage { position: static; height: auto; min-height: 100svh; overflow: visible; }
