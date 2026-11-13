@@ -1502,3 +1502,8 @@ sup { font-size: 0.7em; line-height: 0; }
 }
 /* Meget smalle telefoner: turneringsikonet ryger ud (står stadig i menuen). */
 @media (max-width: 340px) { .tourbtn { display: none; } }
+/* Samme turneringsknap i "Events og turneringer": identisk udseende som i bjælken,
+   men altid med tekst og uden bjælkens negative margin. */
+.tourbtn.tourbtn--inline { display: inline-flex; margin: 0; min-height: 2.5rem; padding: 0 1.05rem 0 0.35rem; border-radius: var(--r-md); }
+.tourbtn--inline .tourbtn__ico { width: 1.95rem; height: 1.95rem; }
+.tourbtn--inline .tourbtn__label { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
