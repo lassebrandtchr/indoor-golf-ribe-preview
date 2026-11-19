@@ -507,30 +507,50 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(0.9rem, 2vw, 1.5rem); margin-top: clamp(2.25rem, 4vw, 3.25rem); align-items: stretch;
 }
-/* Mørke kort som resten af siden. Metallet bor kun i topkanten, pakkenavnet og fluebenene. */
+/* Metalplader: gennemfarvet bronze, sølv og guld som en blød tone i samme metal.
+   Ingen loop. Ved hover løftes pladen, og ét lysstrejf glider over den én gang. */
 .spons {
-  --metal: #d39a64;
-  position: relative; border-radius: var(--r-md); color: var(--sc-ink);
-  padding: clamp(1.4rem, 2.6vw, 2rem); background: var(--sc-surface);
-  box-shadow: inset 0 0 0 1px var(--line), inset 0 3px 0 var(--metal), var(--lift);
-  transition: box-shadow 200ms var(--sc-ease-out);
+  position: relative; isolation: isolate; overflow: hidden;
+  border-radius: var(--r-md); color: #23170a;
+  padding: clamp(1.4rem, 2.6vw, 2rem);
+  background: linear-gradient(155deg, #e2ad7a 0%, #c98a55 55%, #b57947 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(0, 0, 0, 0.12), var(--lift);
+  transition: transform 260ms var(--sc-ease-out), box-shadow 260ms var(--sc-ease-out);
 }
-.spons--silver { --metal: #c9ced4; }
-.spons--gold { --metal: #e7c25a; box-shadow: inset 0 0 0 1px rgba(231, 194, 90, 0.4), inset 0 3px 0 var(--metal), var(--lift); }
+.spons--silver { color: #15181b; background: linear-gradient(155deg, #eceef0 0%, #c3c8ce 55%, #aab0b7 100%); }
+.spons--gold { color: #251a03; background: linear-gradient(155deg, #f3d57f 0%, #ddb043 55%, #c99a2c 100%); }
+.spons::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.45) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%; background-position: 130% 0;
+}
 @media (hover: hover) and (pointer: fine) {
-  .spons:hover { box-shadow: inset 0 0 0 1px rgba(247, 249, 245, 0.2), inset 0 3px 0 var(--metal), var(--lift); }
+  .spons:hover {
+    transform: translateY(-4px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(0, 0, 0, 0.12), 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+  .spons:hover::after { background-position: -30% 0; transition: background-position 900ms var(--sc-ease-out); }
 }
-.spons__badge { position: absolute; top: clamp(1.4rem, 2.6vw, 2rem); right: clamp(1.4rem, 2.6vw, 2rem); font: 500 0.85rem/1.2 var(--sc-font-text); color: var(--metal); }
-.spons__kicker { margin: 0; font: 600 0.95rem/1.2 var(--sc-font-text); color: var(--metal); }
+@media (prefers-reduced-motion: reduce) {
+  .spons, .spons:hover::after { transition: none; }
+  .spons:hover { transform: none; }
+  .spons::after { display: none; }
+}
+.spons__badge {
+  position: absolute; top: clamp(1.4rem, 2.6vw, 2rem); right: clamp(1.4rem, 2.6vw, 2rem);
+  padding: 0.3rem 0.6rem; border-radius: 6px; background: rgba(37, 26, 3, 0.88); color: #f3d57f;
+  font: 500 0.82rem/1.2 var(--sc-font-text);
+}
+.spons__kicker { margin: 0; font: 600 0.95rem/1.2 var(--sc-font-text); opacity: 0.75; }
 .spons__price { margin: 0.6rem 0 0; font: 400 var(--sc-t-2xl)/1 var(--sc-font-display); letter-spacing: 0.01em; }
-.spons__price small { font: 500 var(--sc-t-base)/1 var(--sc-font-text); color: var(--sc-ink-soft); letter-spacing: 0; margin-left: 0.3em; }
-.spons__per { margin: 0.4rem 0 0; font-weight: 400; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+.spons__price small { font: 500 var(--sc-t-base)/1 var(--sc-font-text); opacity: 0.7; letter-spacing: 0; margin-left: 0.3em; }
+.spons__per { margin: 0.4rem 0 0; font-weight: 500; font-size: var(--sc-t-sm); opacity: 0.75; }
 .spons__list {
-  list-style: none; margin: 1.25rem 0 0; padding: 1.25rem 0 0; border-top: 1px solid var(--line);
+  list-style: none; margin: 1.25rem 0 0; padding: 1.25rem 0 0; border-top: 1px solid rgba(0, 0, 0, 0.16);
   display: grid; gap: 0.7rem; font-weight: 500;
 }
 .spons__list li { display: grid; grid-template-columns: 1.1rem 1fr; gap: 0.6rem; align-items: start; line-height: 1.35; }
-.spons__list svg { width: 1.1rem; height: 1.1rem; margin-top: 0.1rem; fill: none; stroke: var(--metal); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.spons__list svg { width: 1.1rem; height: 1.1rem; margin-top: 0.1rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .spons__foot { margin: 1.25rem 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
 sup { font-size: 0.7em; line-height: 0; }
 
@@ -1061,20 +1081,19 @@ sup { font-size: 0.7em; line-height: 0; }
   --wood: #e8b866;
   position: relative; display: inline-flex; align-items: center; gap: 0.55rem; flex: none;
   min-height: 2.5rem; padding: 0 1.05rem 0 0.35rem; margin-right: -1rem; cursor: pointer;
-  border: 0; border-radius: var(--r-md);
-  background: transparent; color: var(--sc-ink);
+  border: 1px solid rgba(232, 184, 102, 0.55); border-radius: var(--r-md);
+  background: transparent; color: var(--sc-ink); isolation: isolate; overflow: hidden;
   font: 500 0.95rem/1 var(--sc-font-text); white-space: nowrap;
-  transition: background-color 250ms var(--sc-ease-out), color 250ms var(--sc-ease-out), border-color 250ms var(--sc-ease-out), transform 140ms var(--sc-ease-out);
+  transition: color 250ms var(--sc-ease-out), border-color 250ms var(--sc-ease-out), transform 140ms var(--sc-ease-out);
 }
 .callbtn:active { transform: scale(0.97); }
 .callbtn__ico {
   position: relative; display: grid; place-items: center; width: 1.95rem; height: 1.95rem; border-radius: 50%;
   color: var(--wood); transition: color 250ms;
 }
-.callbtn svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linejoin: round; }
-@media (hover: hover) and (pointer: fine) { .callbtn:hover { background: rgba(247, 249, 245, 0.06); } }
+.callbtn svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linejoin: round; transition: transform 300ms var(--sc-ease-out); }
 .callbtn:focus-visible { outline: 3px solid var(--wood); outline-offset: 2px; }
-.callbtn[aria-expanded="true"] { background: rgba(232, 184, 102, 0.12); }
+.callbtn[aria-expanded="true"] { border-color: var(--wood); }
 @media (max-width: 860px) {
   .callbtn { margin: 0 0 0 auto; min-height: 2.75rem; }
   .bar .btn { margin-left: 0; }
@@ -1289,8 +1308,33 @@ sup { font-size: 0.7em; line-height: 0; }
 }
 .tourbtn:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 2px; }
 /* I bjælken er turnering et stille tekstlink ved siden af "Kontakt os"; kun "Bliv medlem" er en knap. */
-.bar .tourbtn { background: transparent; border: 0; font-weight: 500; font-size: 0.95rem; }
+/* Bjælkens to sekundære knapper: stregkant i hver sin farve (træ / lime). Ved hover bliver
+   kanten fuld farve, en svag fyldning glider ind fra venstre, og ikonet rører sig en anelse. */
+.bar .tourbtn {
+  --edge: 138, 217, 55;
+  position: relative; isolation: isolate; overflow: hidden;
+  background: transparent; border: 1px solid rgba(138, 217, 55, 0.45);
+  font-weight: 500; font-size: 0.95rem;
+}
 .bar .tourbtn__ico { background: transparent; }
+.callbtn { --edge: 232, 184, 102; }
+.callbtn::before, .bar .tourbtn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: rgba(var(--edge), 0.13); transform: scaleX(0); transform-origin: left center;
+  transition: transform 420ms var(--sc-ease-out);
+}
+.callbtn[aria-expanded="true"]::before { transform: scaleX(1); }
+@media (hover: hover) and (pointer: fine) {
+  .callbtn:hover { border-color: var(--wood); }
+  .bar .tourbtn:hover { background: transparent; border-color: var(--sc-accent); }
+  .callbtn:hover::before, .bar .tourbtn:hover::before { transform: scaleX(1); }
+  .callbtn:hover svg { transform: rotate(-12deg); }
+  .bar .tourbtn:hover svg { transform: translateY(-2px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .callbtn::before, .bar .tourbtn::before { transition: none; }
+  .callbtn svg, .bar .tourbtn svg { transition: none; transform: none !important; }
+}
 @media (max-width: 1240px) { .bar__nav { gap: 1.2rem; } .bar { gap: 1.5rem; } }
 @media (max-width: 1100px) { .tourbtn { padding-right: 0.35rem; } .tourbtn__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
 /* Mobil: turneringsknappen står som ikon i samme størrelse som "Kontakt os"-ikonet,
