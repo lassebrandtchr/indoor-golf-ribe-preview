@@ -925,3 +925,130 @@
   }, { rootMargin: '-30% 0px -30% 0px' });
   Array.prototype.forEach.call(cards, function (c) { io.observe(c); });
 })();
+
+/* 360° rundtur. Teaseren: panoramaet kører i en sømløs løkke (360° hænger sammen i enderne),
+   lidt hurtigere når man scroller, og gradtallet/kompasbåndet følger med. Portalen: alle
+   [data-tour360]-links åbner turen i fuld skærm som en blænde fra det, man trykkede på.
+   Turen er tredjepart (tourmkr.com), så iframen oprettes først ved klik og fjernes ved luk.
+   Kun Indoor Golf-turen F1jmIt9WMu; den anden tur fra Alpine Vision-mailen er Storgaard Biler. */
+(function () {
+  var TOUR = 'https://tourmkr.com/F1jmIt9WMu';
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- teaser ----
+  var sec = document.getElementById('rundtur');
+  if (sec) {
+    var strip = sec.querySelector('.tour360__strip'), tape = sec.querySelector('.tour360__tape'), deg = document.getElementById('tourDeg');
+    var pos = 0.06, lastY = window.scrollY, lastT = 0, raf = 0, visible = false;
+    function paint() {
+      var tile = strip.offsetWidth / 2;
+      strip.style.transform = 'translate3d(' + (-pos * tile).toFixed(1) + 'px,0,0)';
+      tape.style.setProperty('--tape', (-pos * 1440).toFixed(1) + 'px');
+      deg.textContent = ('00' + Math.round((pos * 360 + 60) % 360)).slice(-3);
+    }
+    function frame(t) {
+      raf = 0;
+      if (!visible) return;
+      var dt = lastT ? Math.min(t - lastT, 64) : 16; lastT = t;
+      var y = window.scrollY, dy = Math.max(-90, Math.min(90, y - lastY)); lastY = y;
+      pos = (pos + dt / 90000 + dy / 9000 + 1) % 1;
+      paint();
+      raf = requestAnimationFrame(frame);
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) sec.classList.add('is-near'); });
+      }, { rootMargin: '150% 0px 150% 0px' }).observe(sec);
+      new IntersectionObserver(function (es) {
+        visible = es[0].isIntersecting;
+        if (reduce) { paint(); return; }
+        if (visible && !raf) { lastT = 0; lastY = window.scrollY; raf = requestAnimationFrame(frame); }
+      }).observe(sec);
+    } else { sec.classList.add('is-near'); paint(); }
+  }
+
+  // ---- portal ----
+  var portal = document.getElementById('portal360');
+  if (!portal) return;
+  var stage = portal.querySelector('.portal__stage'), closeBtn = portal.querySelector('.portal__close');
+  var opener = null, frameEl = null, timers = [], isOpen = false;
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+  function open(from) {
+    if (isOpen) return;
+    isOpen = true; opener = from || null; clearTimers();
+    var ox = window.innerWidth / 2, oy = window.innerHeight / 2;
+    if (from && from.getBoundingClientRect) {
+      var r = from.getBoundingClientRect();
+      if (r.width) { ox = r.left + r.width / 2; oy = r.top + r.height / 2; }
+    }
+    portal.style.setProperty('--ox', ox + 'px');
+    portal.style.setProperty('--oy', oy + 'px');
+    portal.classList.remove('is-ready', 'is-hinted');
+    portal.hidden = false;
+    document.documentElement.classList.add('is-portal');
+    portal.offsetHeight; // start fra lukket blænde, så overgangen kører
+    portal.classList.add('is-open');
+    closeBtn.focus({ preventScroll: true });
+    if (!(history.state && history.state.tour360)) history.pushState({ tour360: true }, '', '#rundtur-360');
+    var opened = Date.now();
+    frameEl = document.createElement('iframe');
+    frameEl.title = '360° rundtur i Indoor Golf Ribe';
+    frameEl.allow = 'autoplay; fullscreen; gyroscope; accelerometer; xr-spatial-tracking';
+    frameEl.setAttribute('allowfullscreen', '');
+    function ready() {
+      // Lad blænden og navnet stå et øjeblik, før turen toner frem.
+      timers.push(setTimeout(function () {
+        portal.classList.add('is-ready');
+        timers.push(setTimeout(function () { portal.classList.add('is-hinted'); }, 6000));
+      }, Math.max(0, 1100 - (Date.now() - opened))));
+    }
+    frameEl.addEventListener('load', ready, { once: true });
+    timers.push(setTimeout(ready, 8000));
+    // Iframen sættes ind efter blændens første del, så åbningen ikke hakker.
+    timers.push(setTimeout(function () { if (isOpen && frameEl) { frameEl.src = TOUR; stage.appendChild(frameEl); } }, reduce ? 0 : 280));
+  }
+  function shut() {
+    if (!isOpen) return;
+    isOpen = false; clearTimers();
+    portal.classList.remove('is-open');
+    document.documentElement.classList.remove('is-portal');
+    var f = frameEl; frameEl = null;
+    timers.push(setTimeout(function () {
+      portal.hidden = true; portal.classList.remove('is-ready', 'is-hinted');
+      if (f && f.parentNode) f.parentNode.removeChild(f);
+    }, reduce ? 220 : 540));
+    if (opener && document.contains(opener) && opener.offsetParent !== null) opener.focus({ preventScroll: true });
+    opener = null;
+  }
+  // Luk via historikken, så "Tilbage" og lukkeknappen gør det samme.
+  function requestClose() {
+    if (history.state && history.state.tour360) history.back(); else shut();
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-tour360]');
+    if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    open(a.closest('.mnav') ? null : a);
+  });
+  closeBtn.addEventListener('click', requestClose);
+  window.addEventListener('popstate', function () {
+    if (isOpen && !(history.state && history.state.tour360)) shut();
+    else if (!isOpen && history.state && history.state.tour360) open(null);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (!isOpen) return;
+    if (e.key === 'Escape') { e.preventDefault(); requestClose(); return; }
+    if (e.key === 'Tab') {
+      var f = Array.prototype.filter.call(portal.querySelectorAll('iframe, a[href], button'), function (el) { return el.offsetParent !== null || el.tagName === 'IFRAME'; });
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  // Delbart link: indoorgolfribe.dk/#rundtur-360 åbner turen direkte.
+  if (location.hash === '#rundtur-360') {
+    history.replaceState(null, '', location.pathname + location.search);
+    requestAnimationFrame(function () { open(null); });
+  }
+})();

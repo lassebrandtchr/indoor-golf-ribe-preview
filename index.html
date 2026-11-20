@@ -20,7 +20,7 @@
 <link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts.css?v=20261119a">
 <link rel="stylesheet" href="scrollcraft.css?v=20261109a">
-<link rel="stylesheet" href="site.css?v=20261119b">
+<link rel="stylesheet" href="site.css?v=20261120a">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -108,6 +108,9 @@
   <button class="callbtn" type="button" aria-expanded="false" aria-controls="telefon">
     <span class="callbtn__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4.2-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2 4.2 1.5v2.6a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 4.6 5.6a2 2 0 0 1 2-2.1z"/></svg></span><span class="callbtn__label">Kontakt os</span>
   </button>
+  <a class="tourbtn tourbtn--360" href="https://tourmkr.com/F1jmIt9WMu" target="_blank" rel="noopener" data-tour360>
+    <span class="tourbtn__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11" r="4.3"/><path d="M7.9 9.8C4.6 10.5 2.5 11.8 2.5 13.2c0 2.3 4.3 4.1 9.5 4.1s9.5-1.8 9.5-4.1c0-1.4-2.1-2.7-5.4-3.4"/><path d="M13.6 15.4l2.3 1.9-2.2 1.9"/></svg></span><span class="tourbtn__label">360° rundtur</span>
+  </a>
   <a class="tourbtn" href="turnering.html">
     <span class="tourbtn__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5v1.5A3.5 3.5 0 0 0 8.5 11M16 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5"/><path d="M12 13v3.5M8.5 20h7M9.5 20l.8-3.5h3.4l.8 3.5"/></svg></span><span class="tourbtn__label">Opsæt en turnering</span>
   </a>
@@ -144,13 +147,14 @@
 <!-- Mobilmenu: kun ≤860px. Samme sektioner som bjælken på computer. -->
 <div id="mnav" class="mnav" hidden>
   <nav class="mnav__nav" aria-label="Sektioner">
-    <a href="#simulatorerne"><span class="mnav__no">01</span>Simulatorerne</a>
-    <a href="#baner"><span class="mnav__no">02</span>Baner</a>
-    <a href="#loungen"><span class="mnav__no">03</span>Loungen</a>
-    <a href="#priser"><span class="mnav__no">04</span>Priser</a>
-    <a href="#events"><span class="mnav__no">05</span>Events</a>
-    <a href="#faq"><span class="mnav__no">06</span>Spørgsmål</a>
-    <a href="turnering.html"><span class="mnav__no">07</span>Opsæt turnering</a>
+    <a href="https://tourmkr.com/F1jmIt9WMu" target="_blank" rel="noopener" data-tour360><span class="mnav__no">01</span>360° rundtur</a>
+    <a href="#simulatorerne"><span class="mnav__no">02</span>Simulatorerne</a>
+    <a href="#baner"><span class="mnav__no">03</span>Baner</a>
+    <a href="#loungen"><span class="mnav__no">04</span>Loungen</a>
+    <a href="#priser"><span class="mnav__no">05</span>Priser</a>
+    <a href="#events"><span class="mnav__no">06</span>Events</a>
+    <a href="#faq"><span class="mnav__no">07</span>Spørgsmål</a>
+    <a href="turnering.html"><span class="mnav__no">08</span>Opsæt turnering</a>
   </nav>
   <div class="mnav__foot">
     <a class="btn" href="#kontakt">Bliv medlem</a>
@@ -261,6 +265,23 @@
           </svg>Døgnåbent for medlemmer</dt><dd>Jeres egen nøglebrik til døren. Kom, når det passer jer.</dd></div>
         </dl>
       </div>
+    </div>
+  </section>
+
+  <!-- 2½ · 360° RUNDTUR: et rigtigt 360°-panorama fra turen (Alpine Vision, nov. 2026) kører i løkke.
+       Kun Indoor Golf-turen tourmkr.com/F1jmIt9WMu. Den anden tur fra samme mail er Storgaard Biler og må ikke bruges.
+       Selve turen (tredjepart) hentes først, når man klikker (portalen nederst + site.js). -->
+  <section id="rundtur" class="tour360" data-sc-act="flow" aria-labelledby="tour360Title">
+    <div class="tour360__pano" aria-hidden="true"><div class="tour360__strip"></div></div>
+    <div class="tour360__scrim" aria-hidden="true"></div>
+    <div class="tour360__tape" aria-hidden="true"><span class="tour360__ticks"></span><span class="tour360__deg"><b id="tourDeg">084</b>°</span></div>
+    <div class="tour360__copy">
+      <p class="tour360__kicker"><span class="tour360__live" aria-hidden="true"></span>360° rundtur · ude og inde</p>
+      <h2 id="tour360Title" class="sc-display sc-display--lg">Gå en tur i hallen, <span class="acc">før&nbsp;du&nbsp;kommer.</span></h2>
+      <p class="tour360__sub">Se simulatorerne, loungen og faciliteterne i 360°, både ude og inde.</p>
+      <a class="btn tour360__cta" href="https://tourmkr.com/F1jmIt9WMu" target="_blank" rel="noopener" data-tour360>
+        <span class="tour360__ring" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11" r="4.3"/><path d="M7.9 9.8C4.6 10.5 2.5 11.8 2.5 13.2c0 2.3 4.3 4.1 9.5 4.1s9.5-1.8 9.5-4.1c0-1.4-2.1-2.7-5.4-3.4"/><path d="M13.6 15.4l2.3 1.9-2.2 1.9"/></svg></span>Træd indenfor
+      </a>
     </div>
   </section>
 
@@ -611,6 +632,25 @@
 
 </main>
 
+<!-- 360°-PORTAL: åbner sig som en blænde fra knappen, man trykker på. iframen oprettes først ved klik (site.js). -->
+<div id="portal360" class="portal" role="dialog" aria-modal="true" aria-label="360° rundtur i Indoor Golf Ribe" hidden>
+  <div class="portal__stage">
+    <div class="portal__load" aria-hidden="true">
+      <div class="portal__pano"></div>
+      <div class="portal__loadcopy">
+        <span class="portal__spin"></span>
+        <p class="portal__brand">Indoor Golf Ribe <span class="acc">360°</span></p>
+        <p class="portal__wait">Døren åbnes …</p>
+      </div>
+    </div>
+  </div>
+  <div class="portal__bar">
+    <p class="portal__hint">Træk for at se dig omkring · klik på pilene for at gå videre</p>
+    <a class="portal__ext" href="https://tourmkr.com/F1jmIt9WMu" target="_blank" rel="noopener">Åbn i ny fane</a>
+    <button class="portal__close" type="button"><span>Luk rundtur</span><i aria-hidden="true"></i></button>
+  </div>
+</div>
+
 <aside class="consent" id="consent" role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText" hidden>
   <p class="consent__title" id="consentTitle">Må vi tælle besøg?</p>
   <p class="consent__text" id="consentText">Vi bruger Google Analytics til anonym statistik over, hvor mange der besøger siden, og hvordan den bruges. Det sætter cookies, så vi spørger først. Ingen annoncer, intet videresalg.</p>
@@ -621,7 +661,7 @@
 </aside>
 
 <script src="scrollcraft.js?v=20261109a"></script>
-<script src="site.js?v=20261112b"></script>
+<script src="site.js?v=20261120a"></script>
 <script src="consent.js?v=20261109a"></script>
 </body>
 </html>
