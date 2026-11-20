@@ -1583,7 +1583,6 @@ sup { font-size: 0.7em; line-height: 0; }
 @media (max-width: 400px) { .bar .tourbtn--360 { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .tour360__live, .tour360__ring::after { animation: none; }
-  .tour360__strip { transform: translate3d(-18%, 0, 0); }
 }
 
 /* Portalen: fuld skærm. Blænden (clip-path-cirkel) vokser ud fra --ox/--oy. */

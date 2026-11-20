@@ -936,23 +936,42 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ---- teaser ----
+  // Panoramaet står på simulatorerne (Lasses ønske 2026-11-20): billedets midte glider fra den
+  // venstre simulatorskærm (SIM_A) til skærmen med golfspilleren (SIM_B), mens man scroller
+  // gennem sektionen, og ånder en anelse, når man står stille. Det drejer aldrig rundt til
+  // trævæggen. Tallene er brøkdele af panoramaets bredde (assets/rundtur-360.webp).
   var sec = document.getElementById('rundtur');
   if (sec) {
     var strip = sec.querySelector('.tour360__strip'), tape = sec.querySelector('.tour360__tape'), deg = document.getElementById('tourDeg');
-    var pos = 0.06, lastY = window.scrollY, lastT = 0, raf = 0, visible = false;
-    function paint() {
-      var tile = strip.offsetWidth / 2;
-      strip.style.transform = 'translate3d(' + (-pos * tile).toFixed(1) + 'px,0,0)';
-      tape.style.setProperty('--tape', (-pos * 1440).toFixed(1) + 'px');
-      deg.textContent = ('00' + Math.round((pos * 360 + 60) % 360)).slice(-3);
+    var SIM_A = 0.15, SIM_B = 0.29, ZONE_L = 0.0, ZONE_R = 0.40, DRIFT = 0.006;
+    var cur = null, raf = 0, visible = false;
+    function target(t) {
+      var vh = window.innerHeight, r = sec.getBoundingClientRect();
+      var p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+      var tile = strip.offsetWidth / 2 || 1, vis = Math.min(1, sec.clientWidth / tile);
+      var drift = reduce ? 0 : Math.sin(t / 2600) * DRIFT, pos;
+      if (vis >= ZONE_R - ZONE_L) {
+        // Bred skærm: hele simulator-zonen er i billedet. Skub den mod højre, væk fra teksten
+        // i venstre side, og lad scroll trække den lidt mere frem.
+        pos = ZONE_R - vis - 0.06 + 0.07 * p + drift;
+      } else {
+        // Smal skærm: midten glider fra den ene simulatorskærm til den anden, inden for zonen.
+        pos = Math.min(ZONE_R - vis, Math.max(ZONE_L, SIM_A + (SIM_B - SIM_A) * p - vis / 2 + drift));
+      }
+      return { pos: pos, vis: vis, tile: tile };
+    }
+    function paint(t) {
+      var g = target(t || 0);
+      cur = cur === null || reduce ? g.pos : cur + (g.pos - cur) * 0.08;
+      var x = ((cur % 1) + 1) % 1; // negativ → kig ind i anden kopi, så der aldrig er hul i venstre side
+      strip.style.transform = 'translate3d(' + (-x * g.tile).toFixed(1) + 'px,0,0)';
+      tape.style.setProperty('--tape', (-cur * 1440).toFixed(1) + 'px');
+      deg.textContent = ('00' + Math.round((((cur + g.vis / 2) * 360 + 30) % 360 + 360) % 360)).slice(-3);
     }
     function frame(t) {
       raf = 0;
       if (!visible) return;
-      var dt = lastT ? Math.min(t - lastT, 64) : 16; lastT = t;
-      var y = window.scrollY, dy = Math.max(-90, Math.min(90, y - lastY)); lastY = y;
-      pos = (pos + dt / 90000 + dy / 9000 + 1) % 1;
-      paint();
+      paint(t);
       raf = requestAnimationFrame(frame);
     }
     if ('IntersectionObserver' in window) {
@@ -961,10 +980,11 @@
       }, { rootMargin: '150% 0px 150% 0px' }).observe(sec);
       new IntersectionObserver(function (es) {
         visible = es[0].isIntersecting;
-        if (reduce) { paint(); return; }
-        if (visible && !raf) { lastT = 0; lastY = window.scrollY; raf = requestAnimationFrame(frame); }
+        if (reduce) { paint(0); return; }
+        if (visible && !raf) raf = requestAnimationFrame(frame);
       }).observe(sec);
-    } else { sec.classList.add('is-near'); paint(); }
+    } else { sec.classList.add('is-near'); paint(0); }
+    window.addEventListener('resize', function () { cur = null; paint(performance.now()); });
   }
 
   // ---- portal ----
