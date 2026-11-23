@@ -571,9 +571,9 @@ sup { font-size: 0.7em; line-height: 0; }
   color: var(--s-ink);
   transition: --m1 450ms var(--sc-ease-out), --m2 450ms var(--sc-ease-out), --m3 450ms var(--sc-ease-out), color 300ms var(--sc-ease-out);
 }
-.sform[data-tier="bronze"] { --m1: #e2ad7a; --m2: #c98a55; --m3: #b57947; --s-ink: #23170a; --s-soft: #4a3219; }
-.sform[data-tier="silver"] { --m1: #eceef0; --m2: #c3c8ce; --m3: #aab0b7; --s-ink: #15181b; --s-soft: #3a4047; }
-.sform[data-tier="gold"]   { --m1: #f6dc8c; --m2: #ddb043; --m3: #c4952a; --s-ink: #251a03; --s-soft: #4d3a0c; }
+.sform[data-tier="bronze"] { --m1: #e2ad7a; --m2: #c98a55; --m3: #b57947; --s-ink: #23170a; --s-soft: #4a3219; --s-on: #f6dcc0; }
+.sform[data-tier="silver"] { --m1: #eceef0; --m2: #c3c8ce; --m3: #aab0b7; --s-ink: #15181b; --s-soft: #3a4047; --s-on: #f1f3f5; }
+.sform[data-tier="gold"]   { --m1: #f6dc8c; --m2: #ddb043; --m3: #c4952a; --s-ink: #251a03; --s-soft: #4d3a0c; --s-on: #f8e2a0; }
 .sform[data-tier=""] .ptile:not(:hover) { filter: saturate(0.85); }
 .sform:not([data-tier=""]) { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(0, 0, 0, 0.12), var(--lift); }
 .sform::after {
@@ -609,7 +609,7 @@ sup { font-size: 0.7em; line-height: 0; }
 .ptile:has(input:checked) { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 3px var(--s-ink), 0 10px 24px rgba(0, 0, 0, 0.35); transform: translateY(-2px); }
 .ptile:has(input:checked)::after {
   opacity: 1; background: currentColor;
-  box-shadow: inset 0 0 0 3px var(--m2);
+  box-shadow: inset 0 0 0 3px var(--s-on);
 }
 .sform:not([data-tier=""]) .ptile:not(:has(input:checked)) { opacity: 0.62; }
 .ptile:has(input:focus-visible) { outline: 3px solid var(--sc-accent); outline-offset: 3px; }
@@ -638,7 +638,8 @@ sup { font-size: 0.7em; line-height: 0; }
 .sform:not([data-tier=""]) .field input:focus-visible { outline-color: var(--s-ink); border-color: var(--s-ink); background: rgba(255, 255, 255, 0.8); }
 .sform:not([data-tier=""]) .field [aria-invalid="true"] { border-color: #a10e0d; }
 .sform:not([data-tier=""]) .field__err { color: #8a0b0a; font-weight: 600; }
-.sform:not([data-tier=""]) .btn { background: var(--s-ink); color: var(--m1); }
+/* --m1/2/3 er registreret med inherits:false og når ikke ned i børn; brug den arvelige --s-on. */
+.sform:not([data-tier=""]) .btn { background: var(--s-ink); color: var(--s-on); }
 @media (hover: hover) and (pointer: fine) { .sform:not([data-tier=""]) .btn:hover { background: #000; } }
 .sform:not([data-tier=""]) .form__status { color: var(--s-soft); }
 .sform:not([data-tier=""]) .form__status.is-ok { color: var(--s-ink); font-weight: 600; }
