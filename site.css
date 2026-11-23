@@ -555,34 +555,11 @@ body { line-height: 1.64; letter-spacing: 0.005em; }
 sup { font-size: 0.7em; line-height: 0; }
 
 /* ------------------------------------------------ sponsortilmelding --
-   Panelet er mørkt, til en pakke vælges. Så glider hele panelet over i pakkens
-   metal (samme toner som kortene ovenfor). De tre farvestop er registrerede
-   farver (@property), så gradienten kan overgå blødt mellem metallerne.
-   Guld får desuden et langsomt lysstrejf; ikke ved reduceret bevægelse. */
-@property --m1 { syntax: "<color>"; inherits: false; initial-value: #0a1a10; }
-@property --m2 { syntax: "<color>"; inherits: false; initial-value: #0a1a10; }
-@property --m3 { syntax: "<color>"; inherits: false; initial-value: #0a1a10; }
-.form.sform {
-  --m1: var(--sc-surface); --m2: var(--sc-surface); --m3: var(--sc-surface);
-  --s-ink: var(--sc-ink); --s-soft: var(--sc-ink-soft);
-  position: relative; isolation: isolate; overflow: hidden;
-  margin-top: clamp(2.5rem, 5vw, 3.75rem); gap: 1rem 1rem;
-  background: linear-gradient(155deg, var(--m1) 0%, var(--m2) 55%, var(--m3) 100%);
-  color: var(--s-ink);
-  transition: --m1 450ms var(--sc-ease-out), --m2 450ms var(--sc-ease-out), --m3 450ms var(--sc-ease-out), color 300ms var(--sc-ease-out);
-}
-.sform[data-tier="bronze"] { --m1: #e2ad7a; --m2: #c98a55; --m3: #b57947; --s-ink: #23170a; --s-soft: #4a3219; --s-on: #f6dcc0; }
-.sform[data-tier="silver"] { --m1: #eceef0; --m2: #c3c8ce; --m3: #aab0b7; --s-ink: #15181b; --s-soft: #3a4047; --s-on: #f1f3f5; }
-.sform[data-tier="gold"]   { --m1: #f6dc8c; --m2: #ddb043; --m3: #c4952a; --s-ink: #251a03; --s-soft: #4d3a0c; --s-on: #f8e2a0; }
+   Panelet bliver i sidens grønne farve. Kun de tre pakkefliser er bronze,
+   sølv og guld; den valgte får en lime ring, de andre tones ned.
+   (Hele panelet i metal blev prøvet 2026-11-23 og fravalgt af Lasse.) */
+.form.sform { margin-top: clamp(2.5rem, 5vw, 3.75rem); gap: 1rem 1rem; }
 .sform[data-tier=""] .ptile:not(:hover) { filter: saturate(0.85); }
-.sform:not([data-tier=""]) { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(0, 0, 0, 0.12), var(--lift); }
-.sform::after {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
-  background: linear-gradient(105deg, transparent 38%, rgba(255, 250, 225, 0.55) 50%, transparent 62%) no-repeat;
-  background-size: 260% 100%; background-position: 140% 0;
-}
-.sform[data-tier="gold"]::after { opacity: 1; animation: sformSheen 5.5s var(--sc-ease-out) 0.3s infinite; }
-@keyframes sformSheen { 0% { background-position: 140% 0; } 45%, 100% { background-position: -40% 0; } }
 
 .sform__title { grid-column: span 4; margin: 0; font: 400 var(--sc-t-lg)/1.1 var(--sc-font-display); text-transform: uppercase; letter-spacing: 0.02em; }
 .sform__pick { grid-column: span 4; margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 0.5rem; }
@@ -606,14 +583,14 @@ sup { font-size: 0.7em; line-height: 0; }
   content: ""; position: absolute; top: 0.7rem; right: 0.7rem; width: 1.3rem; height: 1.3rem; border-radius: 50%;
   border: 2px solid currentColor; opacity: 0.45;
 }
-.ptile:has(input:checked) { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 3px var(--s-ink), 0 10px 24px rgba(0, 0, 0, 0.35); transform: translateY(-2px); }
+.ptile:has(input:checked) { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 3px var(--sc-accent), 0 10px 24px rgba(0, 0, 0, 0.35); transform: translateY(-2px); }
 .ptile:has(input:checked)::after {
   opacity: 1; background: currentColor;
-  box-shadow: inset 0 0 0 3px var(--s-on);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.6);
 }
 .sform:not([data-tier=""]) .ptile:not(:has(input:checked)) { opacity: 0.62; }
 .ptile:has(input:focus-visible) { outline: 3px solid var(--sc-accent); outline-offset: 3px; }
-.sform:not([data-tier=""]) .ptile:has(input:focus-visible) { outline-color: var(--s-ink); }
+.ptile:has(input:checked):has(input:focus-visible) { outline-color: var(--sc-ink); }
 @media (hover: hover) and (pointer: fine) {
   .ptile:hover { transform: translateY(-2px); opacity: 1; }
 }
@@ -622,32 +599,14 @@ sup { font-size: 0.7em; line-height: 0; }
 .field.sfield--city { grid-column: span 3; }
 .sform__members { grid-column: span 4; display: grid; gap: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
 .sform__note { margin: 0; font-weight: 600; font-size: 0.95rem; }
-.sform__note span { font-weight: 400; color: var(--s-soft); }
+.sform__note span { font-weight: 400; color: var(--sc-ink-soft); }
 .sform__member { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem 1rem; margin: 0; padding: 0; border: 0; min-width: 0; }
 .sform__member legend { padding: 0; margin-bottom: 0.75rem; font: 400 1.15rem/1.1 var(--sc-font-display); text-transform: uppercase; letter-spacing: 0.03em; }
 .sform__members:not([hidden]), .sform__member:not([hidden]) { animation: sformIn 380ms var(--sc-ease-out) both; }
 .sform__members[hidden], .sform__member[hidden] { display: none; }
 @keyframes sformIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
-/* På metal: mørk tekst, lyse felter, mørk knap. Kontrasten holder på alle tre metaller. */
-.sform:not([data-tier=""]) .sform__members { border-top-color: rgba(0, 0, 0, 0.18); }
-.sform:not([data-tier=""]) .field input {
-  background: rgba(255, 255, 255, 0.6); border-color: rgba(0, 0, 0, 0.22); color: var(--s-ink); color-scheme: light;
-}
-.sform:not([data-tier=""]) .field input::placeholder { color: var(--s-soft); opacity: 0.8; }
-.sform:not([data-tier=""]) .field input:focus-visible { outline-color: var(--s-ink); border-color: var(--s-ink); background: rgba(255, 255, 255, 0.8); }
-.sform:not([data-tier=""]) .field [aria-invalid="true"] { border-color: #a10e0d; }
-.sform:not([data-tier=""]) .field__err { color: #8a0b0a; font-weight: 600; }
-/* --m1/2/3 er registreret med inherits:false og når ikke ned i børn; brug den arvelige --s-on. */
-.sform:not([data-tier=""]) .btn { background: var(--s-ink); color: var(--s-on); }
-@media (hover: hover) and (pointer: fine) { .sform:not([data-tier=""]) .btn:hover { background: #000; } }
-.sform:not([data-tier=""]) .form__status { color: var(--s-soft); }
-.sform:not([data-tier=""]) .form__status.is-ok { color: var(--s-ink); font-weight: 600; }
-.sform:not([data-tier=""]) .form__status.is-err { color: #8a0b0a; font-weight: 600; }
-.sform:not([data-tier=""]) .form__status a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
-  .sform { transition: none; }
-  .sform[data-tier="gold"]::after { animation: none; opacity: 0; }
   .ptile, .ptile:hover, .ptile:has(input:checked) { transition: none; transform: none; }
   .sform__members:not([hidden]), .sform__member:not([hidden]) { animation: none; }
 }
