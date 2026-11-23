@@ -558,7 +558,36 @@ sup { font-size: 0.7em; line-height: 0; }
    Panelet bliver i sidens grønne farve. Kun de tre pakkefliser er bronze,
    sølv og guld; den valgte får en lime ring, de andre tones ned.
    (Hele panelet i metal blev prøvet 2026-11-23 og fravalgt af Lasse.) */
-.form.sform { display: block; margin-top: clamp(2.5rem, 5vw, 3.75rem); }
+.form.sform {
+  display: block; margin-top: clamp(2.5rem, 5vw, 3.75rem);
+  position: relative; z-index: 0;   /* egen stabel: lyslagene (z-index -1) ligger bag indholdet, over baggrunden */
+  transition: transform 300ms var(--sc-ease-out), box-shadow 300ms var(--sc-ease-out);
+}
+/* Hvidt lys, der langsomt ånder ind og ud bag den sammenfoldede knap. Kun glød (box-shadow)
+   uden for panelet; selve laget er gennemsigtigt. Animerer kun opacity. Falder til ro, når
+   formularen er foldet ud. */
+.form.sform::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14), 0 0 26px 2px rgba(255, 255, 255, 0.26), 0 0 72px 12px rgba(255, 255, 255, 0.1);
+  opacity: 0.35; transition: opacity 500ms var(--sc-ease-out);
+}
+.sform:not(.is-open)::before { animation: sformBreathe 4.2s ease-in-out infinite; }
+.sform.is-open::before { opacity: 0; }
+@keyframes sformBreathe { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+/* Lys der følger musen hen over knappen (--mx/--my sættes i site.js), plus et lille løft. */
+.form.sform::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(22rem circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.13), transparent 65%);
+  opacity: 0; transition: opacity 250ms var(--sc-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .sform:has(.sform__toggle:hover)::after { opacity: 1; }
+  .sform:not(.is-open):has(.sform__toggle:hover) {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+  .sform:not(.is-open):has(.sform__toggle:hover)::before { animation: none; opacity: 1; }
+}
 /* Foldet sammen som standard: kun knappen ses. Kroppen folder ud via grid-template-rows
    0fr → 1fr (ingen højde-animation); lukket krop er inert, så felterne ikke kan fokuseres. */
 .sform__head { margin: 0; }
@@ -637,6 +666,8 @@ sup { font-size: 0.7em; line-height: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   .sform__body, .sform__inner, .sform.is-open .sform__inner, .sform__chev { transition: none; }
+  .sform:not(.is-open)::before { animation: none; opacity: 0.7; }
+  .sform:not(.is-open):has(.sform__toggle:hover) { transform: none; }
   .ptile, .ptile:hover, .ptile:has(input:checked) { transition: none; transform: none; }
   .sform__members:not([hidden]), .sform__member:not([hidden]) { animation: none; }
 }

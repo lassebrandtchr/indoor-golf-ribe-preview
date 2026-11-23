@@ -642,6 +642,12 @@
     body.addEventListener('transitionend', function (e) {
       if (e.target === body && e.propertyName === 'grid-template-rows') sf.classList.remove('is-anim');
     });
+    // Lyset under musen: position i forhold til panelet.
+    toggle.addEventListener('pointermove', function (e) {
+      var r = sf.getBoundingClientRect();
+      sf.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      sf.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
     // event.detail === 0: aktiveret med Enter/mellemrum, ikke med et klik.
     toggle.addEventListener('click', function (e) { setOpen(toggle.getAttribute('aria-expanded') !== 'true', e.detail === 0); });
 
