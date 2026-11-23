@@ -234,8 +234,10 @@
   (function () {
     var mq = window.matchMedia('(max-width: 860px)');
     function swap() {
-      var f = document.getElementById('contactForm');
-      var dirty = f && Array.prototype.some.call(f.querySelectorAll('input:not([type=hidden]):not([type=checkbox]), select'), function (i) { return i.value; });
+      var dirty = ['contactForm', 'sponsorForm'].some(function (id) {
+        var f = document.getElementById(id);
+        return f && Array.prototype.some.call(f.querySelectorAll('input:not([type=hidden]):not([type=checkbox]):not([type=radio]), select'), function (i) { return i.value; });
+      });
       if (!dirty) window.location.reload();
     }
     if (mq.addEventListener) mq.addEventListener('change', swap); else if (mq.addListener) mq.addListener(swap);
@@ -607,6 +609,123 @@
       })
       .then(function () { btn.disabled = false; });
   });
+
+  /* ---------------------------------------------------------------------
+     Sponsortilmelding (under "Bliv sponsor"). Valgt pakke sætter data-tier på
+     formularen (bronze/sølv/guld-farven ligger i CSS) og viser 0, 1 eller 2
+     medlemskabsgrupper. Skjulte grupper er disabled, så de hverken valideres
+     eller sendes; det man har skrevet, bliver stående, hvis man skifter frem
+     og tilbage. Medlemsfelterne er valgfrie ("kan udfyldes senere").
+     ------------------------------------------------------------------- */
+  (function sponsorForm() {
+    var sf = document.getElementById('sponsorForm');
+    if (!sf) return;
+    var sStatus = document.getElementById('sFormStatus');
+    var tiles = document.getElementById('s-pakke');
+    var membersBox = document.getElementById('sMembers');
+    var groups = sf.querySelectorAll('.sform__member');
+    var radios = sf.querySelectorAll('input[name="sponsorpakke"]');
+
+    function applyTier() {
+      var picked = sf.querySelector('input[name="sponsorpakke"]:checked');
+      var n = picked ? +picked.getAttribute('data-members') : 0;
+      sf.setAttribute('data-tier', picked ? picked.getAttribute('data-tier') : '');
+      membersBox.hidden = n === 0;
+      Array.prototype.forEach.call(groups, function (g) {
+        var on = +g.getAttribute('data-member') <= n;
+        g.hidden = !on;
+        g.disabled = !on;
+      });
+    }
+    Array.prototype.forEach.call(radios, function (r) {
+      r.addEventListener('change', function () {
+        applyTier();
+        if (tiles.getAttribute('aria-invalid') === 'true') setErr(tiles, 'se-pakke', '');
+      });
+    });
+
+    function dobRule(v) {
+      if (!v) return '';
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return 'Tjek fødselsdatoen.';
+      var d = new Date(v + 'T00:00:00');
+      return (isNaN(d.getTime()) || v < '1900-01-01' || d > new Date()) ? 'Tjek fødselsdatoen.' : '';
+    }
+    var S_RULES = [
+      ['cvr', 'se-cvr', function (v) { v = v.replace(/^DK/i, '').replace(/[\s-]/g, ''); return !v ? 'Skriv CVR-nummer.' : (/^\d{8}$/.test(v) ? '' : 'CVR-nummer er 8 cifre.'); }],
+      ['firmanavn', 'se-firma', function (v) { return v ? '' : 'Skriv firmanavn.'; }],
+      ['adresse', 'se-adr', function (v) { return v ? '' : 'Skriv adresse.'; }],
+      ['postnummer', 'se-zip', function (v) { return !v ? 'Skriv postnummer.' : (/^\d{4}$/.test(v) ? '' : 'Postnummer er 4 cifre.'); }],
+      ['by', 'se-city', function (v) { return v ? '' : 'Skriv by.'; }],
+      ['telefon', 'se-phone', function (v) { return !v ? 'Skriv et telefonnummer.' : (v.replace(/[\s+-]/g, '').length >= 8 ? '' : 'Tjek telefonnummeret.'); }],
+      ['email', 'se-mail', function (v) { return !v ? 'Skriv en mail, vi kan svare på.' : (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Tjek mailadressen.'); }],
+      ['medlem1_foedselsdato', 'se-m1-dob', dobRule],
+      ['medlem2_foedselsdato', 'se-m2-dob', dobRule]
+    ];
+
+    function sValidate() {
+      var ok = true;
+      S_RULES.forEach(function (r) {
+        var input = sf.elements[r[0]];
+        if (input.disabled) { setErr(input, r[1], ''); return; }
+        ok = setErr(input, r[1], r[2](input.value.trim())) && ok;
+      });
+      var picked = sf.querySelector('input[name="sponsorpakke"]:checked');
+      ok = setErr(tiles, 'se-pakke', picked ? '' : 'Vælg en sponsorpakke.') && ok;
+      return ok;
+    }
+
+    S_RULES.forEach(function (r) {
+      var input = sf.elements[r[0]];
+      function recheck() {
+        if (input.getAttribute('aria-invalid') === 'true') setErr(input, r[1], r[2](input.value.trim()));
+      }
+      input.addEventListener('input', recheck);
+      input.addEventListener('change', recheck);
+    });
+
+    sf.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      sStatus.className = 'form__status';
+      sStatus.textContent = '';
+      if (!sValidate()) {
+        var first = sf.querySelector('[aria-invalid="true"]');
+        if (first === tiles) first = radios[0];
+        if (first) first.focus();
+        return;
+      }
+      if (sf.elements.botcheck.checked) return;
+      var data = new FormData(sf);
+      data.set('cvr', data.get('cvr').replace(/^DK/i, '').replace(/[\s-]/g, ''));
+      [1, 2].forEach(function (i) {
+        if (!data.has('medlem' + i + '_navn')) return;   // gruppen hører ikke til pakken
+        ['navn', 'dgu', 'foedselsdato'].forEach(function (k) {
+          var key = 'medlem' + i + '_' + k;
+          var v = (data.get(key) || '').trim();
+          data.set(key, v ? (k === 'foedselsdato' ? dkDate(v) : v) : 'Udfyldes senere');
+        });
+      });
+
+      var btn = sf.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      sStatus.textContent = 'Sender...';
+      fetch('https://api.web3forms.com/submit', { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(function (json) {
+          if (!json.success) throw new Error(json.message || 'fejl');
+          sf.reset();
+          applyTier();
+          sStatus.className = 'form__status is-ok';
+          sStatus.textContent = 'Tak! Vi kontakter jer snarest om sponsoratet.';
+        })
+        .catch(function () {
+          sStatus.className = 'form__status is-err';
+          sStatus.innerHTML = 'Tilmeldingen kunne ikke sendes. Skriv i stedet til <a href="mailto:' + MAIL + '">' + MAIL + '</a>.';
+        })
+        .then(function () { btn.disabled = false; });
+    });
+
+    applyTier();   // fx hvis browseren har husket et valg ved genindlæsning
+  })();
 
   /* ---------------------------------------------------------------------
      Neonskiltet "Oplev vores simulator.": Trackman-strålen rammer skiltet, og bogstaverne tænder ét for ét fra
