@@ -522,6 +522,13 @@
     ['by', 'e-city', function (v) { return v ? '' : 'Skriv by.'; }],
     ['telefon', 'e-phone', function (v) { return !v ? 'Skriv et telefonnummer.' : (v.replace(/[\s+-]/g, '').length >= 8 ? '' : 'Tjek telefonnummeret.'); }],
     ['email', 'e-mail', function (v) { return !v ? 'Skriv en mail, vi kan svare på.' : (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Tjek mailadressen.'); }],
+    ['foedselsdato', 'e-dob', function (v) {
+      if (!v) return 'Skriv fødselsdato.';
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return 'Tjek fødselsdatoen.';
+      var d = new Date(v + 'T00:00:00');
+      if (isNaN(d.getTime()) || v < '1900-01-01' || d > new Date()) return 'Tjek fødselsdatoen.';
+      return '';
+    }],
     ['dgu', 'e-dgu', function (v) { return v ? '' : 'Skriv jeres DGU-nummer.'; }],
     ['medlemskab', 'e-type', function (v) { return v ? '' : 'Vælg medlemskabstype.'; }]
   ];
@@ -547,6 +554,9 @@
     input.addEventListener('change', recheck);
   });
 
+  // Datofeltet giver åååå-mm-dd; mailen skal have dd-mm-åååå.
+  function dkDate(v) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ''); return m ? m[3] + '-' + m[2] + '-' + m[1] : v; }
+
   function mailtoFallback(data) {
     var lines = [
       'Navn: ' + data.get('navn'),
@@ -554,6 +564,7 @@
       'Postnummer og by: ' + data.get('postnummer') + ' ' + data.get('by'),
       'Telefon: ' + data.get('telefon'),
       'Mail: ' + data.get('email'),
+      'Fødselsdato: ' + dkDate(data.get('foedselsdato')),
       'DGU-nummer: ' + data.get('dgu'),
       'Medlemskab: ' + data.get('medlemskab')
     ];
@@ -575,6 +586,7 @@
     }
     if (form.elements.botcheck.checked) return;
     var data = new FormData(form);
+    data.set('foedselsdato', dkDate(data.get('foedselsdato')));
     var key = data.get('access_key');
     if (!key || key.indexOf('DIN_') === 0) { mailtoFallback(data); return; }
 

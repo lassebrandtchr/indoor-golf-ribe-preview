@@ -20,7 +20,7 @@
 <link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts.css?v=20261119a">
 <link rel="stylesheet" href="scrollcraft.css?v=20261109a">
-<link rel="stylesheet" href="site.css?v=20261120b">
+<link rel="stylesheet" href="site.css?v=20261123a">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -603,11 +603,16 @@
             <p class="field__err" id="e-mail"></p>
           </div>
           <div class="field field--half">
+            <label for="f-dob">Fødselsdato</label>
+            <input id="f-dob" name="foedselsdato" type="date" autocomplete="bday" min="1900-01-01" required>
+            <p class="field__err" id="e-dob"></p>
+          </div>
+          <div class="field field--half">
             <label for="f-dgu">DGU-nummer</label>
             <input id="f-dgu" name="dgu" autocomplete="off" required>
             <p class="field__err" id="e-dgu"></p>
           </div>
-          <div class="field field--half">
+          <div class="field">
             <label for="f-type">Medlemskabstype</label>
             <select id="f-type" name="medlemskab" required>
               <option value="" selected disabled>Vælg medlemskab</option>
@@ -661,7 +666,7 @@
 </aside>
 
 <script src="scrollcraft.js?v=20261109a"></script>
-<script src="site.js?v=20261120b"></script>
+<script src="site.js?v=20261123a"></script>
 <script src="consent.js?v=20261109a"></script>
 </body>
 </html>
