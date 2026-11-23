@@ -626,6 +626,25 @@
     var groups = sf.querySelectorAll('.sform__member');
     var radios = sf.querySelectorAll('input[name="sponsorpakke"]');
 
+    // Fold ud/ind. Formularen er foldet sammen som standard; kroppen er inert, når den er lukket.
+    // Den folder aldrig selv sammen igen (heller ikke efter afsendelse), så indtastning og takketekst bliver stående.
+    var toggle = sf.querySelector('.sform__toggle');
+    var body = document.getElementById('sBody');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function setOpen(open, viaKeyboard) {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!reduce.matches) sf.classList.add('is-anim');   // klip indholdet, mens højden ændres
+      sf.classList.toggle('is-open', open);
+      body.inert = !open;
+      if (open && viaKeyboard) radios[0].focus({ preventScroll: true });
+      if (reduce.matches) sf.classList.remove('is-anim');
+    }
+    body.addEventListener('transitionend', function (e) {
+      if (e.target === body && e.propertyName === 'grid-template-rows') sf.classList.remove('is-anim');
+    });
+    // event.detail === 0: aktiveret med Enter/mellemrum, ikke med et klik.
+    toggle.addEventListener('click', function (e) { setOpen(toggle.getAttribute('aria-expanded') !== 'true', e.detail === 0); });
+
     function applyTier() {
       var picked = sf.querySelector('input[name="sponsorpakke"]:checked');
       var n = picked ? +picked.getAttribute('data-members') : 0;

@@ -558,10 +558,39 @@ sup { font-size: 0.7em; line-height: 0; }
    Panelet bliver i sidens grønne farve. Kun de tre pakkefliser er bronze,
    sølv og guld; den valgte får en lime ring, de andre tones ned.
    (Hele panelet i metal blev prøvet 2026-11-23 og fravalgt af Lasse.) */
-.form.sform { margin-top: clamp(2.5rem, 5vw, 3.75rem); gap: 1rem 1rem; }
+.form.sform { display: block; margin-top: clamp(2.5rem, 5vw, 3.75rem); }
+/* Foldet sammen som standard: kun knappen ses. Kroppen folder ud via grid-template-rows
+   0fr → 1fr (ingen højde-animation); lukket krop er inert, så felterne ikke kan fokuseres. */
+.sform__head { margin: 0; }
+.sform__toggle {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%;
+  margin: 0; padding: 0.25rem 0; background: none; border: 0; color: inherit; text-align: left; cursor: pointer;
+  border-radius: 8px;
+}
+.sform__toggle:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 6px; }
+.sform__toggletext { display: grid; gap: 0.35rem; }
+.sform__sub { font: 400 0.95rem/1.3 var(--sc-font-text); color: var(--sc-ink-soft); text-transform: none; letter-spacing: 0; }
+.sform__chev {
+  flex: none; width: 2.5rem; height: 2.5rem; padding: 0.55rem; border-radius: 50%;
+  border: 1px solid var(--line); fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform 400ms var(--sc-ease-out), border-color 200ms var(--sc-ease-out), color 200ms var(--sc-ease-out);
+}
+.sform__toggle[aria-expanded="true"] .sform__chev { transform: rotate(180deg); }
+@media (hover: hover) and (pointer: fine) {
+  .sform__toggle:hover .sform__chev { border-color: var(--sc-accent); color: var(--sc-accent); }
+}
+.sform__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 400ms var(--sc-ease-out); }
+.sform.is-open .sform__body { grid-template-rows: 1fr; }
+.sform__inner {
+  min-height: 0; overflow: hidden;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem 1rem;
+  opacity: 0; transition: opacity 300ms var(--sc-ease-out);
+}
+.sform.is-open .sform__inner { opacity: 1; padding-top: 1.5rem; overflow: visible; transition: opacity 300ms var(--sc-ease-out) 100ms; }
+.sform.is-anim .sform__inner { overflow: hidden; }
 .sform[data-tier=""] .ptile:not(:hover) { filter: saturate(0.85); }
 
-.sform__title { grid-column: span 4; margin: 0; font: 400 var(--sc-t-lg)/1.1 var(--sc-font-display); text-transform: uppercase; letter-spacing: 0.02em; }
+.sform__title { font: 400 var(--sc-t-lg)/1.1 var(--sc-font-display); text-transform: uppercase; letter-spacing: 0.02em; }
 .sform__pick { grid-column: span 4; margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 0.5rem; }
 .sform__pick legend { padding: 0; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.02em; }
 .sform__tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; border-radius: 10px; }
@@ -607,6 +636,7 @@ sup { font-size: 0.7em; line-height: 0; }
 @keyframes sformIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
+  .sform__body, .sform__inner, .sform.is-open .sform__inner, .sform__chev { transition: none; }
   .ptile, .ptile:hover, .ptile:has(input:checked) { transition: none; transform: none; }
   .sform__members:not([hidden]), .sform__member:not([hidden]) { animation: none; }
 }

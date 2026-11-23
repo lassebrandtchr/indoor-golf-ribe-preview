@@ -20,7 +20,7 @@
 <link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts.css?v=20261119a">
 <link rel="stylesheet" href="scrollcraft.css?v=20261109a">
-<link rel="stylesheet" href="site.css?v=20261123d">
+<link rel="stylesheet" href="site.css?v=20261123e">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -485,13 +485,20 @@
         </div>
         <p class="spons__foot"><sup>*</sup> Metalskilt på 15 × 40 cm på sponsorvæggen i klubhuset. Sponsor leverer selv logo.</p>
 
-        <!-- SPONSORTILMELDING: hele panelet skifter til den valgte pakkes metal (bronze/sølv/guld),
-             og pakke 2/3 viser 1/2 medlemskabsfelter (valgfrie). Sendes via Web3Forms (site.js). -->
+        <!-- SPONSORTILMELDING: foldet sammen bag knappen "Tilmeld jer som sponsor" (site.js). Pakke 2/3
+             viser 1/2 medlemskabsfelter (valgfrie). Sendes via Web3Forms (site.js). -->
         <form class="form sform" id="sponsorForm" data-tier="" novalidate data-sc-in>
           <input type="hidden" name="access_key" value="275f80af-0066-410f-8146-d2064bddc298">
           <input type="hidden" name="subject" value="Ny sponsortilmelding fra indoorgolfribe.dk">
           <input type="checkbox" name="botcheck" class="form__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <h3 class="sform__title">Tilmeld jer som sponsor</h3>
+          <h3 class="sform__head">
+            <button class="sform__toggle" type="button" aria-expanded="false" aria-controls="sBody">
+              <span class="sform__toggletext"><span class="sform__title">Tilmeld jer som sponsor</span><span class="sform__sub">Udfyld formularen, så kontakter vi jer</span></span>
+              <svg class="sform__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg>
+            </button>
+          </h3>
+          <div class="sform__body" id="sBody" inert>
+          <div class="sform__inner">
           <fieldset class="sform__pick">
             <legend>Sponsorpakke</legend>
             <div class="sform__tiles" id="s-pakke" role="radiogroup" aria-label="Sponsorpakke">
@@ -574,6 +581,8 @@
           <div class="form__foot">
             <button class="btn" type="submit">Send sponsortilmelding</button>
             <p class="form__status" id="sFormStatus" role="status" aria-live="polite"></p>
+          </div>
+          </div>
           </div>
         </form>
       </div>
@@ -758,7 +767,7 @@
 </aside>
 
 <script src="scrollcraft.js?v=20261109a"></script>
-<script src="site.js?v=20261123b"></script>
+<script src="site.js?v=20261123c"></script>
 <script src="consent.js?v=20261109a"></script>
 </body>
 </html>
